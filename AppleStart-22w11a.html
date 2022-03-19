@@ -1,0 +1,726 @@
+<!--https://tse1-mm.cn.bing.net/th/id/R-C.540d245ebd32a1aa6ce7002e273e382f?rik=%2bhtc3EVf7CK1BA&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2ff22e65b0321638e09c5c7b8ef5f89b5ccf0ab506.jpg&ehk=iKjCDUjRjbxqRdAofcb%2f6dvV%2fawqpnvQ2UclamsMv8I%3d&risl=&pid=ImgRaw&r=0-->
+<!--https://pic3.zhimg.com/v2-0087e364e1f120dfd9896d7331809793_r.jpg?source=1940ef5c-->
+<!--https://images5.alphacoders.com/106/thumb-1920-1069099.png-->
+<!--https://pic3.zhimg.com/v2-b584e76f364fd17d59b39513e5f9fee7_r.jpg?source=12a79843-->
+<!--https://tse1-mm.cn.bing.net/th/id/R-C.0889c0dae2d82c085ceeaeead79a3349?rik=1y8tHj2PEpIwmw&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f41dd8698ebb97c2863708321b17921965019f158.jpg&ehk=QAJi%2bcstg%2fGPQEJF%2bUBnuSkpVXztt04bmRQCWiV7rEo%3d&risl=&pid=ImgRaw&r=0-->
+<!--https://pic1.zhimg.com/v2-19d657e1f93c77e381205bf64d37ed58_r.jpg-->
+<!--https://api.xygeng.cn/Bing/-->
+
+<!DOCTYPE html>
+<html>
+<head> 
+<meta charset="utf-8"> 
+<meta name="viewport" content="width=device-width， initial-scale=1.0">
+<link rel="stylesheet" href="../src/iconfont.css">
+<script>
+
+    function about_close(){
+        document.getElementById("about_box").style.animationName="about_disappear";
+        document.getElementById("about_box").style.animationDuration="0.3s";
+        //这里要等动画搞完再设置关于框的显示属性
+        setTimeout("about_disapp()",280);
+    }
+    //上文的setTimeout只能运行一个函数，只好这样写
+    function about_disapp()
+    {
+        document.getElementById("about_box").style.display="none";
+    }
+
+    function bg_big(){
+        //动画
+        document.getElementById("main").style.animationName="bg_big";
+        document.getElementById("main").style.animationDuration="0.3s";
+        //固定设置
+        var orientation=(window.innerWidth > window.innerHeight)? "landscape":"portrait";
+        if(orientation === 'landscape'){
+            document.getElementById("main").style.filter="blur(2px)";
+            document.getElementById("main").style.transform="scale(1.15)";
+        } 
+        else {
+            document.getElementById("main").style.transform="scale(1.2)";
+            document.getElementById("main").style.filter="blur(2px)";
+        }
+        document.getElementById("quick").style.display="inline";
+        
+    }
+
+    function search_small(){
+        document.getElementById("quick").style.display="none";
+        //动画
+        document.getElementById("main").style.animationName="bg_small";
+        document.getElementById("main").style.animationDuration="0.3s";
+        //固定设置
+        var orientation=(window.innerWidth > window.innerHeight)? "landscape":"portrait";
+        if(orientation === 'landscape'){
+            document.getElementById("main").style.transform="scale(1)";
+            document.getElementById("main").style.filter="blur(0px)";
+        } 
+        else {
+            document.getElementById("main").style.transform="scale(1.03)";
+            document.getElementById("main").style.filter="blur(0px)";
+        }
+    }
+
+    function about_out(){
+        document.getElementById("about_box").style.display="inline";
+        document.getElementById("about_box").style.animationName="about_appear";
+        document.getElementById("about_box").style.animationDuration="0.3s";
+    }
+
+    function search(){
+        var a=document.getElementById("search").value;
+        var b=document.getElementById("search_engine").value;
+        if (b=="bing")
+        {
+            window.open('https://cn.bing.com/search?q='+a+"&ensearch=0");
+        }
+        else if (b=="baidu"){
+            window.open('https://www.baidu.com/s?word='+a);
+        }
+        else if (b=="bing-en"){
+            window.open('https://cn.bing.com/search?q='+a+"&ensearch=1");
+        }
+        else if (b=="trans"){
+            window.open('https://translate.google.cn/?sl=auto&tl=zh-CN&text='+a);
+        }
+        else if (b=="google"){
+            window.open('https://www.google.com/search?q='+a);
+        }
+        else if (b=="ecosia"){
+            window.open('https://www.ecosia.org/search?method=index&q='+a);
+        }
+    }
+
+    function to_time(){
+        window.open("http://time.is")
+    }
+
+    function engine_change(){
+       var now_engine=document.getElementById("search_engine").value;
+       localStorage.setItem('engine',now_engine);
+    }
+    
+    function load(){
+        if (localStorage.getItem('weather')==null){
+            localStorage.setItem('weather','true');
+        }
+        var weather = localStorage.getItem('weather');
+        if(weather=='true'){
+            document.getElementById("he-plugin-simple").style.display="inline";
+        }
+        else{
+            document.getElementById("he-plugin-simple").style.display="none";
+        }
+        //启动时加载上一次的壁纸
+        if (localStorage.getItem('pic')==null){
+            localStorage.setItem('pic','https://pic1.zhimg.com/v2-19d657e1f93c77e381205bf64d37ed58_r.jpg');
+        }
+        var url = localStorage.getItem('pic');
+        document.getElementById("main").setAttribute('src',url);
+
+
+        var now_engine=document.getElementById("search_engine").value;
+        if (localStorage.getItem('engine')==null){
+            localStorage.setItem('engine',now_engine);
+        }
+        var engine=localStorage.getItem('engine');
+        document.getElementById("search_engine").value=engine;
+
+
+    }
+    function bg_change(){
+        var url=prompt("输入图片链接","https://pic1.zhimg.com/v2-19d657e1f93c77e381205bf64d37ed58_r.jpg");
+        localStorage.setItem('pic',url);
+        document.getElementById("main").setAttribute('src',url);
+    }
+
+    function go_bilibili(){
+        window.open("https://www.bilibili.com")
+    }
+
+    function go_mail(){
+        window.open("https://mail.163.com")
+    }
+
+    function go_music(){
+        window.open("https://music.163.com/")
+    }
+
+</script>
+<style>
+    @media (orientation : landscape){
+        /* 动画代码 */
+        @keyframes about_appear {
+        0%   {opacity: 40%; height: 0px;}
+        100% {opacity: 100%; height: 500px;}
+        }
+
+        @keyframes about_disappear {
+            0%   {opacity: 100%;height: 500px;}
+            100% {opacity: 40%;height: 0px;}
+        }
+
+        @keyframes bg_big {
+            0%   {filter: blur(0px);transform: scale(1);}
+            100% {filter: blur(2px);transform: scale(1.15)}
+        }
+
+        @keyframes bg_small {
+            0%   {transform: scale(1.15);filter: blur(2px);}
+            100% {transform: scale(1);filter: blur(0px);}
+        }
+
+        .search {
+            position: static;
+            top: 35%;
+            left: 10%;
+            width: 80%;
+        }
+        .user-input {
+            margin-top: 10px;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            width: 20%;
+            height: 40px;
+            border: 2px solid rgb(161, 161, 161);
+            border-radius: 20px;
+            background-color: rgba(34, 34, 34, 0.8);
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            text-indent: -5px;
+            transform: translate(-50%,0%);
+            text-align: center;
+            transition: 280ms;
+        }
+
+        .user-input:hover{
+            width: 35%;
+            border: 2px solid blue;
+        }
+
+        .user-input:focus{
+            width: 35%;
+            border: 2px solid blue;
+        }
+        
+
+        
+        .engine {
+            margin-top: 20px;
+            position: absolute;
+            width: 80px;
+            height: 30px;
+            left: 50%;
+            top: 37%;
+            background-color: rgba(185, 185, 185, 0.25);
+            border: 2px solid rgb(255, 255, 255);
+            border-radius: 17px;
+            font-size: 0.8em;
+            color:rgba(255, 255, 255, 255);
+            transform: translate(-50%,0%);
+            
+        }
+        .time {
+            font-family: "微软雅黑","苹方","Arial","黑体","serif";
+            cursor:pointer;
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            font-size: 2.6em;
+            transform: translate(-50%,0px);
+            color: rgba(0, 0, 0, 0.710);
+            text-shadow:
+                        0 0 20px #ffffff,
+                        0 0 25px #ffffff,
+                        0 0 30px #ffffff,
+                        0 0 35px #ffffff,
+                        0 0 40px #ffffff,
+                        0 0 45px #ffffff,
+                        0 0 50px #ffffff,
+                        0 0 55px #ffffff,
+                        0 0 60px #ffffff,
+                        0 0 65px #ffffff,
+                        0 0 70px #ffffff,
+                        0 0 75px #ffffff;
+        }
+
+        .weather {
+            position: relative;
+            top: 70%;
+            left: 45%;
+        }
+
+        .defult{
+            position:fixed;
+            top: 0;
+            left: 0;
+            width:100%;
+            height:100%;
+            min-width: 1000px;
+            z-index:-10;
+            zoom: 1;
+            background-size: cover;
+            -webkit-background-size: cover;
+            -o-background-size: cover;
+            background-position: center 0;
+            background-color: rgb(119, 35, 255);
+            src:"https://pic1.zhimg.com/v2-19d657e1f93c77e381205bf64d37ed58_r.jpg";
+        }
+        
+        .upload{
+            height: 23px;
+            width: 80px;
+            right: 20px;
+            bottom: 15px;
+            position: absolute;
+            color: white;
+            border: 2px solid white;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .link{
+            position: absolute;
+            left: 25%;
+            top: 50%;
+            min-width: 300px;
+            width: 50%;
+        }
+
+        .quick_btn{
+            font-size: 55px;
+            color: white;
+            display: none;
+        }
+        
+        .bilibili{
+            position: absolute;
+            left: 40%;
+            top: 50%;
+            transform: translate(-50%,0px);
+        }
+
+        .mail{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: white;
+            transform: translate(-50%,0px);
+        }
+
+        .music{
+            position: absolute;
+            top: 50%;
+            left: 60%;
+            color: white;
+            transform: translate(-50%,0px);
+        }
+
+        .about_btn{
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            left: 50%;
+            bottom: 15px;
+            color: white;
+            text-align: center;
+            transform: translate(-50%,0%);
+            cursor: pointer;
+        }
+
+        .about{
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            left: 50%;
+            bottom: 10%;
+            color: rgb(0, 0, 0);
+            border: 2px solid white;
+            font-size: 0.8em;
+            background-color: rgba(228, 228, 228, 0.816);
+            border-radius: 15px;
+            display: none;
+            transform: translate(-50%,0%);
+            overflow: auto;
+            text-align: center;
+        }
+
+        .close{
+            position: absolute;
+            right: 7px;
+            top: -10px;
+            height: 30px;
+            width: 30px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .close:hover{
+            background-color: gray;
+            border: 0px solid gray;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @media (orientation : portrait){
+
+        @keyframes about_appear {
+        0%   {opacity: 30%; height: 0vh;}
+        100% {opacity: 100%; height: 65vh;}
+        }
+
+        @keyframes about_disappear {
+            0%   {opacity: 100%;height: 65vh;}
+            100% {opacity: 30%;height: 0vh;}
+        }
+
+        @keyframes bg_big {
+            0%   {transform: scale(1.03);filter: blur(0px)}
+            100% {transform: scale(1.2);filter: blur(2px)}
+        }
+
+        @keyframes bg_small {
+            0%   {transform: scale(1.2);filter: blur(2px)}
+            100% {transform: scale(1.03);filter: blur(0px)}
+        }
+
+
+
+        .search {
+            position: static;
+            top: 35%;
+            left: 10%;
+            width: 80%;
+        }
+        .user-input {
+            margin-top: 10px;
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            width: 60%;
+            max-height: 40px;
+            height: 10%;
+            font-size: 1em;
+            border: 2px solid rgb(161, 161, 161);
+            border-radius: 50px;
+            background-color: rgba(34, 34, 34, 0.8);
+            color: white;
+            box-sizing: border-box;
+            outline: none;
+            transform: translate(-50%,0%);
+            transition: 280ms;
+            text-align: center;
+            
+        }
+
+        .user-input:hover{
+            width: 85%;
+            border: 2px solid blue;
+        }
+
+        .user-input:focus{
+            width: 85%;
+            border: 2px solid blue;
+        }
+
+        
+        .engine {
+            position: absolute;
+            width: 25%;
+            max-height: 30px;
+            height: 7%;
+            left: 50%;
+            top: 43%;
+            background-color: rgba(185, 185, 185, 0.25);
+            border: 2px solid rgb(255, 255, 255);
+            border-radius: 40px;
+            color:rgba(255, 255, 255, 255);
+            transform: translate(-50%,0%);
+            
+        }
+        .time {
+            cursor:pointer;
+            position: absolute;
+            font-family: "微软雅黑","苹方","Arial","黑体","serif";
+            top: 17%;
+            left: 50%;
+            font-size: 350%;
+            transform: translate(-50%,0px);
+            color: rgba(0, 0, 0, 0.603);
+            text-shadow:
+                        0 0 20px #ffffff,
+                        0 0 35px #ffffff,
+                        0 0 40px #ffffff,
+                        0 0 50px #ffffff,
+                        0 0 60px #ffffff,
+                        0 0 70px #ffffff,
+                        0 0 75px #ffffff;
+        }
+
+
+        .defult{
+            padding: -3px;
+            margin: -3px;
+            background-repeat: no-repeat;
+            background-size: cover;
+            -webkit-background-size: cover;
+            overflow:hidden;
+            -o-background-size: cover;
+            background-position: center;
+            min-height: 98vh;
+            max-width: 98vw;
+            background-color: rgb(119, 35, 255);
+            transform: scale(1.03);
+            display: block;
+            background-image:"https://pic1.zhimg.com/v2-19d657e1f93c77e381205bf64d37ed58_r.jpg";
+        }
+        
+        .upload{
+            height: 23px;
+            width: 80px;
+            right: 20px;
+            bottom: 10px;
+            position: absolute;
+            color: white;
+            border: 2px solid white;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .bilibili{
+            position: absolute;
+            font-size: 250%;
+            top: 50%;
+            left: 30%;
+            color: white;
+            transform: translate(-50%,0px);
+        }
+
+        .mail{
+            position: absolute;
+            font-size: 250%;
+            top: 50%;
+            left: 50%;
+            color: white;
+            transform: translate(-50%,0px);
+        }
+
+        .music{
+            position: absolute;
+            font-size: 250%;
+            top: 50%;
+            left:70%;
+            color: white;
+            transform: translate(-50%,0px);
+        }
+
+        .about_btn{
+            position: absolute;
+            width: 40px;
+            height: 20px;
+            left: 50%;
+            bottom: 15px;
+            color: white;
+            text-align: center;
+            transform: translate(-50%,0%);
+            cursor: pointer;
+        }
+
+        .about{
+            position: absolute;
+            width: 80vw;
+            height: 65vh;
+            left: 50%;
+            bottom: 10%;
+            color: rgb(0, 0, 0);
+            border: 2px solid white;
+            font-size: 0.75em;
+            background-color: rgba(228, 228, 228, 0.816);
+            border-radius: 15px;
+            display: none;
+            transform: translate(-50%,0%);
+            overflow: auto;
+            text-align: center;
+        }
+
+        .close{
+            position: absolute;
+            right: 7px;
+            top: -10px;
+            height: 30px;
+            width: 30px;
+            font-size: 20px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        .close:focus{
+            background-color: gray;
+            border: 0px solid gray;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+    }
+
+</style>
+
+<title>AppleStart</title> 
+</head>
+
+
+<body onload="load()">
+    <img class="defult" id="main" onmouseup="search_small()">
+    <!-- 背景选择 -->
+    <a type="button" class="upload" id="bg_btn" onclick="bg_change()">
+        <i class="fa fa-upload"></i>背景选择
+    </a>
+
+
+    <!-- 顶部时间 -->
+    <a onclick="to_time()">
+        <div id="divBottom" class="time"></div>
+    </a>
+    <script>
+        date()
+        //获取当天日期
+        function date()
+        {
+        var date=new Date();
+        var hour="00"+date.getHours();
+            hour=hour.substr(hour.length-2);
+        var minute="00"+date.getMinutes();
+            minute=minute.substr(minute.length-2);
+        var second="00"+date.getSeconds();
+            second=second.substr(second.length-2);
+    
+        document.getElementById("divBottom").innerHTML=hour+":"+minute+":"+second;
+        }
+        setInterval("date()",1000);
+    </script>
+
+    <!-- 搜索框与搜索引擎 -->
+    <div class="search" onclick="engine_change()">
+        <form>
+            <select id="search_engine" class="engine">
+                <option value="bing">必应</option>
+                <option value="trans">翻译</option>
+                <option value="bing-en">必应国际</option>
+                <option value="baidu">百度</option>
+                <option value="google">谷歌</option>
+                <option value="ecosia">Ecosia</option>
+            </select>
+        </form>
+        <input onclick="bg_big()"  class="user-input" type="text" name="search" id="search" placeholder="搜索" onkeydown="if(event.keyCode==13) search();">
+    </div>
+
+
+    <!-- 三个快捷链接 -->
+    <div class="quick_btn" id="quick">
+        <div class="bilibili">
+            <i class="iconfont icon-bilibili" onclick="go_bilibili()"></i>
+        </div>
+        
+    
+        <div class="mail">
+            <i class="iconfont icon-youxiang" onclick="go_mail()"></i>
+        </div>
+    
+        <div class="music">
+            <i class="iconfont icon-yinletianchong " onclick="go_music()"></i>
+        </div>
+    </div>
+
+
+    <!--关于-->
+    <div class="about" id="about_box">
+        <p onclick="about_close()" class="close">×</a>
+        <p>关于</p>
+        <p>这是一个简单的起始页,由
+            <a href="https://space.bilibili.com/600004959">红苹果</a>
+            制作。
+        </p>
+        <p>22w09a   22.03.05    起始页制作完成</p>
+        <p>22w09b   22.03.06    正式上线,背景选择从离线图片变为在线链接,能更好更换.</p>
+        <p>22w11a   22.03.19    添加新的UI和动画,对移动端做了适配,加入搜索引擎记忆功能并修复若干bug.</p>
+        
+    </div> 
+
+    </div>
+    <a class="about_btn" onclick="about_out()">
+        关于
+    </a>
+
+    <!--<script type="text/javascript" src="https://api.xygeng.cn/one/get/"></script> -->
+
+    <!-- 下面是和风天气插件,最好放在最后,否则影响网页加载速度. -->
+    <div id="he-plugin-simple"></div>
+    <script>
+        WIDGET = {
+        "CONFIG": {
+            "modules": "20",
+            "background": "4",
+            "backgroundColor": "AAAAAA",
+            "tmpColor": "FFFFFF",
+            "tmpSize": "16",
+            "cityColor": "FFFFFF",
+            "citySize": "16",
+            "aqiColor": "FFFFFF",
+            "aqiSize": "16",
+            "weatherIconSize": "24",
+            "alertIconSize": "18",
+            "padding": "10px 10px 10px 10px",
+            "shadow": "0",
+            "language": "zh",
+            "borderRadius": "20",
+            "fixed": "true",
+            "vertical": "top",
+            "horizontal": "left",
+            "left": "10",
+            "bottom": "10",
+            "key": "2882a3b8d30c4db2bb8cef54dece815e"
+        }
+        }
+    </script>
+    <script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script>
+
+    
+    <script type="text/javascript" src="1.php"></script>
+    <script>
+        console.log("此网站已被访问"+web_times+"次");
+        var new_date = new Date(); //新建一个日期对象，默认现在的时间
+	    var old_date = new Date("2022-03-05 16:38:00");//网站创建时间
+        var past=new_date-old_date;
+        var days=parseInt(past/86400000);
+        var hours=parseInt(past/3600000)-24*days;    // 小时 60*60 总小时数-过去的小时数=现在的小时数 
+        console.log("网站已上线"+days+"天,"+hours+"小时.")
+    </script>
+
+</body>
+</html>
