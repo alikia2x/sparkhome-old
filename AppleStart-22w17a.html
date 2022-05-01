@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width， initial-scale=1.0">
+        <link rel="stylesheet" href="./src/iconfont.css">
+        <link rel=" icon" href="Apple.webp">
+        <link rel="icon" href="Apple.webp" type="image/x-ico">
+        <script>
+
+            function load_settings(){
+                var default_settings = ['true', 'false', 'true','true'];
+                for (var i=0;i<4;i++)
+                {
+                    var check = document.getElementById("settings_check_box")[i];
+                    var local_settings = localStorage.getItem(check.name);
+                    if (local_settings==null)
+                    {
+                        localStorage.setItem(check.name,default_settings[i]);
+                    }
+                    if (local_settings=='true')
+                    {
+                        check.checked=true;
+                    }
+                    else
+                    {
+                        check.checked=false;
+                    }
+                }
+                var url = localStorage.getItem('pic');
+                document.getElementById("wallpaper_link").value=url;
+            }
+
+            function refresh_weather()
+            {
+                if(localStorage.getItem('weather')=='false')
+                {
+                    var weather_div=document.getElementById("he-plugin-simple");
+                    weather_div.style.display='none';
+                }
+                else if(localStorage.getItem('weather')=='true')
+                {
+                    var weather_div=document.getElementById("he-plugin-simple");
+                    weather_div.style.display='inline';
+                }
+            }
+            
+            function save_settings(){
+                for (var i=0;i<4;i++)
+                {
+                    var check = document.getElementById("settings_check_box")[i];
+                    if(check.checked==true)
+                    {
+                        localStorage.setItem(check.name,'true');
+                    }
+                    else
+                    {
+                        localStorage.setItem(check.name,'false');
+                        console.log(localStorage.getItem(check.name));
+                    }
+                }
+                refresh_weather();
+                load_blur();
+            }
+
+            function load_hitokoto(){
+                if(localStorage.getItem('hitokoto')=='false')
+                {
+                    document.getElementById("hitokoto").style.display='none';
+                }
+                else if(localStorage.getItem('hitokoto')=='true')
+                {
+                    document.getElementById("hitokoto").style.display='inline';
+                }
+            }
+
+
+            function about_close(){
+                //动画
+                if (localStorage.getItem('motion')=='false')
+                {
+                    document.getElementById("about_box").style.animationName="about_disappear";
+                    document.getElementById("about_box").style.animationDuration="0.3s"
+                    //这里要等动画搞完再设置关于框的显示属性
+                    setTimeout('document.getElementById("about_box").style.display="none";document.getElementById("body").style.pointerEvents="auto";',280);
+                }
+                else{
+                    document.getElementById("about_box").style.display="none";
+                    document.getElementById("body").style.pointerEvents="auto";
+                }
+            }
+
+            
+            function drop_appear()
+            {
+                document.getElementById("search_engine").style.display="block";
+                document.getElementById("search_engine").style.animationName="hitokoto_appear";
+                document.getElementById("search_engine").style.animationDuration="0.3s";
+            }
+
+            function drop_disappear()
+            {
+                document.getElementById("search_engine").style.animationName="hitokoto_disappear";
+                document.getElementById("search_engine").style.animationDuration="0.3s";
+                setTimeout('document.getElementById("search_engine").style.display="none";',280);
+            }
+            
+
+            function settings_close(){
+                if (localStorage.getItem('motion')=='false')
+                {
+                    document.getElementById("settings").style.animationName="settings_disappear";
+                    document.getElementById("settings").style.animationDuration="0.3s";
+                    //这里要等动画搞完再设置关于框的显示属性
+                    setTimeout('document.getElementById("settings").style.display="none";document.getElementById("body").style.pointerEvents="auto";',280);
+                }
+                else{
+                    document.getElementById("settings").style.display="none";
+                    document.getElementById("body").style.pointerEvents="auto";
+                }
+            }
+
+
+            function about_out(){
+                document.getElementById("about_box").style.display="inline";
+                //光标设置
+                document.getElementById("body").style.pointerEvents="none";
+                document.getElementById("about_box").style.pointerEvents="auto";
+                //动画
+                if (localStorage.getItem('motion')=='false')
+                {
+                    document.getElementById("about_box").style.animationName="about_appear";
+                    document.getElementById("about_box").style.animationDuration="0.3s";
+                }
+            }
+
+            function settings_out(){
+                load_settings();
+                load_img();
+                document.getElementById("settings").style.display="inline";
+                //光标设置
+                document.getElementById("body").style.pointerEvents="none";
+                document.getElementById("settings").style.pointerEvents="auto";
+                //动画
+                if (localStorage.getItem('motion')=='false')
+                {
+                    document.getElementById("settings").style.animationName="settings_appear";
+                    document.getElementById("settings").style.animationDuration="0.3s";
+                }
+                else if (localStorage.getItem('motion')=='true')
+                {
+                    document.getElementById("settings").style.animationName="";
+                }
+                
+            }
+
+            function load_img()
+            {
+                bg=document.getElementById("default_bg").getElementsByTagName("img");
+                for(var i=0;i<bg.length;i++)
+                {
+                    console.log(bg[i].getAttribute("_src"));
+                    bg[i].setAttribute('src',bg[i].getAttribute("_src"));
+                }
+            }
+
+            function set_wallpaper_link(url)
+            {
+                document.getElementById("wallpaper_link").value=url;
+                bg_change();
+            }
+
+            function search_big(){
+                if (localStorage.getItem('motion')=='false')
+                {
+                    //动画
+                    document.getElementById("main").style.animationName="bg_big";
+                    document.getElementById("main").style.animationDuration="0.3s";
+                    //固定设置
+                    var orientation=(window.innerWidth > window.innerHeight)? "landscape":"portrait";
+                    if(orientation === 'landscape'){
+                        document.getElementById("main").style.filter="blur(10px)";
+                        document.getElementById("main").style.transform="scale(1.15)";
+                    } 
+                    else {
+                        document.getElementById("main").style.filter="blur(10px)";
+                        document.getElementById("main").style.transform="scale(1.2)";
+                    }
+                }
+                load_hitokoto();
+                document.getElementById('hitokoto_text').style.animationName="hitokoto_appear";
+                document.getElementById('hitokoto_text').style.animationDuration="0.3s";
+                document.getElementById('hitokoto_text').style.opacity="1";
+            }
+
+            function search_small(){
+                if (localStorage.getItem('motion')=='false')
+                {
+                    //动画
+                    document.getElementById("main").style.animationName="bg_small";
+                    document.getElementById("main").style.animationDuration="0.3s";
+                    //固定设置
+                    var orientation=(window.innerWidth > window.innerHeight)? "landscape":"portrait";
+                    if(orientation === 'landscape'){
+                        document.getElementById("main").style.transform="scale(1)";
+                        document.getElementById("main").style.filter="blur(0px)";
+                    } 
+                    else {
+                        document.getElementById("main").style.transform="scale(1)";
+                        document.getElementById("main").style.filter="blur(0px)";
+                    }
+                }
+                document.getElementById('hitokoto_text').style.animationName="hitokoto_disappear";
+                document.getElementById('hitokoto_text').style.animationDuration="0.3s";
+                document.getElementById('hitokoto_text').style.opacity="0";
+            }
+
+            function search_blur()
+            {
+                document.getElementById("search").blur();
+                search_small();
+            }
+
+            function search_focus()
+            {
+                document.getElementById("search").focus();
+                search_big();
+            }
+
+            function search(){
+                var a=document.getElementById("search").value;
+                var b=localStorage.getItem('engine');
+                switch(b){
+                    case 'baidu':link("https://www.baidu.com/s?wd="+a);break;
+                    case 'google':link("https://www.google.com/search?q="+a);break;
+                    case 'bing':link("https://cn.bing.com/search?q="+a);break;
+                    case 'trans':link('https://fanyi.baidu.com/#auto/zh/'+a);break;
+                    case 'ecosia':link('https://www.ecosia.org/search?method=index&q='+a);break;
+                }
+            }
+
+            function link(url){window.open(url);}
+
+            function engine_change(engine){
+                localStorage.setItem('engine',engine);
+                load_engine();
+            }
+
+
+            function load_wallpaper()
+            {
+                //启动时加载上一次的壁纸
+                if (localStorage.getItem('pic')==null){
+                    localStorage.setItem('pic','https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg');
+                }
+                var url = localStorage.getItem('pic');
+                document.getElementById("wallpaper_link").value=url;
+                localStorage.setItem('pic',url);
+                document.getElementById("main").setAttribute('src',url);
+            }
+
+            function load_engine()
+            {
+                search_cn={'baidu':'百度','bing':'必应','google':'谷歌','trans':'翻译','ecosia':'Ecosia'}
+                if (localStorage.getItem('engine')==null){
+                    localStorage.setItem('engine','bing');
+                }
+                var engine=localStorage.getItem('engine');
+                document.getElementById("engine_txt").innerHTML=search_cn[engine];
+                console.log(engine);
+            }
+
+            function load_blur()
+            {
+                element_list=["about_box","settings","search_engine","link1","link2","link3","engine_txt","search"];
+                blur_percent_list=["0.8","0.8","0.7","0.4","0.5","0.5","0.5","0.3"];
+                blur_original_list=["0.7","0.7","0.3","0.3","0.3","0.3","0.3","0.3"]
+                for (var i=0;i<element_list.length;i++)
+                {
+                    if (localStorage.getItem('blur')=='true')
+                    {
+                        document.getElementById(element_list[i]).style.backdropFilter="blur(5px)";
+                        document.getElementById(element_list[i]).style.backgroundColor="rgba(255, 255, 255, "+blur_original_list[i]+")";
+                    }
+                    else
+                    {
+                        document.getElementById(element_list[i]).style.backdropFilter="blur(0px)";
+                        document.getElementById(element_list[i]).style.backgroundColor="rgba(255, 255, 255, "+blur_percent_list[i]+")";
+                    }
+                }
+                //重写搜索框相关动画
+                document.getElementById("search").onblur=function(){
+                    document.getElementById("search").style.backgroundColor="rgba(255, 255, 255, .3)";
+                }
+                document.getElementById("search").onfocus=function(){
+                    document.getElementById("search").style.backgroundColor="rgba(32, 32, 32, .6)";
+                }
+            }
+            
+            function load(){
+                load_wallpaper();
+                load_engine();
+                refresh_weather();
+                load_settings();
+                load_blur();
+            }
+            function bg_change(){
+                var url=document.getElementById('wallpaper_link').value;
+                var reg=/[a-zA-z]+:\/\/[^\s]*/g;
+                if (url=="")
+                {
+                   url="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg";
+                }
+                if (reg.test(url)){
+                    localStorage.setItem('pic',url);
+                    document.getElementById("main").setAttribute('src',url);
+                }
+                else{
+                    document.getElementById("main").setAttribute('src',"https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg");
+                }
+                load_wallpaper();
+            }
+
+        </script>
+        <style>
+            @media (orientation : landscape){
+                /* 动画代码 */
+                @keyframes about_appear {
+                0%   {opacity: 40%; height: 0%;}
+                100% {opacity: 100%; height: 80%;}
+                }
+
+                @keyframes about_disappear {
+                    0%   {opacity: 100%;height: 80%;}
+                    100% {opacity: 40%;height: 0%;}
+                }
+
+                @keyframes bg_big {
+                    0%   {filter: blur(0px);transform: scale(1);}
+                    100% {filter: blur(10px);transform: scale(1.15)}
+                }
+
+                @keyframes bg_small {
+                    0%   {transform: scale(1.15);filter: blur(10px);}
+                    100% {transform: scale(1);filter: blur(0px);}
+                }
+
+                @keyframes settings_appear {
+                0%   {opacity: 0%;scale: 0.7;}
+                100% {opacity: 100%;scale: 1.0;}
+                }
+
+                @keyframes settings_disappear {
+                    0%   {opacity: 100%;scale: 1.0;}
+                    100% {opacity: 0%;scale: 0.7;}
+                }
+
+                @keyframes img_blur {
+                    0%   {filter: brightness(1);}
+                    100% {filter: brightness(0.6);}
+                }
+
+                @keyframes img_light {
+                    0%   {filter: brightness(0.6);}
+                    100% {filter: brightness(1);}
+                }
+
+                @keyframes hitokoto_appear{
+                    0%   {opacity: 0;}
+                    100% {opacity: 1;}
+                }
+
+                @keyframes hitokoto_disappear{
+                    0%   {opacity: 1;}
+                    100% {opacity: 0;}
+                }
+
+                ::-webkit-scrollbar {
+                    width: 0px;
+                }
+
+                .search {
+                    position: static;
+                    top: 35%;
+                    left: 10%;
+                    width: 80%;
+                }
+                .user-input {
+                    margin-top: 10px;
+                    position: absolute;
+                    top: 30%;
+                    left: 50%;
+                    width: 27%;
+                    height: 40px;
+                    border: 0px solid rgb(161, 161, 161);
+                    border-radius: 20px;
+                    background-color: rgba(255, 255, 255, .3);
+                    color: white;
+                    box-sizing: border-box;
+                    outline: none;
+                    text-indent: -5px;
+                    transform: translate(-50%,0%);
+                    text-align: center;
+                    transition: 280ms;
+                }
+
+                .user-input:hover{
+                    width: 40%;
+                    background-color: rgba(182, 182, 182, .4);
+                }
+
+                .user-input:focus{
+                    width: 40%;
+                    background-color: rgba(32, 32, 32, .6);
+                }
+                
+                .cut_line{
+                    width: 95%;
+                    margin: auto;
+                    border-radius: 10px;
+                    border: 1px solid rgba(255, 255, 255, 0.719);
+                }
+                
+                .engine {
+                    margin-top: 20px;
+                    position: absolute;
+                    width: 80px;
+                    height: 30px;
+                    left: 50%;
+                    top: 37%;
+                    background-color: rgba(185, 185, 185, 0.25);
+                    border: 2px solid rgb(255, 255, 255);
+                    border-radius: 17px;
+                    font-size: 0.8em;
+                    color:rgba(255, 255, 255, 255);
+                    transform: translate(-50%,0%);
+                    
+                }
+                .time {
+                    font-family: "微软雅黑","苹方","Arial","黑体",'宋体';
+                    cursor:pointer;
+                    position: absolute;
+                    top: 20%;
+                    left: 50%;
+                    font-size: 2.6em;
+                    transform: translate(-50%,0px);
+                    color: rgb(255, 255, 255);
+                    
+                }
+
+                .weather {
+                    position: relative;
+                    top: 70%;
+                    left: 45%;
+                }
+
+                .default{
+                    position:fixed;
+                    transform: translate3d(0, 0, 0);
+                    top: 0;
+                    left: 0;
+                    width:100%;
+                    height:100%;
+                    min-width: 1000px;
+                    z-index:-10;
+                    zoom: 1;
+                    background-size: cover;
+                    -webkit-background-size: cover;
+                    -o-background-size: cover;
+                    background-position: center 0;
+                    color: rgb(0, 0, 0);
+                    background-color: rgb(0, 0, 0);
+                    src:"https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg";
+                }
+                
+                .link{
+                    position: absolute;
+                    left: 25%;
+                    top: 50%;
+                    min-width: 300px;
+                    width: 50%;
+                }
+
+                .quick_btn{
+                    z-index: -1;
+                    position: absolute;
+                    color: white;
+                    top: 50%;
+                    width: 100%;
+                    height: 0%;
+                    left: 50%;
+                    transform: translate(-50%,0px);
+                }
+                
+                .bilibili{
+                    position: absolute;
+                    left: 40%;
+                    width: 80px;
+                    height: 80px;
+                    text-align: center;
+                    font-size: 30px;
+                    overflow: hidden;
+                    line-height: 80px;
+                    border-radius: 13px;
+                    background-color: rgba(255, 255, 255, .3);
+                    transform: translate(-50%,0px);
+                    word-break: break-all;
+                    cursor: pointer;
+                }
+
+                .mail{
+                    font-size: 30px;
+                    overflow: hidden;
+                    line-height: 80px;
+                    position: absolute;
+                    left: 50%;
+                    width: 80px;
+                    height: 80px;
+                    text-align: center;
+                    border-radius: 13px;
+                    line-height: 80px;
+                    background-color: rgba(255, 255, 255, .3);
+                    transform: translate(-50%,0px);
+                    cursor: pointer;
+                }
+
+                .music{
+                    font-size: 30px;
+                    overflow: hidden;
+                    line-height: 80px;
+                    position: absolute;
+                    left: 60%;
+                    width: 80px;
+                    height: 80px;
+                    text-align: center;
+                    border-radius: 13px;
+                    line-height: 80px;
+                    background-color: rgba(255, 255, 255, .3);
+                    transform: translate(-50%,0px);
+                    cursor: pointer;
+                }
+
+                .about_history{
+                    max-height: 73%;
+                    overflow-y: auto;
+                    line-height: 1em;
+                    scrollbar-width: none;
+                }
+
+
+
+                
+                .about_btn{
+                    position: absolute;
+                    width: 50px;
+                    height: 25px;
+                    left: 50%;
+                    bottom: 2%;
+                    color: white;
+                    text-align: center;
+                    transform: translate(-50%,0%);
+                    cursor: pointer;
+                }
+
+
+                .about_lock{
+                    margin-top: 20px;
+                    min-height: 22%;
+                    line-height: 0.9em;
+                    overflow-y: unset;
+                }
+
+
+
+                .version{
+                    text-align: left;
+                    margin-left: 10%;
+                    width: fit-content;
+                    padding-left: 2px;
+                    padding-right: 2px;
+                    background-color: rgba(255, 58, 58, 0.938);
+                    border-radius: 3px;
+                }
+
+                .version_txt{
+                    text-align: left;
+                    margin-left: 15%;
+                }
+
+                .about{
+                    position: absolute;
+                    width: 40%;
+                    height: 80%;
+                    left: 50%;
+                    bottom: 10%;
+                    color: rgb(0, 0, 0);
+                    border: 2px solid white;
+                    font-size: 0.8em;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    border-radius: 15px;
+                    display: none;
+                    transform: translate(-50%,0%);
+                    text-align: center;
+                    overflow-y: hidden;
+                }
+
+
+
+
+                .close{
+                    position: absolute;
+                    right: 7px;
+                    top: -10px;
+                    height: 30px;
+                    width: 30px;
+                    line-height: 30px;
+                    font-size: 20px;
+                    text-align: center;
+                }
+
+                .close:hover{
+                    background-color: gray;
+                    border: 0px solid gray;
+                    border-radius: 20px;
+                    cursor: pointer;
+                }
+
+                .settings{
+                    position: absolute;
+                    width: 36%;
+                    height: 70%;
+                    left: 32%;
+                    bottom: 15%;
+                    color: rgb(0, 0, 0);
+                    border: 2px solid white;
+                    font-size: 0.8em;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    border-radius: 15px;
+                    display: none;
+                    transform: translate(0%,0%);
+                    text-align: center;
+                    scrollbar-width: none;
+                }
+
+                .settings_scroll{
+                    overflow: auto;
+                }
+
+                
+                .settings_lock{
+                    height: 5%;
+                    overflow: hidden;
+                }
+
+                .settings_btn{
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    right: 1%;
+                    bottom: 2%;
+                    color: white;
+                    text-align: center;
+                    cursor: pointer;
+                }
+
+                .settings_title{
+                    position: absolute;
+                    top: -4px;
+                    text-align: left;
+                    left: 20px;
+                    font-size: 1.4em;
+                    color: rgb(255, 58, 58);
+                }
+
+                .default_img{
+                    overflow: auto;
+                    position: absolute;
+                    margin-top: 2px;
+                    width: 100%;
+                }
+
+                .settings_check{
+                    position: absolute;
+                    text-align: right;
+                    right: 0%;
+                    top: 0%;
+                    overflow-y: auto;
+                }
+
+                .settings_img{
+                    width: auto;
+                    height: 80px;
+                    border-radius: 5px;
+                }
+
+                .settings_img:hover{
+                    filter: brightness(0.7);
+                }
+
+                .settings_txt{
+                    position: absolute;
+                    text-align: left;
+                    left: 5%;
+                    top: 10%;
+                    height: 90%;
+                    width: 90%;
+                    overflow-y: auto;
+                    scrollbar-width: none;
+                }
+
+
+
+                .wallpaper_apply{
+                    width: 10%;
+                }
+
+                .wallpaper_link{
+                    width: 87%;
+                }
+
+                .body{
+                    color: rgb(0, 0, 0);
+                    background-color: rgb(0, 0, 0);
+                }
+
+                .dropdown-btn {
+                    width: 80px;
+                    height: 30px;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    border: 0px solid rgb(255, 255, 255);
+                    border-radius: 17px;
+                    font-size: 0.9em;
+                    cursor: pointer;
+                    color:rgb(255, 255, 255);
+                }
+                
+                .dropdown {
+                    transform: translate(-50%,0%);
+                    margin-top: 20px;
+                    position: absolute;
+                    left: 50%;
+                    top: 37%;
+                }
+                
+                .dropdown-menu {
+                    border-radius: 14px;
+                    background-color: rgba(255, 255, 255, .5);
+                    position: absolute;
+                    min-width: 80px;
+                    display: none;
+                    z-index: 5;
+                }
+
+                .dropdown-menu a {
+                    padding: 5px 10px;
+                    border-radius: 14px;
+                    text-decoration: none;
+                    display: block;
+                    z-index: 5;
+                    cursor: pointer;
+                    transition: 300ms;
+                }
+
+                .dropdown-menu a:hover {
+                    background-color: rgb(255, 255, 255);
+                }
+
+
+
+
+                .hitokoto{
+                    position: absolute;
+                    color: white;
+                    border-radius: 7px;
+                    height: 60px;
+                    width: auto;
+                    font-size: 15px;
+                    text-align: center;
+                    top: 70%;
+                    width: 30%;
+                    left: 50%;
+                    transform: translate(-50%,0%);
+                    opacity: 0%;
+                    transition: 300ms;
+                    padding-top: 0.5em;
+                    padding-left: 0.5em;
+                    padding-right: 0.5em;
+                    vertical-align:middle;
+                }
+
+                .hitokoto:hover{
+                    background-color: rgba(255, 255, 255, .2);
+                }
+
+
+            }
+
+
+            @media (orientation : portrait){
+
+                @keyframes about_appear {
+                    0%   {opacity: 30%; height: 0vh;}
+                    100% {opacity: 100%; height: 65vh;}
+                }
+
+                @keyframes about_disappear {
+                    0%   {opacity: 100%;height: 65vh;}
+                    100% {opacity: 30%;height: 0vh;}
+                }
+
+                @keyframes bg_big {
+                    0%   {transform: scale(1);filter: blur(0px)}
+                    100% {transform: scale(1.2);filter: blur(10px)}
+                }
+
+                @keyframes bg_small {
+                    0%   {transform: scale(1.2);filter: blur(10px)}
+                    100% {transform: scale(1);filter: blur(0px)}
+                }
+                
+                @keyframes settings_appear {
+                0%   {opacity: 0%;scale: 0.7;}
+                100% {opacity: 100%;scale: 1.0;}
+                }
+
+                @keyframes settings_disappear {
+                    0%   {opacity: 100%;scale: 1.0;}
+                    100% {opacity: 0%;scale: 0.7;}
+                }
+
+                @keyframes img_blur {
+                    0%   {filter: brightness(1);}
+                    100% {filter: brightness(0.6);}
+                }
+
+                @keyframes img_light {
+                    0%   {filter: brightness(0.6);}
+                    100% {filter: brightness(1);}
+                }
+
+                ::-webkit-scrollbar {
+                    width: 0px;
+                }
+
+                .search {
+                    position: static;
+                    top: 35%;
+                    left: 10%;
+                    width: 80%;
+                }
+
+                .user-input {
+                    margin-top: 10px;
+                    position: absolute;
+                    top: 30%;
+                    left: 50%;
+                    width: 60%;
+                    max-height: 40px;
+                    height: 10%;
+                    font-size: 1em;
+                    border: 2px solid rgb(161, 161, 161);
+                    border-radius: 50px;
+                    background-color: rgba(34, 34, 34, 0.8);
+                    color: white;
+                    box-sizing: border-box;
+                    outline: none;
+                    transform: translate(-50%,0%);
+                    transition: 280ms;
+                    text-align: center;
+                    
+                }
+
+                .user-input:hover{
+                    width: 85%;
+                    border: 2px solid blue;
+                }
+
+                .user-input:focus{
+                    width: 85%;
+                    border: 2px solid blue;
+                }
+
+                .cut_line{
+                    width: 95%;
+                    margin: auto;
+                    border-radius: 10px;
+                    border: 1px solid rgba(255, 255, 255, 0.719);
+                }
+                
+                .engine {
+                    position: absolute;
+                    width: 25%;
+                    max-height: 30px;
+                    height: 7%;
+                    left: 50%;
+                    top: 43%;
+                    background-color: rgba(185, 185, 185, 0.25);
+                    border: 2px solid rgb(255, 255, 255);
+                    border-radius: 40px;
+                    color:rgba(255, 255, 255, 255);
+                    transform: translate(-50%,0%);
+                    
+                }
+                .time {
+                    cursor:pointer;
+                    position: absolute;
+                    font-family: "微软雅黑","苹方","Arial","黑体","serif";
+                    top: 17%;
+                    left: 50%;
+                    font-size: 300%;
+                    transform: translate(-50%,0px);
+                    color: rgba(0, 0, 0, 0.603);
+                    text-shadow:
+                                0 0 20px #ffffff,
+                                0 0 35px #ffffff,
+                                0 0 40px #ffffff,
+                                0 0 50px #ffffff,
+                                0 0 60px #ffffff,
+                                0 0 70px #ffffff,
+                                0 0 75px #ffffff;
+                }
+
+                .weather {
+                    position: relative;
+                    top: 70%;
+                    left: 45%;
+                }
+
+                .default{
+                    position:fixed;
+                    top: 0;
+                    left: -50%;
+                    width: auto;
+                    height: 100%;
+                    z-index:-10;
+                    zoom: 1;
+                    background-size: cover;
+                    -webkit-background-size: cover;
+                    -o-background-size: cover;
+                    background-position: center 0;
+                    background-color: rgb(0, 0, 0);
+                    src:"https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg";                                                                                                                          
+                }
+                
+
+
+                .link{
+                    position: absolute;
+                    left: 25%;
+                    top: 50%;
+                    min-width: 300px;
+                    width: 50%;
+                }
+                
+                .quick_btn{
+                    z-index: -1;
+                    position: absolute;
+                    font-size: 55px;
+                    color: white;
+                    top: 50%;
+                    width: 98%;
+                    left: 1%;
+                    
+                }
+
+                .bilibili{
+                    position: absolute;
+                    left: 25%;
+                    width: 80px;
+                    height: 80px;
+                    text-align: center;
+                    border-radius: 13px;
+                    background-color: rgba(255, 255, 255, .3);
+                    transform: translate(-50%,0px);
+                }
+
+                .mail{
+                    position: absolute;
+                    left: 50%;
+                    width: 80px;
+                    height: 80px;
+                    text-align: center;
+                    border-radius: 13px;
+                    background-color: rgba(255, 255, 255, .3);
+                    transform: translate(-50%,0px);
+                }
+
+                .music{
+                    position: absolute;
+                    left: 75%;
+                    width: 80px;
+                    height: 80px;
+                    text-align: center;
+                    border-radius: 13px;
+                    background-color: rgba(255, 255, 255, .3);
+                    transform: translate(-50%,0px);
+                }
+
+                .about_history{
+                    max-height: 70%;
+                    overflow-y: auto;
+                    scrollbar-width: none;
+                    line-height: 1em;
+                }
+
+
+
+                .about_btn{
+                    position: absolute;
+                    width: 40px;
+                    height: 20px;
+                    left: 50%;
+                    bottom: 15px;
+                    color: white;
+                    text-align: center;
+                    transform: translate(-50%,0%);
+                    cursor: pointer;
+                }
+
+                .about_lock{
+                    margin-top: 20px;
+                    min-height: 20%;
+                    line-height: 0.95em;
+                    scrollbar-width: none;
+                }
+
+
+
+                .version{
+                    text-align: left;
+                    margin-left: 5%;
+                    width: fit-content;
+                    padding-left: 2px;
+                    padding-right: 2px;
+                    background-color: rgba(255, 58, 58, 0.938);
+                    border-radius: 3px;
+                    overflow-y: hidden;
+                    scrollbar-width: none;
+                }
+
+
+
+                .version_txt{
+                    text-align: left;
+                    margin-left: 10%;
+                }
+
+                .about{
+                    position: absolute;
+                    width: 80vw;
+                    height: 65vh;
+                    left: 50%;
+                    bottom: 10%;
+                    color: rgb(0, 0, 0);
+                    border: 2px solid white;
+                    font-size: 0.75em;
+                    background-color: rgba(228, 228, 228, 0.93);
+                    border-radius: 15px;
+                    display: none;
+                    transform: translate(-50%,0%);
+                    text-align: center;
+                    overflow-y: hidden;
+                }
+
+
+
+                .close{
+                    position: absolute;
+                    right: 7px;
+                    top: -10px;
+                    height: 30px;
+                    width: 30px;
+                    font-size: 20px;
+                    text-align: center;
+                }
+
+                .close:focus{
+                    background-color: gray;
+                    border: 0px solid gray;
+                    border-radius: 20px;
+                    cursor: pointer;
+                }
+                
+                .settings{
+                    position: absolute;
+                    width: 80vw;
+                    height: 65vh;
+                    left: 10vw;
+                    bottom: 15%;
+                    color: rgb(0, 0, 0);
+                    border: 2px solid white;
+                    font-size: 0.8em;
+                    background-color: rgba(255, 255, 255, 0.7);
+                    border-radius: 15px;
+                    display: none;
+                    text-align: center;
+                    overflow-y: auto;
+                    scrollbar-width: none;
+                    overflow-x: hidden;
+                }
+
+
+
+                .settings_btn{
+                    position: absolute;
+                    width: 20px;
+                    height: 20px;
+                    right: 1%;
+                    bottom: 2%;
+                    color: white;
+                    text-align: center;
+                    cursor: pointer;
+                }
+
+                .settings_title{
+                    position: absolute;
+                    top: -4px;
+                    text-align: left;
+                    left: 20px;
+                    font-size: 1.4em;
+                    color: rgb(255, 58, 58);
+                }
+
+                .settings_check{
+                    position: absolute;
+                    text-align: right;
+                    right: 5%;
+                    top: 10%;
+                }
+
+                .settings_img{
+                    width: auto;
+                    height: 80px;
+                    border-radius: 5px;
+                }
+
+                .settings_img:hover{
+                    filter: brightness(0.7);
+                }
+
+                .settings_txt{
+                    position: absolute;
+                    text-align: left;
+                    left: 5%;
+                    top: 10%;
+                    width: 100%;
+                }
+
+                .wallpaper_apply{
+                    width: auto;
+                }
+
+                .wallpaper_link{
+                    width: 93%;
+                }
+
+                .body{
+                    color: rgb(0, 0, 0);
+                    background-color: rgb(0, 0, 0);
+                }
+                
+                .dropdown-btn {
+                    width: 80px;
+                    height: 30px;
+                    background-color: rgba(255, 255, 255, 0.5);
+                    border: 1px solid rgb(255, 255, 255);
+                    border-radius: 17px;
+                    font-size: 0.9em;
+                    cursor: pointer;
+                    color:rgb(255, 255, 255);
+                }
+                
+                .dropdown {
+                    transform: translate(-50%,0%);
+                    margin-top: 20px;
+                    position: absolute;
+                    left: 50%;
+                    top: 37%;
+                }
+                
+                .dropdown-menu {
+                    border-radius: 14px;
+                    background-color: rgba(255, 255, 255, .5);
+                    display: none;
+                    position: absolute;
+                    min-width: 80px;
+                    z-index: 5;
+                }
+                .dropdown-menu a {
+                    padding: 5px 10px;
+                    border-radius: 14px;
+                    text-decoration: none;
+                    display: block;
+                    z-index: 5;
+                    cursor: pointer;
+                }
+                .dropdown-menu a:hover {
+                    background-color: rgba(255, 255, 255, 0.76);
+                }
+                .dropdown:hover .dropdown-menu {
+                    display: block;
+                } 
+            }
+
+        </style>
+
+        <title>红苹果起始页</title> 
+    </head>
+
+
+    <body onload="load()" id="body" class="body" onkeydown="if(event.keyCode==13) {search_focus() } if(event.keyCode==27) search_blur()">
+        <img class="default" id="main" onclick="search_small()">
+        
+
+        <!-- 顶部时间 -->
+        <a onclick="link('http\://time.is')">
+            <div id="divBottom" class="time"></div>
+        </a>
+
+        <script>
+            date()
+            //获取当天日期
+            function date()
+            {
+            var date=new Date();
+            var hour="00"+date.getHours();
+                hour=hour.substr(hour.length-2);
+            var minute="00"+date.getMinutes();
+                minute=minute.substr(minute.length-2);
+            var second="00"+date.getSeconds();
+                second=second.substr(second.length-2);
+        
+            document.getElementById("divBottom").innerHTML=hour+":"+minute+":"+second;
+            }
+            setInterval("date()",1000);
+        </script>
+
+        <!-- 搜索框与搜索引擎 -->
+        <div class="dropdown">
+            <button class="dropdown-btn" id="engine_txt" onclick="drop_appear()" ></button>
+            <div class="dropdown-menu" id="search_engine" onclick="drop_disappear()">
+                <a value="baidu" onclick="engine_change('baidu')">百度</a>
+                <a value="bing" onclick="engine_change('bing')">必应</a>
+                <a value="google" onclick="engine_change('google')">谷歌</a>
+                <a value="trans" onclick="engine_change('trans')">翻译</a>
+                <a value="ecosia" onclick="engine_change('ecosia')">Ecosia</a>
+            </div>
+        </div>
+
+
+        <input onclick="search_big()" class="user-input" type="text" name="search" id="search" placeholder="搜索" onkeydown="if(event.keyCode==13) search();">
+
+
+        <!-- 三个快捷链接 -->
+        <div class="quick_btn" id="quick">
+            <div class="bilibili" id="link1">
+                <a onclick="link('https\://www.bilibili.com')">B站</a>
+            </div>
+            
+            <div class="mail" id="link2">
+                <a onclick="link('https\://mail.163.com')">邮箱</a>
+            </div>
+        
+            <div class="music" id="link3">
+                <a onclick="link('https\://music.163.com/')">音乐</a>
+            </div>
+        </div>
+
+
+        <!--关于-->
+        <div class="about" id="about_box">
+            <div class="about_lock">
+                <p>关于</p>
+                <p>
+                    By<a href="https://space.bilibili.com/600004959">极客果GeekApple</a>
+                </p>
+
+                <p>
+                    感谢  <a href="https://space.bilibili.com/1481009667">枫屿feng-</a>      是他得以让我的开发工作能一直坚持下去.
+                </p>
+
+                <p>注意:当前网站为测试版,可能会出现一些Bug.</p>
+                <p>如果网页出现任何问题,请向开发者反馈(Email:ZiWen243@outlook.com)</p>
+            </div>
+            <p onclick="about_close()" class="close">×</p>
+            <div class="cut_line"></div>
+            <div class="about_history">
+                <p class="version">22w09a   22.03.05</p>
+                <p class="version_txt">起始页制作完成</p>
+                <p class="version">22w09b   22.03.06</p>
+                <p class="version_txt">正式上线,背景选择从离线图片变为在线链接,能更好更换.</p>
+                <p class="version">22w11a   22.03.19</p>
+                <p class="version_txt">添加新的UI和动画,对移动端做了适配,加入搜索引擎记忆功能并修复若干bug.</p>
+                <p class="version">22w17a   22.05.01</p>
+                <div class="version_txt">
+                    <p>添加设置界面</p>
+                    <p>动画调整</p>
+                    <p>背景选择整合进设置界面</p>
+                    <p>设置界面支持直接点击图片选择背景</p>
+                    <p>关于界面UI调整</p>
+                    <p>删除冗余代码</p>
+                    <p>修复一些Bug</p>
+                    <p>关于界面文本小幅调整</p>
+                    <p>关于和设置界面支持滚动,没有滚动条</p>
+                    <p>电脑端主界面按回车自动聚焦,Esc返回初始状态.</p>
+                    <p>优化图片加载逻辑,大幅度缩短了页面加载时间.</p>
+                    <p>设置界面支持滚动,无滚动条</p>
+                    <p>添加元素背景模糊设置</p>
+                    <p>搜索框聚焦时显示一言,可以在设置中选择是否开启.</p>
+                </div>
+                
+            </div> 
+        </div>
+
+        <a class="about_btn" onclick="about_out()">
+            关于
+        </a>
+
+        <!--设置-->
+        
+        <div class="settings" id="settings">
+            <div class="settings_lock">
+                <p onclick="settings_close()" class="close">×</p>
+                <div class="settings_title">
+                    <p>设置</p>
+                </div>
+            </div>
+            <div id="settings_txt" class="settings_txt">
+                <p>开启天气</p>
+                <p>减弱动态效果</p>
+                <p>元素背景模糊(不包括壁纸)</p>
+                <p>搜索框聚焦时显示"一言"</p>
+                <p>壁纸</p>
+                <p>
+                    <input type="text" class="wallpaper_link" name="wallpaper" placeholder="输入链接" id="wallpaper_link">
+                    <input type="button" name="wallpaper_btn"  onclick="bg_change()" value="应用" class="wallpaper_apply" >
+                </p>
+                <div id="default_bg" class="default_img">
+                    <img _src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg" src="" class="settings_img" onclick='set_wallpaper_link("https\://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg")'>
+                    <img _src="https://api.xygeng.cn/Bing/" src="" class="settings_img" onclick="set_wallpaper_link('https\://api.xygeng.cn/Bing/')">
+                    <img _src="https://tse1-mm.cn.bing.net/th/id/R-C.540d245ebd32a1aa6ce7002e273e382f?rik=%2bhtc3EVf7CK1BA&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2ff22e65b0321638e09c5c7b8ef5f89b5ccf0ab506.jpg&ehk=iKjCDUjRjbxqRdAofcb%2f6dvV%2fawqpnvQ2UclamsMv8I%3d&risl=&pid=ImgRaw&r=0" src="" class="settings_img" onclick='set_wallpaper_link("https\://tse1-mm.cn.bing.net/th/id/R-C.540d245ebd32a1aa6ce7002e273e382f?rik=%2bhtc3EVf7CK1BA&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2ff22e65b0321638e09c5c7b8ef5f89b5ccf0ab506.jpg&ehk=iKjCDUjRjbxqRdAofcb%2f6dvV%2fawqpnvQ2UclamsMv8I%3d&risl=&pid=ImgRaw&r=0")'>
+                    <img _src="https://pic3.zhimg.com/v2-0087e364e1f120dfd9896d7331809793_r.jpg?source=1940ef5c" src="" class="settings_img" onclick="set_wallpaper_link('https\://pic3.zhimg.com/v2-0087e364e1f120dfd9896d7331809793_r.jpg?source=1940ef5c')">
+                    <img _src="https://images5.alphacoders.com/106/thumb-1920-1069099.png" src="" class="settings_img" onclick="set_wallpaper_link('https\://images5.alphacoders.com/106/thumb-1920-1069099.png')">
+                    <img _src="https://pic3.zhimg.com/v2-b584e76f364fd17d59b39513e5f9fee7_r.jpg?source=12a79843" src="" class="settings_img" onclick="set_wallpaper_link('https\://pic3.zhimg.com/v2-b584e76f364fd17d59b39513e5f9fee7_r.jpg?source=12a79843')">
+                    <img _src="https://tse1-mm.cn.bing.net/th/id/R-C.0889c0dae2d82c085ceeaeead79a3349?rik=1y8tHj2PEpIwmw&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f41dd8698ebb97c2863708321b17921965019f158.jpg&ehk=QAJi%2bcstg%2fGPQEJF%2bUBnuSkpVXztt04bmRQCWiV7rEo%3d&risl=&pid=ImgRaw&r=0" src="" class="settings_img" onclick="set_wallpaper_link('https\://tse1-mm.cn.bing.net/th/id/R-C.0889c0dae2d82c085ceeaeead79a3349?rik=1y8tHj2PEpIwmw&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f41dd8698ebb97c2863708321b17921965019f158.jpg&ehk=QAJi%2bcstg%2fGPQEJF%2bUBnuSkpVXztt04bmRQCWiV7rEo%3d&risl=&pid=ImgRaw&r=0')">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <!--吼吼,藏得这么深的注释居然被你发现了!既然被你发现了,我也不装了,我是云堇先生的狗!(大声)-->
+                    <img _src="https://pic.3gbizhi.com/2020/0910/20200910081911645.jpeg" src="" class="settings_img" onclick="set_wallpaper_link('https\://pic.3gbizhi.com/2020/0910/20200910081911645.jpeg')">
+                    <img _src="https://p.qpic.cn/dnfbbspic/0/dnfbbs_dnfbbs_dnf_gamebbs_qq_com_forum_202002_20_095552u250ohonivxm0tmj.jpg/0" src="" class="settings_img" onclick="set_wallpaper_link('https\://p.qpic.cn/dnfbbspic/0/dnfbbs_dnfbbs_dnf_gamebbs_qq_com_forum_202002_20_095552u250ohonivxm0tmj.jpg/0')">
+                    <img _src="https://pica.zhimg.com/v2-b4c6be038b68bdea35bf071bb4bf6988_r.jpg?source=1940ef5c" src="" class="settings_img" onclick="set_wallpaper_link('https\://pica.zhimg.com/v2-b4c6be038b68bdea35bf071bb4bf6988_r.jpg?source=1940ef5c')">
+                </div>
+                <div class="settings_check">
+                    <form method="post" id="settings_check_box">
+                        <p>
+                            <input type="checkbox" name="weather" onclick="save_settings()">
+                        </p>
+                        <p>
+                            <input type="checkbox" name="motion" onclick="save_settings()">
+                        </p>
+                        <p>
+                            <input type="checkbox" name="blur" onclick="save_settings()">
+                        </p>
+                        <p>
+                            <input type="checkbox" name="hitokoto" onclick="save_settings()">
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div> 
+
+        <a class="settings_btn" onclick="settings_out()">
+            <i class="iconfont icon-shezhi"></i>
+        </a>
+
+        <!-- 一言 -->
+        <div id="hitokoto">
+            <p id="hitokoto_text" class="hitokoto" onclick=""></p>
+        </div>
+
+        <script>
+        fetch('https://v1.hitokoto.cn')
+            .then(response => response.json())
+            .then(data => {
+            const hitokoto = document.getElementById('hitokoto_text')
+            hitokoto.href = 'https://hitokoto.cn/?uuid=' + data.uuid
+            hitokoto.innerText = data.hitokoto
+            if(data.from_who!=null)
+                hitokoto.innerText += "\n ——"+data.from_who
+            else
+                hitokoto.innerText += "\n ——匿名"
+            })
+            .catch(console.error)
+        </script>
+
+        <!-- 下面是和风天气插件,最好放在最后,否则影响网页加载速度. -->
+        <div id="he-plugin-simple"></div>
+        <script>
+            WIDGET = {
+            "CONFIG": {
+                "modules": "20",
+                "background": "5",
+                "backgroundColor": "AAAAAA",
+                "tmpColor": "FFFFFF",
+                "tmpSize": "16",
+                "cityColor": "FFFFFF",
+                "citySize": "16",
+                "aqiColor": "FFFFFF",
+                "aqiSize": "16",
+                "weatherIconSize": "24",
+                "alertIconSize": "18",
+                "padding": "0px 0px 2px 2px",
+                "shadow": "0",
+                "language": "zh",
+                "borderRadius": "20",
+                "fixed": "true",
+                "vertical": "top",
+                "horizontal": "left",
+                "left": "10",
+                "bottom": "10",
+                "key": "2882a3b8d30c4db2bb8cef54dece815e"
+            }
+            }
+        </script>
+        <script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script>
+
+        <script type="text/javascript" src="1.php"></script>
+        <script>
+            console.log("此网站已被访问"+web_times+"次");
+            var new_date = new Date(); //新建一个日期对象，默认现在的时间
+            var old_date = new Date("2022-03-05 16:38:00");//网站创建时间
+            var past=new_date-old_date;
+            var days=parseInt(past/86400000);
+            var hours=parseInt(past/3600000)-24*days;    // 小时 60*60 总小时数-过去的小时数=现在的小时数 
+            console.log("网站已上线"+days+"天,"+hours+"小时.")
+        </script>
+
+    </body>
+</html>
