@@ -86,12 +86,14 @@
 
 
         function drop_appear() {
+            document.getElementById('engine_txt').setAttribute("appear", "true");
             document.getElementById("search_engine").style.display = "block";
             document.getElementById("search_engine").style.animationName = "hitokoto_appear";
             document.getElementById("search_engine").style.animationDuration = "0.3s";
         }
 
         function drop_disappear() {
+            document.getElementById('engine_txt').setAttribute("appear", "false");
             document.getElementById("search_engine").style.animationName = "hitokoto_disappear";
             document.getElementById("search_engine").style.animationDuration = "0.3s";
             setTimeout('document.getElementById("search_engine").style.display="none";', 280);
@@ -183,6 +185,7 @@
             document.getElementById('hitokoto_text').style.animationName = "hitokoto_disappear";
             document.getElementById('hitokoto_text').style.animationDuration = "0.3s";
             document.getElementById('hitokoto_text').style.opacity = "0";
+            drop_disappear();
         }
 
         function search_blur() {
@@ -265,34 +268,42 @@
             load_settings();
             load_blur();
         }
+
         function bg_change() {
             var url = document.getElementById('wallpaper_link').value;
             var reg = /[a-zA-z]+:\/\/[^\s]*/g;
             if (url == "") {
                 url = "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg";
             }
-            if (reg.test(url)) {
-                localStorage.setItem('pic', url);
-                document.getElementById("main").setAttribute('src', url);
-            }
-            else {
-                document.getElementById("main").setAttribute('src', "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg");
-            }
+            localStorage.setItem('pic', url);
+            document.getElementById("main").setAttribute('src', url);
             load_wallpaper();
         }
 
     </script>
-    <link rel="stylesheet" href="./style/22w19b.css">
+    <link rel="stylesheet" href="style/22w21a.css">
 
 
     <title>红苹果起始页</title>
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?07ce23e4421e8f1801ac8f9c08cf9352";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 </head>
 
 
-<body onload="load()" id="body" class="body" onkeydown="if(event.keyCode==13) {search_focus() } if(event.keyCode==27) search_blur()">
+<body onload="load()" id="body" class="body"
+    onkeydown="if(event.keyCode==13) {search_focus() } if(event.keyCode==27) search_blur()">
 
+    
     <!--背景图-->
     <img class="default" id="main" onclick="search_small()">
+
 
     <!-- 顶部时间 -->
     <a onclick="link('http\://time.is')">
@@ -318,7 +329,9 @@
 
     <!-- 搜索框与搜索引擎 -->
     <div class="dropdown">
-        <button class="dropdown-btn" id="engine_txt" onclick="drop_appear()"></button>
+        <button class="dropdown-btn" id="engine_txt" appear="false"
+            onclick="if(document.getElementById('engine_txt').getAttribute('appear')=='true'){drop_disappear()}else{drop_appear()}"
+            onblur="drop_disappear()"></button>
         <div class="dropdown-menu" id="search_engine" onclick="drop_disappear()">
             <a value="baidu" onclick="engine_change('baidu')">百度</a>
             <a value="bing" onclick="engine_change('bing')">必应</a>
@@ -357,23 +370,31 @@
                 By<a href="https://space.bilibili.com/600004959">极客果GeekApple</a>
             </p>
 
-            <p>
-                感谢 <a href="https://space.bilibili.com/1481009667">枫屿feng-</a> 在我开发路上的支持.
-            </p>
-
-            <p>Version:22w19b-稳定版  点此访问<a href="http://startpage.epizy.com/Beta.html">Beta版</a></p>
-
-            <p>如果网页出现任何问题,请向开发者反馈(Email:ZiWen243@outlook.com)</p>
+            <p>注意:此网站已接入百度统计服务，便于开发者统计访问信息。</p>
+            <p>获取关于此网页的<a href="more_info.html">更多信息</a></p>
         </div>
         <p onclick="about_close()" class="close">×</p>
         <div class="cut_line"></div>
         <div class="about_history">
-            <p class="version">22w09a 22.03.05</p>
-            <p class="version_txt">起始页制作完成</p>
-            <p class="version">22w09b 22.03.06</p>
-            <p class="version_txt">正式上线,背景选择从离线图片变为在线链接,能更好更换.</p>
-            <p class="version">22w11a 22.03.19</p>
-            <p class="version_txt">添加新的UI和动画,对移动端做了适配,加入搜索引擎记忆功能并修复若干bug.</p>
+            <p class="version">22w22a 22.05.30</p>
+            <div class="version_txt">
+                <p>紧急更新:修复必应每日一图api无法使用的问题</p>
+            </div>
+            <p class="version">22w19b 22.05.15</p>
+            <div class="version_txt">
+                <p>爆改css,将所有css合并入一个文件,且适配不同屏幕宽度而非按比例缩放</p>
+                <p>删除css冗余代码</p>
+                <p>删除js与css的冲突与冗余代码</p>
+                <p>删除不必要的log</p>
+                <p>修复在低分辨率设备上,设置界面动画的错误对齐</p>
+            </div>
+            <p class="version">22w19a 22.05.09</p>
+            <div class="version_txt">
+                <p>设置界面中,元素背景模糊会提示火狐浏览器不支持.(如未来浏览器支持,会删除相关代码)</p>
+                <p>优化了滚动条隐藏的代码.</p>
+                <p>更改css为外部引入,减少主文件代码冗余</p>
+                <p>部分元素透明度调整.</p>
+            </div>
             <p class="version">22w17a 22.05.01</p>
             <div class="version_txt">
                 <p>添加设置界面</p>
@@ -391,21 +412,12 @@
                 <p>添加元素背景模糊设置</p>
                 <p>搜索框聚焦时显示一言,可以在设置中选择是否开启.</p>
             </div>
-            <p class="version">22w19a 22.05.09</p>
-            <div class="version_txt">
-                <p>设置界面中,元素背景模糊会提示火狐浏览器不支持.(如未来浏览器支持,会删除相关代码)</p>
-                <p>优化了滚动条隐藏的代码.</p>
-                <p>更改css为外部引入,减少主文件代码冗余</p>
-                <p>部分元素透明度调整.</p>
-            </div>
-            <p class="version">22w19b 22.05.15</p>
-            <div class="version_txt">
-                <p>爆改css,将所有css合并入一个文件,且适配不同屏幕宽度而非按比例缩放</p>
-                <p>删除css冗余代码</p>
-                <p>删除js与css的冲突与冗余代码</p>
-                <p>删除不必要的log</p>
-                <p>修复在低分辨率设备上,设置界面动画的错误对齐</p>
-            </div>
+            <p class="version">22w11a 22.03.19</p>
+            <p class="version_txt">添加新的UI和动画,对移动端做了适配,加入搜索引擎记忆功能并修复若干bug.</p>
+            <p class="version">22w09b 22.03.06</p>
+            <p class="version_txt">正式上线,背景选择从离线图片变为在线链接,能更好更换.</p>
+            <p class="version">22w09a 22.03.05</p>
+            <p class="version_txt">起始页制作完成</p>
         </div>
     </div>
 
@@ -414,7 +426,7 @@
     </a>
 
     <!--设置-->
-
+   
     <div class="settings" id="settings">
         <div class="settings_lock">
             <p onclick="settings_close()" class="close">×</p>
@@ -433,34 +445,17 @@
                 <input type="button" name="wallpaper_btn" onclick="bg_change()" value="应用" class="wallpaper_apply">
             </p>
             <div id="default_bg" class="default_img">
-                <img _src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg"
-                    src="" class="settings_img"
-                    onclick='set_wallpaper_link("https\://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg")'>
-                <img _src="https://api.xygeng.cn/Bing/" src="" class="settings_img"
-                    onclick="set_wallpaper_link('https\://api.xygeng.cn/Bing/')">
-                <img _src="https://tse1-mm.cn.bing.net/th/id/R-C.540d245ebd32a1aa6ce7002e273e382f?rik=%2bhtc3EVf7CK1BA&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2ff22e65b0321638e09c5c7b8ef5f89b5ccf0ab506.jpg&ehk=iKjCDUjRjbxqRdAofcb%2f6dvV%2fawqpnvQ2UclamsMv8I%3d&risl=&pid=ImgRaw&r=0"
-                    src="" class="settings_img"
-                    onclick='set_wallpaper_link("https\://tse1-mm.cn.bing.net/th/id/R-C.540d245ebd32a1aa6ce7002e273e382f?rik=%2bhtc3EVf7CK1BA&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2ff22e65b0321638e09c5c7b8ef5f89b5ccf0ab506.jpg&ehk=iKjCDUjRjbxqRdAofcb%2f6dvV%2fawqpnvQ2UclamsMv8I%3d&risl=&pid=ImgRaw&r=0")'>
-                <img _src="https://pic3.zhimg.com/v2-0087e364e1f120dfd9896d7331809793_r.jpg?source=1940ef5c" src=""
-                    class="settings_img"
-                    onclick="set_wallpaper_link('https\://pic3.zhimg.com/v2-0087e364e1f120dfd9896d7331809793_r.jpg?source=1940ef5c')">
-                <img _src="https://images5.alphacoders.com/106/thumb-1920-1069099.png" src="" class="settings_img"
-                    onclick="set_wallpaper_link('https\://images5.alphacoders.com/106/thumb-1920-1069099.png')">
-                <img _src="https://pic3.zhimg.com/v2-b584e76f364fd17d59b39513e5f9fee7_r.jpg?source=12a79843" src=""
-                    class="settings_img"
-                    onclick="set_wallpaper_link('https\://pic3.zhimg.com/v2-b584e76f364fd17d59b39513e5f9fee7_r.jpg?source=12a79843')">
-                <img _src="https://tse1-mm.cn.bing.net/th/id/R-C.0889c0dae2d82c085ceeaeead79a3349?rik=1y8tHj2PEpIwmw&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f41dd8698ebb97c2863708321b17921965019f158.jpg&ehk=QAJi%2bcstg%2fGPQEJF%2bUBnuSkpVXztt04bmRQCWiV7rEo%3d&risl=&pid=ImgRaw&r=0"
-                    src="" class="settings_img"
-                    onclick="set_wallpaper_link('https\://tse1-mm.cn.bing.net/th/id/R-C.0889c0dae2d82c085ceeaeead79a3349?rik=1y8tHj2PEpIwmw&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f41dd8698ebb97c2863708321b17921965019f158.jpg&ehk=QAJi%2bcstg%2fGPQEJF%2bUBnuSkpVXztt04bmRQCWiV7rEo%3d&risl=&pid=ImgRaw&r=0')">
-                <!--吼吼,藏得这么深的注释居然被你发现了!既然被你发现了,我也不装了,我是云堇先生的狗!(大声)-->
-                <img _src="https://pic.3gbizhi.com/2020/0910/20200910081911645.jpeg" src="" class="settings_img"
-                    onclick="set_wallpaper_link('https\://pic.3gbizhi.com/2020/0910/20200910081911645.jpeg')">
-                <img _src="https://p.qpic.cn/dnfbbspic/0/dnfbbs_dnfbbs_dnf_gamebbs_qq_com_forum_202002_20_095552u250ohonivxm0tmj.jpg/0"
-                    src="" class="settings_img"
-                    onclick="set_wallpaper_link('https\://p.qpic.cn/dnfbbspic/0/dnfbbs_dnfbbs_dnf_gamebbs_qq_com_forum_202002_20_095552u250ohonivxm0tmj.jpg/0')">
-                <img _src="https://pica.zhimg.com/v2-b4c6be038b68bdea35bf071bb4bf6988_r.jpg?source=1940ef5c" src=""
-                    class="settings_img"
-                    onclick="set_wallpaper_link('https\://pica.zhimg.com/v2-b4c6be038b68bdea35bf071bb4bf6988_r.jpg?source=1940ef5c')">
+                <img _src="https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg"src="" class="settings_img"onclick='set_wallpaper_link("https\://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg")'>
+                <img _src="./php/get_bing.php" src="" class="settings_img" onclick="set_wallpaper_link('./php/get_bing.php')" id="bing_wallpaper">
+                <img _src="https://tse1-mm.cn.bing.net/th/id/R-C.540d245ebd32a1aa6ce7002e273e382f?rik=%2bhtc3EVf7CK1BA&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2ff22e65b0321638e09c5c7b8ef5f89b5ccf0ab506.jpg&ehk=iKjCDUjRjbxqRdAofcb%2f6dvV%2fawqpnvQ2UclamsMv8I%3d&risl=&pid=ImgRaw&r=0" src="" class="settings_img" onclick='set_wallpaper_link("https\://tse1-mm.cn.bing.net/th/id/R-C.540d245ebd32a1aa6ce7002e273e382f?rik=%2bhtc3EVf7CK1BA&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2ff22e65b0321638e09c5c7b8ef5f89b5ccf0ab506.jpg&ehk=iKjCDUjRjbxqRdAofcb%2f6dvV%2fawqpnvQ2UclamsMv8I%3d&risl=&pid=ImgRaw&r=0")'>
+                <img _src="https://pic3.zhimg.com/v2-0087e364e1f120dfd9896d7331809793_r.jpg?source=1940ef5c" src=""class="settings_img"onclick="set_wallpaper_link('https\://pic3.zhimg.com/v2-0087e364e1f120dfd9896d7331809793_r.jpg?source=1940ef5c')">
+                <img _src="https://images5.alphacoders.com/106/thumb-1920-1069099.png" src="" class="settings_img" onclick="set_wallpaper_link('https\://images5.alphacoders.com/106/thumb-1920-1069099.png')">
+                <img _src="https://pic3.zhimg.com/v2-b584e76f364fd17d59b39513e5f9fee7_r.jpg?source=12a79843" src="" class="settings_img" onclick="set_wallpaper_link('https\://pic3.zhimg.com/v2-b584e76f364fd17d59b39513e5f9fee7_r.jpg?source=12a79843')">
+                <img _src="https://tse1-mm.cn.bing.net/th/id/R-C.0889c0dae2d82c085ceeaeead79a3349?rik=1y8tHj2PEpIwmw&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f41dd8698ebb97c2863708321b17921965019f158.jpg&ehk=QAJi%2bcstg%2fGPQEJF%2bUBnuSkpVXztt04bmRQCWiV7rEo%3d&risl=&pid=ImgRaw&r=0" src="" class="settings_img" onclick="set_wallpaper_link('https\://tse1-mm.cn.bing.net/th/id/R-C.0889c0dae2d82c085ceeaeead79a3349?rik=1y8tHj2PEpIwmw&riu=http%3a%2f%2fi2.hdslb.com%2fbfs%2farchive%2f41dd8698ebb97c2863708321b17921965019f158.jpg&ehk=QAJi%2bcstg%2fGPQEJF%2bUBnuSkpVXztt04bmRQCWiV7rEo%3d&risl=&pid=ImgRaw&r=0')">
+                <!--哎呀,居然被你发现了!既然被你发现了,那么……我是云堇单推人!(大声)-->
+                <img _src="https://pic.3gbizhi.com/2020/0910/20200910081911645.jpeg" src="" class="settings_img" onclick="set_wallpaper_link('https\://pic.3gbizhi.com/2020/0910/20200910081911645.jpeg')">
+                <img _src="https://p.qpic.cn/dnfbbspic/0/dnfbbs_dnfbbs_dnf_gamebbs_qq_com_forum_202002_20_095552u250ohonivxm0tmj.jpg/0" src="" class="settings_img" onclick="set_wallpaper_link('https\://p.qpic.cn/dnfbbspic/0/dnfbbs_dnfbbs_dnf_gamebbs_qq_com_forum_202002_20_095552u250ohonivxm0tmj.jpg/0')">
+                <img _src="https://pica.zhimg.com/v2-b4c6be038b68bdea35bf071bb4bf6988_r.jpg?source=1940ef5c" src="" class="settings_img" onclick="set_wallpaper_link('https\://pica.zhimg.com/v2-b4c6be038b68bdea35bf071bb4bf6988_r.jpg?source=1940ef5c')">
             </div>
             <div class="settings_check">
                 <form method="post" id="settings_check_box">
@@ -538,7 +533,7 @@
     </script>
     <script src="https://widget.qweather.net/simple/static/js/he-simple-common.js?v=2.0"></script>
 
-    <script type="text/javascript" src="2.php"></script>
+    <script type="text/javascript" src="./php/out.php"></script>
     <script>
         console.log("此网站已被访问" + web_times + "次");
         var new_date = new Date(); //新建一个日期对象，默认现在的时间

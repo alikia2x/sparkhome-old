@@ -127,6 +127,7 @@
     z-index: -10;
     object-fit: cover;
     src: "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg";
+    overflow: hidden;
 }
 
 
@@ -147,7 +148,7 @@
 }
 
 .about_history {
-    max-height: 73%;
+    max-height: 100%;
     overflow-y: auto;
     line-height: 1em;
     scrollbar-width: none;
@@ -170,7 +171,7 @@
 
 .about_lock {
     margin-top: 20px;
-    min-height: 22%;
+    min-height: 100px;
     line-height: 0.9em;
     overflow-y: unset;
 }
@@ -198,7 +199,7 @@
 }
 
 .settings_lock {
-    height: 5%;
+    min-height: 100px; 
     overflow: hidden;
 }
 
@@ -320,7 +321,7 @@
         position: absolute;
         top: 190px;
         left: 50%;
-        width: 400px;
+        width: 450px;
         height: 40px;
         border: 0px solid rgb(161, 161, 161);
         border-radius: 20px;
@@ -331,16 +332,16 @@
         text-indent: -5px;
         transform: translate(-50%, 0%);
         text-align: center;
-        transition: 280ms;
+        transition: 300ms;
     }
 
     .user-input:hover {
-        width: 600px;
+        width: 700px;
         background-color: rgba(182, 182, 182, .4);
     }
 
     .user-input:focus {
-        width: 600px;
+        width: 700px;
         background-color: rgba(32, 32, 32, .6);
     }
 
@@ -357,7 +358,7 @@
 
     .bilibili {
         position: absolute;
-        left: 40%;
+        left: calc(50% - 150px);
         width: 80px;
         height: 80px;
         text-align: center;
@@ -392,7 +393,7 @@
         overflow: hidden;
         line-height: 80px;
         position: absolute;
-        left: 60%;
+        left: calc(50% + 150px);
         width: 80px;
         height: 80px;
         text-align: center;
@@ -421,7 +422,7 @@
         left: 50%;
         bottom: 10%;
         color: rgb(0, 0, 0);
-        border: 2px solid white;
+        border: 0px solid white;
         font-size: 0.8em;
         background-color: rgba(255, 255, 255, 0.7);
         border-radius: 15px;
@@ -429,16 +430,17 @@
         transform: translate(-50%, 0%);
         text-align: center;
         overflow-y: hidden;
+        z-index: 1;
     }
 
     .settings {
         position: absolute;
         width: 600px;
         height: 70%;
-        left: 32%;
+        left: calc(50% - 300px);
         bottom: 15%;
         color: rgb(0, 0, 0);
-        border: 2px solid white;
+        border: 0px solid white;
         font-size: 0.8em;
         background-color: rgba(255, 255, 255, 0.7);
         border-radius: 15px;
@@ -446,6 +448,7 @@
         transform: translate(0%, 0%);
         text-align: center;
         scrollbar-width: none;
+        z-index: 1;
     }
 
     .dropdown {
@@ -473,6 +476,7 @@
         padding-left: 0.5em;
         padding-right: 0.5em;
         vertical-align: middle;
+        z-index: 0;
     }
 }
 
@@ -535,7 +539,7 @@
         left: 50%;
         bottom: 10%;
         color: rgb(0, 0, 0);
-        border: 2px solid white;
+        border: 0px solid white;
         font-size: 0.8em;
         background-color: rgba(255, 255, 255, 0.7);
         border-radius: 15px;
@@ -543,16 +547,17 @@
         transform: translate(-50%, 0%);
         text-align: center;
         overflow-y: hidden;
+        z-index: 1;
     }
 
     .settings {
         position: absolute;
         width: 500px;
         height: 70%;
-        left: 32%;
+        left: calc(50% - 250px);
         bottom: 15%;
         color: rgb(0, 0, 0);
-        border: 2px solid white;
+        border: 0px solid white;
         font-size: 0.8em;
         background-color: rgba(255, 255, 255, 0.7);
         border-radius: 15px;
@@ -560,6 +565,7 @@
         transform: translate(0%, 0%);
         text-align: center;
         scrollbar-width: none;
+        z-index: 1;
     }
 
     .dropdown {
@@ -587,6 +593,7 @@
         padding-left: 0.5em;
         padding-right: 0.5em;
         vertical-align: middle;
+        z-index: 0;
     }
 
     .bilibili {
@@ -639,12 +646,13 @@
 }
 
 @media screen and (max-width:600px){
+
     .user-input {
         margin-top: 10px;
         position: absolute;
         top: 190px;
         left: 50%;
-        width: 340px;
+        width: 70%;
         height: 40px;
         border: 0px solid rgb(161, 161, 161);
         border-radius: 20px;
@@ -659,12 +667,12 @@
     }
 
     .user-input:hover {
-        width: 500px;
+        width: 90%;
         background-color: rgba(182, 182, 182, .4);
     }
 
     .user-input:focus {
-        width: 500px;
+        width: 90%;
         background-color: rgba(32, 32, 32, .6);
     }
 
@@ -692,12 +700,12 @@
 
     .about {
         position: absolute;
-        width: 500px;
+        width: 80%;
         height: 80%;
         left: 50%;
-        bottom: 10%;
+        bottom: 15%;
         color: rgb(0, 0, 0);
-        border: 2px solid white;
+        border: 0px solid white;
         font-size: 0.8em;
         background-color: rgba(255, 255, 255, 0.7);
         border-radius: 15px;
@@ -705,23 +713,24 @@
         transform: translate(-50%, 0%);
         text-align: center;
         overflow-y: hidden;
+        z-index: 1;
     }
 
     .settings {
         position: absolute;
-        width: 500px;
+        width: 80%;
         height: 70%;
-        left: 50%;
+        left: 10%;
         bottom: 15%;
         color: rgb(0, 0, 0);
-        border: 2px solid white;
+        border: 0px solid white;
         font-size: 0.8em;
         background-color: rgba(255, 255, 255, 0.7);
         border-radius: 15px;
         display: none;
-        transform: translate(-50%, 0%);
         text-align: center;
         scrollbar-width: none;
+        z-index: 1;
     }
 
     .dropdown {
@@ -749,6 +758,7 @@
         padding-left: 0.5em;
         padding-right: 0.5em;
         vertical-align: middle;
+        z-index: 0;
     }
 
     .bilibili {
