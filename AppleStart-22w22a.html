@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width， initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+    <meta name="description" content="红苹果起始页有王子文开发，是一个美观、实用的浏览器起始页。我们支持多搜索引擎、网站快捷链接等功能；您还可以更换壁纸，按自己的偏好设置它，使体验更进一步。">
     <link rel="stylesheet" href="./src/iconfont.css">
     <link rel=" icon" href="Apple.webp">
     <link rel="icon" href="Apple.webp" type="image/x-ico">
@@ -26,12 +27,8 @@
             }
             var url = localStorage.getItem('pic');
             document.getElementById("wallpaper_link").value = url;
-            //由于firefox不支持backdrop-filter,因此将其设为不可用状态.
             if (navigator.userAgent.indexOf('Firefox') >= 0) {
-                localStorage.setItem("blur", "false");
-                document.getElementById("settings_check_box")[2].setAttribute("disabled", "true");
-                document.getElementById("settings_check_box")[2].checked = false;
-                document.getElementById("settings_txt").children[2].innerHTML = "元素背景模糊(Firefox不支持)";
+                document.getElementById("settings_txt").children[2].innerHTML = "元素背景模糊(Firefox需要手动开启,<a href='https://blog.rastart.top/#/ziwen/Firefox_backdrop'>教程</a>)";
             }
         }
 
@@ -273,7 +270,7 @@
             var url = document.getElementById('wallpaper_link').value;
             var reg = /[a-zA-z]+:\/\/[^\s]*/g;
             if (url == "") {
-                url = "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?cs=srgb&dl=pexels-james-wheeler-417074.jpg&fm=jpg";
+                url = "https://rastart.top/wallp/wp1.jpg";
             }
             localStorage.setItem('pic', url);
             document.getElementById("main").setAttribute('src', url);
@@ -281,7 +278,7 @@
         }
 
     </script>
-    <link rel="stylesheet" href="style/22w21a.css">
+    <link rel="stylesheet" href="style/22w22a.css">
 
 
     <title>红苹果起始页</title>
@@ -527,7 +524,7 @@
                 "horizontal": "left",
                 "left": "10",
                 "bottom": "13",
-                "key": "2882a3b8d30c4db2bb8cef54dece815e"
+                "key": "7421f594973e4806b57c86cf9aca0684"
             }
         }
     </script>
