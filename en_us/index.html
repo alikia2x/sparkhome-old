@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="./js/settings.js" type="text/javascript"></script>
+    <script src="./js/onesearch.js" type="text/javascript"></script>
+    <meta name="description" content="RAStart is made by Ziwen, is a beautiful, useful homepage. We support different search engine, website shortcuts, OneSearch, etc. You can also change the wallpaper and set it according to your own preferences to make the experience better.">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+    <link rel="stylesheet" href="../src/iconfont.css">
+
+    <link rel="stylesheet" href="style/22w23a.css">
+    <script src="js/sweetalert.js"></script>
+    <link rel="icon" href="../favicon.ico" type="image/x-ico">
+
+    <script>
+
+        function load() {
+            load_wallpaper();
+            get_hitokoto();
+            load_hitokoto();
+            set_engine();
+            refresh_weather();
+            load_settings();
+            load_blur();
+            write_engine_list();
+            get_bing();
+            test_delay();
+            document.getElementById("about_history").onscroll = (event) => {
+                if (document.getElementById("about_history").scrollTop > 0) {
+                    document.getElementById("about_lock").style.height = "80px";
+                    document.getElementById("about_history").style.height = "calc(100% - 100px)";
+                }
+                else {
+                    document.getElementById("about_lock").style.height = "170px";
+                    document.getElementById("about_history").style.height = "calc(100% - 190px)";
+                }
+            };
+        }
+    </script>
+    <title>RAStart</title>
+</head>
+
+
+<body onload="load()" id="body" class="body"
+    onkeydown="if(event.keyCode==13) {search_focus() } if(event.keyCode==27) search_blur()">
+
+    <!-- 背景图 -->
+    <img class="default" id="main" onmousedown="search_small()">
+
+    <!-- 顶部时间 -->
+    <a onclick="link('https\://time.is')">
+        <div id="divBottom" class="time"></div>
+    </a>
+
+    <!-- 搜索引擎 -->
+    <div class="dropdown">
+        <button class="dropdown-btn" id="engine_txt" appear="false"
+            onclick="if(document.getElementById('engine_txt').getAttribute('appear')=='true'){drop_disappear()}else{drop_appear()}"
+            onblur="drop_disappear()"></button>
+        <div class="dropdown-menu" id="search_engine" onclick="drop_disappear()">
+            <a value="baidu" onclick="engine_change('baidu')">Baidu</a>
+            <a value="bing" onclick="engine_change('bing')">Bing</a>
+            <a value="google" onclick="engine_change('google')">Google</a>
+        </div>
+    </div>
+
+    <!-- 搜索框 -->
+    <input onclick="search_big()" class="search" type="text" name="search" id="search" placeholder="Search"
+        oninput="one_search()" onkeydown="if(event.keyCode==13) search(document.getElementById('search').value);"
+        autocomplete="off">
+
+    <!-- 搜索联想 -->
+    <div class="suggestions" id="suggestions" style="opacity: 0;height: auto;">
+        <div id="smart_sug_box">
+        </div>
+        <div id="sug_box">
+        </div>
+    </div>
+
+    <div class="links">
+        <div class="link">
+            <img>
+        </div>
+    </div>
+
+
+    <div id="cover_about" style="background-color:rgba(0, 0, 0, 0);transition: 300ms;height: 100%;width: 100%;overflow: hidden;position: absolute;top: 0;left: 0;z-index: 10;display: none;">
+        <!--关于-->
+        <div class="about" id="about_box">
+            <div id="about_lock" class="about_lock">
+                <div style="height: 80px;"><img src="../Applestart.png" style="height: 80px;"></div>
+                <br>
+                <span>Here is the start page made by Ziwen Wang( • ω • )</span>
+                <br><br>
+                <a id="link" href="https://space.bilibili.com/600004959">Visit my Bilibili homepage</a>
+                <br><br>
+                <span><a id="link" href="./intro/#/Donate/">Donate</a> for me to support my development</span>
+                <br><br>
+                <span><a id="link" href="./intro/">More info</a></span>
+            </div>
+            <p onclick="about_close()" class="close">×</p>
+            <div id="about_history" class="about_history">
+
+            </div>
+        </div>
+    </div>
+
+    <div id="footer" class="footer">
+        ©2022 Ziwen Wang <a onclick="about_out()" class="footer_link">About</a><div id="hitokoto"></div>
+    </div>
+
+    <!--设置-->
+    <div id="cover_settings"
+        style="background-color:rgba(0, 0, 0, 0);transition: 300ms;height: 100%;width: 100%;overflow: hidden;position: absolute;top: 0;left: 0;z-index: 10;display: none;">
+        <div class="settings" id="settings">
+            <div class="settings_lock">
+                <p onclick="settings_close()" class="close">×</p>
+                <div class="settings_title">
+                    <p>Settings</p>
+                </div>
+            </div>
+            <div id="settings_txt" class="settings_txt">
+                <div class="settings_subtitle">
+                    Features
+                </div>
+                <div class="setting_group" id="element_display_settings">
+                    <div class="setting">
+                        <div class="setting_txt">Show weather</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="show_weather" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">Display Hitokoto in the footer</div><br><br><br>
+                        <div class="setting_desc">When turned on, a random verse will show in the footer.(Most of them are in Chinese!)</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="show_hitokoto" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">Time sync</div><br><br><br>
+                        <div class="setting_desc">Time in the homepage will be sync with the server. It's better to use it when you have a good connection.</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="time_sync" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">Connection quality check</div><br><br><br>
+                        <div class="setting_desc">You will be alerted if your connection quality is poor.</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="warn_server_conn" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                </div>
+                <div class="settings_subtitle">
+                    Display
+                </div>
+                
+                <div class="setting_group">
+                    <div class="setting">
+                        <div class="setting_txt">Background blur when searchbox focused</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="bg_blur" onclick="save_settings()" ><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">Frosted glass effect on normal elements</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="enable_backdrop" onclick="save_settings()" ><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">Frosted glass effect on mask</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="cover_blur" onclick="save_settings()" ><div class="slider"></div></label></div>
+                    </div>
+                </div>
+                <div class="settings_subtitle">
+                    Search Engine
+                </div>
+                <div class="setting_stitle">
+                    Internal
+                </div>
+                <div class="engine_group" id="internal_engine">
+                    <div class="engine" id="settings_baidu" onclick="engine_change('baidu')">
+                        <div onclick="engine_change('baidu')">
+                            <span class="engine_name">Baidu</span>
+                            <span class="engine_url">https://www.baidu.com/s?wd=%s</span>
+                        </div>
+                    </div>
+                    <div class="engine" id="settings_bing" onclick="engine_change('bing')">
+                        <div onclick="engine_change('bing')">
+                            <span class="engine_name">Bing</span>
+                            <span class="engine_url">https://cn.bing.com/search?q=%s</span>
+                        </div>
+                    </div>
+                    <div class="engine" id="settings_google">
+                        <div onclick="engine_change('google')">
+                            <span class="engine_name">Google</span>
+                            <span class="engine_url">https://www.google.com/search?q=%s</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: relative; height: 40px;">
+                    <div class="setting_stitle" style="position: absolute;">
+                        Customize
+                    </div>
+                </div>
+                <div class="engine_group" id="extra_engine">
+                    <div class="engine" onclick="add_engine_user()">
+                        <span class="engine_name">Add</span>
+                    </div>
+                </div>
+                <div class="settings_subtitle">
+                    Wallpaper
+                </div>
+                <div class="bing_daily">
+                    <div class="setting_stitle" id="bing_title">Bing Daily Picture</div>
+                    <div class="setting_desc" id="bing_desc" style="padding-bottom: 0px;height: 16px;overflow: hidden;">
+                        好困……啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+                    </div>
+                    <img class="settings_img" style="margin-left: 10px;" id="bing_img" onclick='set_wallpaper("bing")'>
+                </div>
+                <div class="setting_stitle" style="height: 20px;top: 0px;position: relative;left: 0px;padding-left: 10px;" id="bing_title">Eenter URL or choose from default</div>
+                <div>
+                    <input type="text" class="wallpaper_link" name="wallpaper" placeholder="Input URL" id="wallpaper_link">
+                    <input type="button" name="wallpaper_btn" onclick="bg_change()" value="Apply" class="wallpaper_apply">
+                </div>
+                <div id="default_bg" class="default_img">
+                    <img _src="https://rastart.top/img/thumb/wp1.jpg" src="" class="settings_img"
+                         onclick="set_wallpaper('https\://rastart.top/img/wallp/wp1_1080.jpg')" id="bing_wallpaper">
+                    <img _src="https://rastart.top/img/thumb/wp2.jpg" src="" class="settings_img"
+                        onclick='set_wallpaper("https\://rastart.top/img/wallp/wp2_1080.jpg")'>
+                    <img _src="https://rastart.top/img/thumb/wp3.jpg" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp3_1080.jpg')">
+                    <img _src="https://rastart.top/img/thumb/wp4.jpg" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp4_1080.jpg')">
+                    <img _src="https://rastart.top/img/thumb/wp5.jpg" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp5_1080.jpg')">
+                    <img _src="https://rastart.top/img/thumb/wp6.jpg" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp6_1080.jpg')">
+                    <!--哎呀,居然被你发现了!既然被你发现了,那么……我是云堇单推人!(大声)-->
+                    <img _src="https://rastart.top/img/thumb/wp7.jpg" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp7_1080.jpg')">
+                    <img _src="https://rastart.top/img/thumb/wp8.jpg" src="" class="settings_img"
+                        onclick="set_wallpaper('http\://rastart.top/wimg/wallp/wp8_1080jpg')">
+                    <img _src="https://rastart.top/img/thumb/wp9.jpg" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp9_1080.jpg')">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <a class="settings_btn" onclick="settings_out()">
+        <i class="iconfont icon-shezhi"  style="font-size: 30px;"></i>
+    </a>
+
+    <!-- 下面是和风天气插件,最好放在最后,否则影响网页加载速度. -->
+    <div id="he-plugin-simple"></div>
+    <script>
+        WIDGET = { "CONFIG": { "modules": "20", "background": "5", "backgroundColor": "AAAAAA", "tmpColor": "FFFFFF", "tmpSize": "16", "cityColor": "FFFFFF", "citySize": "16", "aqiColor": "FFFFFF", "aqiSize": "16", "weatherIconSize": "24", "alertIconSize": "18", "padding": "0px 0px 0px 0px", "shadow": "0", "language": "zh", "borderRadius": "20", "fixed": "true", "vertical": "top", "horizontal": "left", "left": "10", "bottom": "13", "key": "7421f594973e4806b57c86cf9aca0684" } }
+    </script>
+    <script id="weather"></script>
+    <script src="./js/others.js" type="text/javascript"></script>
+    <script src="./js/float_window.js" type="text/javascript"></script>
+    <script src="./js/search.js" type="text/javascript"></script>
+    <script src="./js/wallpaper.js" type="text/javascript"></script>
+    <script src="./js/display.js" type="text/javascript"></script>
+    <script src="./js/time_sync.js" type="text/javascript"></script>
+    <script>
+        var new_date = new Date(); //新建一个日期对象，默认现在的时间
+        var old_date = new Date("2022-03-05 16:38:00");//网站创建时间
+        var past = new_date - old_date;
+        var days = parseInt(past / 86400000);
+        var hours = parseInt(past / 3600000) - 24 * days;    // 小时 60*60 总小时数-过去的小时数=现在的小时数 
+        console.log("Site already exists" + days + "days," + hours + "hours.");
+    </script>
+</body>
+</html>

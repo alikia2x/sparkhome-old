@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "command",
+            "name": "SparkHome",
+            "program": "C:/Program Files/Firefox Developer Edition/firefox.exe",
+            "args": ["$PROJECT_DIR$\\index.html"],
+        },
+
+    ]
+}

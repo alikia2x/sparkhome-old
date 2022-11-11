@@ -1,58 +1,86 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3223111 */
-  src: url('iconfont.woff2?t=1647697762449') format('woff2'),
-       url('iconfont.woff?t=1647697762449') format('woff'),
-       url('iconfont.ttf?t=1647697762449') format('truetype');
+  src: url('iconfont.woff2?t=1660503591135') format('woff2'),
+       url('iconfont.woff?t=1660503591135') format('woff'),
+       url('iconfont.ttf?t=1660503591135') format('truetype');
 }
 
 .iconfont {
   font-family: "iconfont" !important;
+  font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-bizhi:before {
-  content: "\e6ae";
+.icon-add:before {
+  content: "\e607";
 }
 
-.icon-shezhi:before {
-  content: "\e631";
+.icon-settings:before {
+  content: "\e61f";
 }
 
-.icon-yinletianchong:before {
-  content: "\e6a1";
+.icon-time:before {
+  content: "\e64d";
 }
 
-.icon-bing:before {
+.icon-edit:before {
+  content: "\e601";
+}
+
+.icon-delete:before {
+  content: "\e74b";
+}
+
+.icon-weather:before {
+  content: "\e694";
+}
+
+.icon-date:before {
+  content: "\e624";
+}
+
+.icon-network:before {
+  content: "\e62e";
+}
+
+.icon-search:before {
+  content: "\e86e";
+}
+
+.icon-encrypt:before {
+  content: "\e659";
+}
+
+.icon-english:before {
   content: "\e63f";
 }
 
-.icon-google:before {
-  content: "\e87a";
+.icon-user:before {
+  content: "\e6a4";
 }
 
-.icon-github-fill:before {
-  content: "\e885";
+.icon-dictionary:before {
+  content: "\e651";
 }
 
-.icon-ditu:before {
-  content: "\e8ad";
+.icon-calculator:before {
+  content: "\e79b";
 }
 
-.icon-youxiang:before {
-  content: "\e61c";
+.icon-link:before {
+  content: "\e600";
 }
 
-.icon-bilibili:before {
-  content: "\e623";
+.icon-wiki:before {
+  content: "\e7cb";
 }
 
-.icon-baidu:before {
-  content: "\e8cb";
+.icon-transform:before {
+  content: "\ee31";
 }
 
-.icon-shuyi_fanyi-36:before {
+.icon-translate:before {
   content: "\e65c";
 }
-

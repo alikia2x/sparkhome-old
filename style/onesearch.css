@@ -1,0 +1,68 @@
+.suggestions {
+    position: absolute;
+    margin-top: 10px;
+    width: 400px;
+    border-radius: 25px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    top: 200px;
+    background: rgb(126, 203, 255);
+    height: 335px;
+    overflow: auto;
+    scrollbar-width: none;
+    transition: 300ms;
+    z-index: 1;
+}
+
+.sug_title{
+    font-family: '微软雅黑', '苹方', 'Arial', '黑体', '宋体';
+    font-size: 20px;
+    padding-left: 15px;
+    padding-top: 5px;
+    position: relative;
+}
+
+.search {
+    margin-top: 10px;
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    width: 600px;
+    height: 40px;
+    border: 0px solid rgb(161, 161, 161);
+    border-radius: 20px;
+    background-color: rgba(8, 107, 255, 0.521);
+    color: white;
+    box-sizing: border-box;
+    outline: none;
+    text-indent: -5px;
+    transform: translate(-50%, 0%);
+    text-align: center;
+    transition: 300ms;
+}
+
+.suggestion {
+    position: relative;
+    height: 30px;
+    line-height: 30px;
+    transition: 300ms;
+    overflow-x: hidden;
+    color: rgb(32, 32, 32);
+    font-family: "微软雅黑", "苹方", "Arial", "黑体", '宋体';
+    background-color: rgb(126, 203, 255);
+    text-indent: 30px;
+    display: block;
+}
+
+.suggestion[enable]:hover {
+    background-color: rgb(172, 222, 255);
+    cursor: pointer;
+}
+
+.title{
+    position: absolute;
+    font-size: 70px;
+    left: 50%;
+    transform: translate(-50%,0);
+    font-family: "微软雅黑", "苹方", "Arial", "黑体", '宋体';
+}

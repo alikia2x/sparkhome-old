@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="./js/jquery.js" type="text/javascript"></script>
+    <script src="./js/settings.js" type="text/javascript"></script>
+    <script src="./js/onesearch.js" type="text/javascript"></script>
+    <script src="./js/wallpaper.js" type="text/javascript"></script>
+    <meta name="description" content="红苹果起始页由王子文开发，是一个美观、实用的浏览器起始页。我们支持多搜索引擎、网站快捷链接、OneSearch易搜等功能；您还可以更换壁纸，按自己的喜好设置它，使体验更进一步。">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
+    <link rel="stylesheet" href="./src/iconfont.css">
+    <link rel="stylesheet" href="style/main.css">
+    <script src="js/sweetalert.js"></script>
+    <link rel="icon" href="favicon.ico" type="image/x-ico">
+
+    <script>
+
+        function load() {
+            load_wallpaper();
+            hitokoto=new Hitokoto();
+            hitokoto.push2cache();
+            set_engine();
+            refresh_weather();
+            load_settings();
+            load_blur();
+            write_engine_list();
+            get_bing();
+            test_delay();
+            init_engine();
+            load_engine();
+            fresh_setting_engine();
+        }
+    </script>
+    <title>红苹果起始页</title>
+</head>
+
+
+<body onload="load()" id="body" class="body"
+    onkeydown="if(event.keyCode==13) {search_focus() } if(event.keyCode==27) search_blur()">
+
+    <!-- 背景图 -->
+    <img class="bg_img" id="main" onmousedown="search_small()" onload="bg_loaded(this)">
+
+    <!-- 顶部时间 -->
+    <a onclick="link('https\://time.is')">
+        <div id="divBottom" class="time"></div>
+    </a>
+
+    <!-- 搜索引擎 -->
+    <div class="dropdown">
+        <button class="dropdown-btn" id="engine_txt" appear="false"
+            onclick="if(document.getElementById('engine_txt').getAttribute('appear')=='true'){drop_disappear()}else{drop_appear()}"
+            onblur="drop_disappear()"></button>
+        <div class="dropdown-menu" id="search_engine" onclick="drop_disappear()">
+            <a value="baidu" onclick="engine_change('baidu')">百度</a>
+            <a value="bing" onclick="engine_change('bing')">必应</a>
+            <a value="google" onclick="engine_change('google')">谷歌</a>
+        </div>
+    </div>
+
+    <!-- 搜索框 -->
+    <input onclick="search_big()" class="search" type="text" name="search" id="search" placeholder="搜索"
+        oninput="one_search()" onkeydown="if(event.keyCode==13) search(document.getElementById('search').value);"
+        autocomplete="off">
+
+    <!-- 搜索联想 -->
+    <div class="suggestions" id="suggestions" style="opacity: 0;">
+        <div id="smart_sug_box">
+        </div>
+        <div id="sug_box" style="transition: .3s">
+        </div>
+    </div>
+
+    <div id="shortcut" class="links">
+        <div class="link" onclick='add_shortcut()'>
+            <div class="iconfont icon-add shortcut_icon" style="font-size: 32px;"></div>
+        </div>
+    </div>
+
+
+    <div id="cover_about" style="background-color:rgba(0, 0, 0, 0);transition: 300ms;height: 100%;width: 100%;overflow: hidden;position: absolute;top: 0;left: 0;z-index: 10;display: none;">
+        <!--关于-->
+        <div class="about" id="about_box">
+            <div id="about_lock" class="about_lock">
+                <div style="height: 80px;"><img src="./Applestart.png" style="height: 80px;"></div>
+                <span>Version 2.2.0.221023_alpha</span>
+                <br><br>
+                <a link="black" href="https://space.bilibili.com/600004959">访问我的哔哩哔哩主页</a>
+                <br><br>
+                <span>为我<a link="black" href="./doc/#/Donate/">捐助</a>，支持我的开发</span>
+                <br><br>
+                <span><a link="black" href="./doc/">更多信息</a></span>
+            </div>
+            <p onclick="about_close()" class="close">×</p>
+            <div id="about_history" class="about_history">
+
+            </div>
+        </div>
+    </div>
+
+    <div id="footer" class="footer">
+        ©2022 <a link="white" href="https://danjiadi.com">但嘉迪</a> <a onclick="about_out()" class="footer_link">关于</a><br><div id="hitokoto">&nbsp</div>
+    </div>
+
+    <!--设置-->
+    <div id="cover_settings"
+        style="background-color:rgba(0, 0, 0, 0);transition: 300ms;height: 100%;width: 100%;overflow: hidden;position: absolute;top: 0;left: 0;z-index: 10;display: none;">
+        <div class="settings" id="settings">
+            <div class="settings_lock">
+                <p onclick="settings_close()" class="close">×</p>
+                <div class="settings_title">
+                    <p>设置</p>
+                </div>
+            </div>
+            <div id="settings_txt" class="settings_txt">
+                <div class="settings_subtitle">
+                    功能显示
+                </div>
+                <div class="setting_group" id="element_display_settings">
+                    <div class="setting">
+                        <div class="setting_txt">开启天气</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="show_weather" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">在页脚显示"一言"</div><br><br><br>
+                        <div class="setting_desc">开启后，每次加载时页脚会显示一行随机诗句。</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="show_hitokoto" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">网络时间同步</div><br><br><br>
+                        <div class="setting_desc">开启后，主页显示的时间将于服务器时间同步。建议在网络环境好的情况下使用，以获得更准确的时间。</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="time_sync" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">服务器连接质量检测</div><br><br><br>
+                        <div class="setting_desc">开启后，如您与服务器的连接质量差则会发出提醒</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="warn_server_conn" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                </div>
+                <div class="settings_subtitle">
+                    视觉效果
+                </div>
+
+                <div class="setting_group">
+                    <div class="setting">
+                        <div class="setting_txt">搜索框聚焦时背景模糊</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="bg_blur" onclick="save_settings()" ><span class="slider"></span></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">毛玻璃效果</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="enable_backdrop" onclick="save_settings()" ><span class="slider"></span></label></div>
+                    </div>
+                    <div class="setting">
+                        <div class="setting_txt">遮罩毛玻璃效果</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="cover_blur" onclick="save_settings()" ><span class="slider"></span></label></div>
+                    </div>
+                </div>
+                <div class="settings_subtitle">
+                    搜索引擎
+                </div>
+                <div class="setting_stitle">
+                    内置
+                </div>
+                <div class="engine_group" id="internal_engine">
+                    <div class="engine" id="settings_baidu" onclick="engine_change('baidu')">
+                        <div onclick="engine_change('baidu')">
+                            <span class="engine_name">百度</span>
+                            <span class="engine_url">https://www.baidu.com/s?wd=%s</span>
+                        </div>
+                    </div>
+                    <div class="engine" id="settings_bing" onclick="engine_change('bing')">
+                        <div onclick="engine_change('bing')">
+                            <span class="engine_name">必应</span>
+                            <span class="engine_url">https://cn.bing.com/search?q=%s</span>
+                        </div>
+                    </div>
+                    <div class="engine" id="settings_google">
+                        <div onclick="engine_change('google')">
+                            <span class="engine_name">谷歌</span>
+                            <span class="engine_url">https://www.google.com/search?q=%s</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="position: relative; height: 40px;">
+                    <div class="setting_stitle" style="position: absolute;">
+                        自定义
+                    </div>
+                </div>
+                <div class="engine_group" id="extra_engine">
+                    <div class="engine" onclick="add_engine_user()">
+                        <span class="engine_name">添加</span>
+                    </div>
+                </div>
+                <div class="settings_subtitle">
+                    壁纸
+                </div>
+                <div class="bing_daily">
+                    <div class="setting_stitle">必应每日一图-每天都有新壁纸</div>
+                    <div class="setting_desc" id="bing_desc" style="padding-bottom: 0;height: 16px;margin-right:30px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; ">
+                        好困……啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
+                    </div>
+                    <img class="settings_img" style="margin-left: 10px;" id="bing_img" onclick='set_wallpaper("bing")' onload="bg_loaded(this)">
+                </div>
+                <div class="setting_stitle" style="height: 20px;top: 0;position: relative;left: 0;padding-left: 10px;" id="bing_title">自定义壁纸(输入URL或在默认壁纸中选择)</div>
+                <div>
+                    <input type="text" class="wallpaper_link" name="wallpaper" placeholder="输入链接" id="wallpaper_link">
+                    <input type="button" name="wallpaper_btn" onclick="set_wallpaper(this.parentNode.children[0].value)" value="应用" class="wallpaper_apply">
+                </div>
+                <div id="default_bg" class="default_img">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/2.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/2.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/3.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/3.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/4.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/4.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/5.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/5.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/6.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/6.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <!--哎呀,居然被你发现了!既然被你发现了,那么……我是云堇单推人!(大声)-->
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/8.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/8.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/9.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/9.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <a class="settings_btn" onclick="settings_out()">
+        <i class="iconfont icon-settings"  style="  font-size: 30px;position: absolute;top: 5px;left: 5.5px;"></i>
+    </a>
+
+
+    <!-- 下面是和风天气插件,最好放在最后,否则影响网页加载速度. -->
+    <div id="he-plugin-simple"></div>
+    <script>
+        WIDGET = { "CONFIG": { "modules": "20", "background": "5", "backgroundColor": "AAAAAA", "tmpColor": "FFFFFF", "tmpSize": "16", "cityColor": "FFFFFF", "citySize": "16", "aqiColor": "FFFFFF", "aqiSize": "16", "weatherIconSize": "24", "alertIconSize": "18", "padding": "0px 0px 0px 0px", "shadow": "0", "language": "zh", "borderRadius": "20", "fixed": "true", "vertical": "top", "horizontal": "left", "left": "10", "bottom": "13", "key": "7421f594973e4806b57c86cf9aca0684" } }
+    </script>
+    <script id="weather"></script>
+    <script src="./js/others.js" type="text/javascript"></script>
+    <script src="./js/float_window.js" type="text/javascript"></script>
+    <script src="./js/search.js" type="text/javascript"></script>
+    <script src="./js/display.js" type="text/javascript"></script>
+    <script src="./js/time_sync.js" type="text/javascript"></script>
+    <script src="./js/shortcut.js" type="text/javascript"></script>
+    <script>
+        var new_date = new Date(); //新建一个日期对象，默认现在的时间
+        var old_date = new Date("2022-03-05 16:38:00");//网站创建时间
+        var past = new_date - old_date;
+        var days = parseInt(past / 86400000);
+        var hours = parseInt(past / 3600000) - 24 * days;    // 小时 60*60 总小时数-过去的小时数=现在的小时数 
+        console.log("网站已上线" + days + "天," + hours + "小时.");
+    </script>
+    <!-- 远程main本地master，一顿折腾，本地main远程master，反正本地就永远提交不到远程的主分支呗(￣_,￣ ) -->
+</body>
+</html>
