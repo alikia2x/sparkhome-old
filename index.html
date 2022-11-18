@@ -6,20 +6,18 @@
     <script src="./js/settings.js" type="text/javascript"></script>
     <script src="./js/onesearch.js" type="text/javascript"></script>
     <script src="./js/wallpaper.js" type="text/javascript"></script>
-    <meta name="description" content="红苹果起始页由王子文开发，是一个美观、实用的浏览器起始页。我们支持多搜索引擎、网站快捷链接、OneSearch易搜等功能；您还可以更换壁纸，按自己的喜好设置它，使体验更进一步。">
+    <meta name="description" content="星火主页由但嘉迪开发，是一个美观、实用的浏览器主页。我们支持多搜索引擎、网站快捷链接、OneSearch易搜等功能；您还可以更换壁纸，按自己的喜好设置它，使体验更进一步。">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
-    <link rel="stylesheet" href="./src/iconfont.css">
-    <link rel="stylesheet" href="style/main.css">
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <link rel="stylesheet" href="./css/main.css">
     <script src="js/sweetalert.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-ico">
 
     <script>
-
         function load() {
             load_wallpaper();
-            hitokoto=new Hitokoto();
-            hitokoto.push2cache();
+            new Hitokoto();
             set_engine();
             refresh_weather();
             load_settings();
@@ -32,7 +30,7 @@
             fresh_setting_engine();
         }
     </script>
-    <title>红苹果起始页</title>
+    <title>星火主页</title>
 </head>
 
 
@@ -40,7 +38,7 @@
     onkeydown="if(event.keyCode==13) {search_focus() } if(event.keyCode==27) search_blur()">
 
     <!-- 背景图 -->
-    <img class="bg_img" id="main" onmousedown="search_small()" onload="bg_loaded(this)">
+    <img class="bg_img" id="main" onmousedown="search_small()" onload="bg_loaded(this)" onerror="this.style.opacity='0'">
 
     <!-- 顶部时间 -->
     <a onclick="link('https\://time.is')">
@@ -83,7 +81,7 @@
         <!--关于-->
         <div class="about" id="about_box">
             <div id="about_lock" class="about_lock">
-                <div style="height: 80px;"><img src="./Applestart.png" style="height: 80px;"></div>
+                <div style="height: 80px;"><img src="./src/sparkhome.png" style="height: 80px;"></div>
                 <span>Version 2.2.0.221023_alpha</span>
                 <br><br>
                 <a link="black" href="https://space.bilibili.com/600004959">访问我的哔哩哔哩主页</a>

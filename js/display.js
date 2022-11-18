@@ -60,7 +60,6 @@ class Hitokoto {
             this.push2cache(true);
         }
     }
-
     fetch() {
         $.ajax({
             url: "https://v1.hitokoto.cn?c=i", type: "GET",

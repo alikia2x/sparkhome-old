@@ -2,23 +2,21 @@
 <html>
 
 <head>
+    <script src="./js/jquery.js" type="text/javascript"></script>
     <script src="./js/settings.js" type="text/javascript"></script>
     <script src="./js/onesearch.js" type="text/javascript"></script>
-    <meta name="description" content="RAStart is made by Ziwen, is a beautiful, useful homepage. We support different search engine, website shortcuts, OneSearch, etc. You can also change the wallpaper and set it according to your own preferences to make the experience better.">
+    <script src="./js/wallpaper.js" type="text/javascript"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;">
-    <link rel="stylesheet" href="../src/iconfont.css">
-
-    <link rel="stylesheet" href="style/22w23a.css">
-    <script src="js/sweetalert.js"></script>
-    <link rel="icon" href="../favicon.ico" type="image/x-ico">
+    <link rel="stylesheet" href="/css/iconfont.css">
+    <link rel="stylesheet" href="/css/main.css">
+    <script src="./js/sweetalert.js"></script>
+    <link rel="icon" href="/favicon.ico" type="image/x-ico">
 
     <script>
-
         function load() {
             load_wallpaper();
-            get_hitokoto();
-            load_hitokoto();
+            new Hitokoto();
             set_engine();
             refresh_weather();
             load_settings();
@@ -26,19 +24,12 @@
             write_engine_list();
             get_bing();
             test_delay();
-            document.getElementById("about_history").onscroll = (event) => {
-                if (document.getElementById("about_history").scrollTop > 0) {
-                    document.getElementById("about_lock").style.height = "80px";
-                    document.getElementById("about_history").style.height = "calc(100% - 100px)";
-                }
-                else {
-                    document.getElementById("about_lock").style.height = "170px";
-                    document.getElementById("about_history").style.height = "calc(100% - 190px)";
-                }
-            };
+            init_engine();
+            load_engine();
+            fresh_setting_engine();
         }
     </script>
-    <title>RAStart</title>
+    <title>SparkHome</title>
 </head>
 
 
@@ -46,7 +37,7 @@
     onkeydown="if(event.keyCode==13) {search_focus() } if(event.keyCode==27) search_blur()">
 
     <!-- 背景图 -->
-    <img class="default" id="main" onmousedown="search_small()">
+    <img class="bg_img" id="main" onmousedown="search_small()" onload="bg_loaded(this)" onerror="this.style.opacity='0'">
 
     <!-- 顶部时间 -->
     <a onclick="link('https\://time.is')">
@@ -59,28 +50,28 @@
             onclick="if(document.getElementById('engine_txt').getAttribute('appear')=='true'){drop_disappear()}else{drop_appear()}"
             onblur="drop_disappear()"></button>
         <div class="dropdown-menu" id="search_engine" onclick="drop_disappear()">
-            <a value="baidu" onclick="engine_change('baidu')">Baidu</a>
-            <a value="bing" onclick="engine_change('bing')">Bing</a>
             <a value="google" onclick="engine_change('google')">Google</a>
+            <a value="duckduckgo" onclick="engine_change('duckduckgo')">DuckDuckGo</a>
+            <a value="bing" onclick="engine_change('bing')">Bing</a>
         </div>
     </div>
 
     <!-- 搜索框 -->
-    <input onclick="search_big()" class="search" type="text" name="search" id="search" placeholder="Search"
+    <input onclick="search_big()" class="search" type="text" name="search" id="search" placeholder="搜索"
         oninput="one_search()" onkeydown="if(event.keyCode==13) search(document.getElementById('search').value);"
         autocomplete="off">
 
     <!-- 搜索联想 -->
-    <div class="suggestions" id="suggestions" style="opacity: 0;height: auto;">
+    <div class="suggestions" id="suggestions" style="opacity: 0;">
         <div id="smart_sug_box">
         </div>
-        <div id="sug_box">
+        <div id="sug_box" style="transition: .3s">
         </div>
     </div>
 
-    <div class="links">
-        <div class="link">
-            <img>
+    <div id="shortcut" class="links">
+        <div class="link" onclick='add_shortcut()'>
+            <div class="iconfont icon-add shortcut_icon" style="font-size: 32px;"></div>
         </div>
     </div>
 
@@ -89,15 +80,14 @@
         <!--关于-->
         <div class="about" id="about_box">
             <div id="about_lock" class="about_lock">
-                <div style="height: 80px;"><img src="../Applestart.png" style="height: 80px;"></div>
-                <br>
-                <span>Here is the start page made by Ziwen Wang( • ω • )</span>
+                <div style="height: 80px;"><img src="./src/sparkhome.png" style="height: 80px;"></div>
+                <span>Version 2.2.0.221023_alpha</span>
                 <br><br>
-                <a id="link" href="https://space.bilibili.com/600004959">Visit my Bilibili homepage</a>
+                <a link="black" href="https://danjiadi.com">My Personal Website</a>
                 <br><br>
-                <span><a id="link" href="./intro/#/Donate/">Donate</a> for me to support my development</span>
+                <span><a link="black" href="/doc/#/en-us/donate">Donate for us</a></span>
                 <br><br>
-                <span><a id="link" href="./intro/">More info</a></span>
+                <span><a link="black" href="/doc/#/en-us/">More Info</a></span>
             </div>
             <p onclick="about_close()" class="close">×</p>
             <div id="about_history" class="about_history">
@@ -107,7 +97,7 @@
     </div>
 
     <div id="footer" class="footer">
-        ©2022 Ziwen Wang <a onclick="about_out()" class="footer_link">About</a><div id="hitokoto"></div>
+        ©2022 <a link="white" href="https://danjiadi.com">Jiadi Dan</a> <a onclick="about_out()" class="footer_link">About</a><br><div id="hitokoto">&nbsp</div>
     </div>
 
     <!--设置-->
@@ -117,133 +107,134 @@
             <div class="settings_lock">
                 <p onclick="settings_close()" class="close">×</p>
                 <div class="settings_title">
-                    <p>Settings</p>
+                    <p>设置</p>
                 </div>
             </div>
             <div id="settings_txt" class="settings_txt">
                 <div class="settings_subtitle">
-                    Features
+                    功能显示
                 </div>
                 <div class="setting_group" id="element_display_settings">
                     <div class="setting">
-                        <div class="setting_txt">Show weather</div>
+                        <div class="setting_txt">开启天气</div>
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="show_weather" onclick="save_settings()"><div class="slider"></div></label></div>
                     </div>
                     <div class="setting">
-                        <div class="setting_txt">Display Hitokoto in the footer</div><br><br><br>
-                        <div class="setting_desc">When turned on, a random verse will show in the footer.(Most of them are in Chinese!)</div>
+                        <div class="setting_txt">在页脚显示"一言"</div><br><br><br>
+                        <div class="setting_desc">开启后，每次加载时页脚会显示一行随机诗句。</div>
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="show_hitokoto" onclick="save_settings()"><div class="slider"></div></label></div>
                     </div>
                     <div class="setting">
-                        <div class="setting_txt">Time sync</div><br><br><br>
-                        <div class="setting_desc">Time in the homepage will be sync with the server. It's better to use it when you have a good connection.</div>
+                        <div class="setting_txt">网络时间同步</div><br><br><br>
+                        <div class="setting_desc">开启后，主页显示的时间将于服务器时间同步。建议在网络环境好的情况下使用，以获得更准确的时间。</div>
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="time_sync" onclick="save_settings()"><div class="slider"></div></label></div>
                     </div>
                     <div class="setting">
-                        <div class="setting_txt">Connection quality check</div><br><br><br>
-                        <div class="setting_desc">You will be alerted if your connection quality is poor.</div>
+                        <div class="setting_txt">服务器连接质量检测</div><br><br><br>
+                        <div class="setting_desc">开启后，如您与服务器的连接质量差则会发出提醒</div>
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="warn_server_conn" onclick="save_settings()"><div class="slider"></div></label></div>
                     </div>
                 </div>
                 <div class="settings_subtitle">
-                    Display
+                    视觉效果
                 </div>
-                
+
                 <div class="setting_group">
                     <div class="setting">
-                        <div class="setting_txt">Background blur when searchbox focused</div>
-                        <div class="switch_box"><label class="switch"><input type="checkbox" id="bg_blur" onclick="save_settings()" ><div class="slider"></div></label></div>
+                        <div class="setting_txt">搜索框聚焦时背景模糊</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="bg_blur" onclick="save_settings()" ><span class="slider"></span></label></div>
                     </div>
                     <div class="setting">
-                        <div class="setting_txt">Frosted glass effect on normal elements</div>
-                        <div class="switch_box"><label class="switch"><input type="checkbox" id="enable_backdrop" onclick="save_settings()" ><div class="slider"></div></label></div>
+                        <div class="setting_txt">毛玻璃效果</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="enable_backdrop" onclick="save_settings()" ><span class="slider"></span></label></div>
                     </div>
                     <div class="setting">
-                        <div class="setting_txt">Frosted glass effect on mask</div>
-                        <div class="switch_box"><label class="switch"><input type="checkbox" id="cover_blur" onclick="save_settings()" ><div class="slider"></div></label></div>
+                        <div class="setting_txt">遮罩毛玻璃效果</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="cover_blur" onclick="save_settings()" ><span class="slider"></span></label></div>
                     </div>
                 </div>
                 <div class="settings_subtitle">
-                    Search Engine
+                    搜索引擎
                 </div>
                 <div class="setting_stitle">
-                    Internal
+                    内置
                 </div>
                 <div class="engine_group" id="internal_engine">
                     <div class="engine" id="settings_baidu" onclick="engine_change('baidu')">
                         <div onclick="engine_change('baidu')">
-                            <span class="engine_name">Baidu</span>
+                            <span class="engine_name">百度</span>
                             <span class="engine_url">https://www.baidu.com/s?wd=%s</span>
                         </div>
                     </div>
                     <div class="engine" id="settings_bing" onclick="engine_change('bing')">
                         <div onclick="engine_change('bing')">
-                            <span class="engine_name">Bing</span>
+                            <span class="engine_name">必应</span>
                             <span class="engine_url">https://cn.bing.com/search?q=%s</span>
                         </div>
                     </div>
                     <div class="engine" id="settings_google">
                         <div onclick="engine_change('google')">
-                            <span class="engine_name">Google</span>
+                            <span class="engine_name">谷歌</span>
                             <span class="engine_url">https://www.google.com/search?q=%s</span>
                         </div>
                     </div>
                 </div>
                 <div style="position: relative; height: 40px;">
                     <div class="setting_stitle" style="position: absolute;">
-                        Customize
+                        自定义
                     </div>
                 </div>
                 <div class="engine_group" id="extra_engine">
                     <div class="engine" onclick="add_engine_user()">
-                        <span class="engine_name">Add</span>
+                        <span class="engine_name">添加</span>
                     </div>
                 </div>
                 <div class="settings_subtitle">
-                    Wallpaper
+                    壁纸
                 </div>
                 <div class="bing_daily">
-                    <div class="setting_stitle" id="bing_title">Bing Daily Picture</div>
-                    <div class="setting_desc" id="bing_desc" style="padding-bottom: 0px;height: 16px;overflow: hidden;">
+                    <div class="setting_stitle">必应每日一图-每天都有新壁纸</div>
+                    <div class="setting_desc" id="bing_desc" style="padding-bottom: 0;height: 16px;margin-right:30px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; ">
                         好困……啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊
                     </div>
-                    <img class="settings_img" style="margin-left: 10px;" id="bing_img" onclick='set_wallpaper("bing")'>
+                    <img class="settings_img" style="margin-left: 10px;" id="bing_img" onclick='set_wallpaper("bing")' onload="bg_loaded(this)">
                 </div>
-                <div class="setting_stitle" style="height: 20px;top: 0px;position: relative;left: 0px;padding-left: 10px;" id="bing_title">Eenter URL or choose from default</div>
+                <div class="setting_stitle" style="height: 20px;top: 0;position: relative;left: 0;padding-left: 10px;" id="bing_title">自定义壁纸(输入URL或在默认壁纸中选择)</div>
                 <div>
-                    <input type="text" class="wallpaper_link" name="wallpaper" placeholder="Input URL" id="wallpaper_link">
-                    <input type="button" name="wallpaper_btn" onclick="bg_change()" value="Apply" class="wallpaper_apply">
+                    <input type="text" class="wallpaper_link" name="wallpaper" placeholder="输入链接" id="wallpaper_link">
+                    <input type="button" name="wallpaper_btn" onclick="set_wallpaper(this.parentNode.children[0].value)" value="应用" class="wallpaper_apply">
                 </div>
                 <div id="default_bg" class="default_img">
-                    <img _src="https://rastart.top/img/thumb/wp1.jpg" src="" class="settings_img"
-                         onclick="set_wallpaper('https\://rastart.top/img/wallp/wp1_1080.jpg')" id="bing_wallpaper">
-                    <img _src="https://rastart.top/img/thumb/wp2.jpg" src="" class="settings_img"
-                        onclick='set_wallpaper("https\://rastart.top/img/wallp/wp2_1080.jpg")'>
-                    <img _src="https://rastart.top/img/thumb/wp3.jpg" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp3_1080.jpg')">
-                    <img _src="https://rastart.top/img/thumb/wp4.jpg" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp4_1080.jpg')">
-                    <img _src="https://rastart.top/img/thumb/wp5.jpg" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp5_1080.jpg')">
-                    <img _src="https://rastart.top/img/thumb/wp6.jpg" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp6_1080.jpg')">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/2.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/2.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/3.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/3.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/4.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/4.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/5.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/5.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/6.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/6.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
                     <!--哎呀,居然被你发现了!既然被你发现了,那么……我是云堇单推人!(大声)-->
-                    <img _src="https://rastart.top/img/thumb/wp7.jpg" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp7_1080.jpg')">
-                    <img _src="https://rastart.top/img/thumb/wp8.jpg" src="" class="settings_img"
-                        onclick="set_wallpaper('http\://rastart.top/wimg/wallp/wp8_1080jpg')">
-                    <img _src="https://rastart.top/img/thumb/wp9.jpg" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://rastart.top/img/wallp/wp9_1080.jpg')">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/8.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/8.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/9.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/9.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
                 </div>
             </div>
         </div>
     </div>
 
-    
+
 
     <a class="settings_btn" onclick="settings_out()">
-        <i class="iconfont icon-shezhi"  style="font-size: 30px;"></i>
+        <i class="iconfont icon-settings"  style="  font-size: 30px;position: absolute;top: 5px;left: 5.5px;"></i>
     </a>
+
 
     <!-- 下面是和风天气插件,最好放在最后,否则影响网页加载速度. -->
     <div id="he-plugin-simple"></div>
@@ -254,16 +245,17 @@
     <script src="./js/others.js" type="text/javascript"></script>
     <script src="./js/float_window.js" type="text/javascript"></script>
     <script src="./js/search.js" type="text/javascript"></script>
-    <script src="./js/wallpaper.js" type="text/javascript"></script>
     <script src="./js/display.js" type="text/javascript"></script>
     <script src="./js/time_sync.js" type="text/javascript"></script>
+    <script src="./js/shortcut.js" type="text/javascript"></script>
     <script>
         var new_date = new Date(); //新建一个日期对象，默认现在的时间
         var old_date = new Date("2022-03-05 16:38:00");//网站创建时间
         var past = new_date - old_date;
         var days = parseInt(past / 86400000);
         var hours = parseInt(past / 3600000) - 24 * days;    // 小时 60*60 总小时数-过去的小时数=现在的小时数 
-        console.log("Site already exists" + days + "days," + hours + "hours.");
+        console.log("网站已上线" + days + "天," + hours + "小时.");
     </script>
+    <!-- 远程main本地master，一顿折腾，本地main远程master，反正本地就永远提交不到远程的主分支呗(￣_,￣ ) -->
 </body>
 </html>

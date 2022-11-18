@@ -1,0 +1,84 @@
+@font-face {
+  font-family: "iconfont";
+  src: url('../font/iconfont.woff2') format('woff2');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-add:before {
+  content: "\e607";
+}
+
+.icon-settings:before {
+  content: "\e61f";
+}
+
+.icon-time:before {
+  content: "\e64d";
+}
+
+.icon-edit:before {
+  content: "\e601";
+}
+
+.icon-delete:before {
+  content: "\e74b";
+}
+
+.icon-weather:before {
+  content: "\e694";
+}
+
+.icon-date:before {
+  content: "\e624";
+}
+
+.icon-network:before {
+  content: "\e62e";
+}
+
+.icon-search:before {
+  content: "\e86e";
+}
+
+.icon-encrypt:before {
+  content: "\e659";
+}
+
+.icon-english:before {
+  content: "\e63f";
+}
+
+.icon-user:before {
+  content: "\e6a4";
+}
+
+.icon-dictionary:before {
+  content: "\e651";
+}
+
+.icon-calculator:before {
+  content: "\e79b";
+}
+
+.icon-link:before {
+  content: "\e600";
+}
+
+.icon-wiki:before {
+  content: "\e7cb";
+}
+
+.icon-transform:before {
+  content: "\ee31";
+}
+
+.icon-translate:before {
+  content: "\e65c";
+}

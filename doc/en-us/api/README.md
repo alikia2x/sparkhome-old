@@ -1,1 +1,3 @@
-# API We Use
+# API We Opened
+
+## Bing Image API

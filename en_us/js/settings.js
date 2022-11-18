@@ -14,6 +14,7 @@ function load_img() {
     for (var i = 0; i < bg.length; i++) {
         bg[i].setAttribute('src', bg[i].getAttribute("_src"));
     }
+    console.log("Done");
 }
 
 function load_settings() {
@@ -38,7 +39,7 @@ function load_settings() {
 
 function get_settings(name) {
     init_settings();
-    let current_settings = JSON.parse(localStorage.getItem("settings"));
+    var current_settings = JSON.parse(localStorage.getItem("settings"));
     return current_settings[name];
 }
 

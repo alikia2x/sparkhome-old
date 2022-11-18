@@ -2,4 +2,4 @@
 
 * [Home](/en-us)
 * [API](/en-us/api/)
-* [Donate](/en-us/donate/)
+* [Donate](/en-us/donate)

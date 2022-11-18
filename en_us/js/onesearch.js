@@ -34,7 +34,7 @@ function add_smart_sug(text, onclick, icon) {
 function wiki(text) {
     if (text.indexOf('什么是') == 0) {
         var word = text.replace("什么是", "");
-        add_smart_sug("在百度百科中搜索:" + word, "link('https://baike.baidu.com/search?word=" + word + "&pn=0&rn=0&enc=utf8')", "icon-baike");
+        add_smart_sug("在百度百科中搜索:" + word, "link('https://baike.baidu.com/search?word=" + word + "&pn=0&rn=0&enc=utf8')", "icon-wiki");
         return true;
     }
     else {
@@ -46,7 +46,7 @@ function smart_trans(text) {
         if (text.indexOf(' ') != -1) {
             //用空格分割
             var splited_text = text.split(" ");
-            //清除空元素                    
+            //清除空元素
             splited_text.clean('');
             if (splited_text.length >= 3) {
                 var plain_txt = splited_text[1];
@@ -57,7 +57,7 @@ function smart_trans(text) {
                     if (plain_txt.length >= 40){
                         word_display = plain_txt.substr(0, 37) + "...";
                     }
-                    add_smart_sug("翻译: " + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-shuyi_fanyi-36");
+                    add_smart_sug("翻译: " + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-translate");
                 }
                 //
                 else if (lang_dic[target_lang] != null) {
@@ -65,7 +65,7 @@ function smart_trans(text) {
                     if (plain_txt.length >= 40){
                         word_display = plain_txt.substr(0, 37) + "...";
                     }
-                    add_smart_sug("将" + word_display + "翻译为" + target_lang, "link('https://translate.google.cn/?sl=auto&tl=" + lang_dic[target_lang] + "&text=" + plain_txt + "&op=translate')", "icon-shuyi_fanyi-36")
+                    add_smart_sug("将" + word_display + "翻译为" + target_lang, "link('https://translate.google.cn/?sl=auto&tl=" + lang_dic[target_lang] + "&text=" + plain_txt + "&op=translate')", "icon-translate")
                 }
             }
         }
@@ -78,7 +78,7 @@ function smart_trans(text) {
             if (plain_txt.length >= 40){
                 word_display = plain_txt.substr(0, 37) + "...";
             }
-            add_smart_sug("翻译:" + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-shuyi_fanyi-36");
+            add_smart_sug("翻译:" + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-translate");
             return true;
         }
     }
@@ -89,7 +89,7 @@ function smart_trans(text) {
             if (plain_txt.length >= 40){
                 word_display = plain_txt.substr(0, 37) + "...";
             }
-            add_smart_sug("翻译:" + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-shuyi_fanyi-36");
+            add_smart_sug("翻译:" + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-translate");
             return true;
         }
     }
@@ -100,7 +100,7 @@ function smart_trans(text) {
             if (plain_txt.length >= 40){
                 word_display = plain_txt.substr(0, 37) + "...";
             }
-            add_smart_sug("翻译:" + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-shuyi_fanyi-36");
+            add_smart_sug("翻译:" + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-translate");
             return true;
         }
     }
@@ -111,7 +111,7 @@ function smart_trans(text) {
                 if (word[word.length - 1] == "的") {
                     word = word.substr(0, word.length - 1);
                 }
-                add_smart_sug("将" + word + "翻译为" + support_lang[i], "link('https://translate.google.cn/?sl=auto&tl=" + lang_dic[support_lang[i]] + "&text=" + word + "&op=translate')", "icon-shuyi_fanyi-36");
+                add_smart_sug("将" + word + "翻译为" + support_lang[i], "link('https://translate.google.cn/?sl=auto&tl=" + lang_dic[support_lang[i]] + "&text=" + word + "&op=translate')", "icon-translate");
                 return true;
             }
         }
@@ -123,7 +123,7 @@ function smart_url(text) {
     clear_smart_sug()
     //别问我,这re我自己也看不懂了.
     //反正url,域名,ip都能很好匹配就对了
-    var url_re = /^https?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?:?[0-9]{0,5}\/?[-a-zA-Z0-9/.?&=]*$/;
+    var url_re = /^https?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?:?[0-9]{0,5}\/?[a-zA-Z0-9-_.~!*'();:@&=+$,/?#\[\]%]*$/;
     var domain_re = /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z][-a-zA-Z]{0,62})+\.?:?[0-9]{0,5}\/?[-a-zA-Z0-9/.?&=]*$/;
     var ip_re = /^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}:?[0-9]{0,5}\/?[-a-zA-Z0-9/.?&=]*$/;
     if (url_re.test(text)) {
@@ -133,7 +133,7 @@ function smart_url(text) {
         if (text.length >= 60) {
             word_display = text.substr(0, 59) + "...";
         }
-        add_smart_sug("访问: " + word_display, "link('" + text + "')", "icon-lianjie");
+        add_smart_sug("访问: " + word_display, "link('" + text + "')", "icon-link");
         return 0;
     }
     else if (domain_re.test(text)) {
@@ -143,7 +143,7 @@ function smart_url(text) {
         if (text.length >= 60) {
             word_display = text.substr(0, 59) + "...";
         }
-        add_smart_sug("访问: https://" + word_display, "link('https://" + text + "')", "icon-lianjie");
+        add_smart_sug("访问: https://" + word_display, "link('https://" + text + "')", "icon-link");
         return 0;
     }
     else if (ip_re.test(text)) {
@@ -153,7 +153,7 @@ function smart_url(text) {
         if (text.length >= 60) {
             word_display = text.substr(0, 59) + "...";
         }
-        add_smart_sug("访问: http://" + word_display, "link('http://" + text + "')", "icon-lianjie");
+        add_smart_sug("访问: http://" + word_display, "link('http://" + text + "')", "icon-link");
         return 0;
     }
 }
@@ -175,7 +175,7 @@ function unit_trans(text) {
                 if (unit_list[i].hasOwnProperty(unit_before) && unit_list[i].hasOwnProperty(unit_after)) {
                     var result = "" + parseFloat((number * unit_list[i][unit_before] / unit_list[i][unit_after]).toFixed(8));
                     result = result.replace("NaN", "错误");
-                    add_smart_sug("换算结果:" + result + "(单击以复制)", "copy(" + result + ");", "icon-zuoyoujiantou");
+                    add_smart_sug("换算结果:" + result + "(单击以复制)", "copy(" + result + ");", "icon-transform");
                 }
             }
         }
@@ -194,7 +194,7 @@ function unit_trans(text) {
                     if (unit_list[i].hasOwnProperty(unit_before) && unit_list[i].hasOwnProperty(unit_after)) {
                         var result = "" + (number * unit_list[i][unit_before] / unit_list[i][unit_after]).toFixed(6);
                         result = result.replace("NaN", "错误");
-                        add_smart_sug("换算结果:" + result + "(单击以复制)", "copy(" + result + ");", "icon-zuoyoujiantou");
+                        add_smart_sug("换算结果:" + result + "(单击以复制)", "copy(" + result + ");", "icon-transform");
                     }
                 }
             }
@@ -217,15 +217,23 @@ function now_date(text) {
     hour = addZero(hour);
     if (text == "日期"){
         var result = y + "年" + mon + "月" + d + "日";
-        add_smart_sug(result+"(单击以复制)", "copy('" + result + "');", "icon-zuoyoujiantou");
+        add_smart_sug(result+"(单击以复制)", "copy('" + result + "');", "icon-date");
     }
     else if (text == "时间"){
         var result = hour + ":" + min;
-        add_smart_sug(result+"(单击以复制)", "copy('" + result + "');", "icon-zuoyoujiantou");
+        add_smart_sug(result+"(单击以复制)", "copy('" + result + "');", "icon-time");
     }
     else if (text == "准确时间"){
         var result = hour + ":" + min + ":" + sec;
-        add_smart_sug(result+"(单击以复制)", "copy('" + result + "');", "icon-zuoyoujiantou");
+        add_smart_sug(result+"(单击以复制)", "copy('" + result + "');", "icon-time");
+    }
+}
+
+function bilibili(text) {
+    let bv_re=/BV[fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF]{10}/;
+    if (bv_re.test(text)){
+        let bvid=text.substring(text.search(bv_re),text.search(bv_re)+12);
+        add_smart_sug("前往哔哩哔哩观看视频: "+bvid,"link('https://www.bilibili.com/video/" + bvid + "')", "icon-link");
     }
 }
 
@@ -234,10 +242,10 @@ function addZero(i){
     return i;
 }
 
-function smart_calculate(text){
-    var result=calculate(text);
+function smart_calculate(text) {
+    var result = calculate(text);
     if(isNaN(result)==false){
-        add_smart_sug("计算结果: " + result + "（单击以复制结果)", "copy(" + result + ")", "icon-jisuanqi");
+        add_smart_sug("计算结果: " + result + "（单击以复制结果)", "copy(" + result + ")", "icon-calculator");
         return true;
     }
     return false;
@@ -252,22 +260,26 @@ function clear_smart_sug() {
 
 function one_search() {
     var sug_box = document.getElementById("sug_box");
-    sug_box.style.display = 'inline';
+    sug_box.style.display = 'inherit';
+    document.getElementById("suggestions").style.opacity = "1";
     clear_smart_sug();
-    document.getElementById("suggestions").style.opacity = "0.8";
+
     keyword = document.getElementById("search").value;
     if (keyword.length == 0) {
         document.getElementById("suggestions").style.opacity = "0";
         setTimeout('document.getElementById("sug_box").style.display = "none";document.getElementById("sug_box").innerHTML = "";', 150);
         clear_smart_sug();
         return -1;
-    } 
+    }
+
     smart_url(keyword);
     unit_trans(keyword);
     smart_calculate(keyword);
     now_date(keyword);
     wiki(keyword);
     smart_trans(keyword);
+    bilibili(keyword);
+
     oScript = document.createElement('script');
     oScript.src = "https://suggestion.baidu.com/su?wd=" + keyword + "&cb=suggestion";
     document.body.appendChild(oScript);
@@ -277,21 +289,22 @@ function suggestion(data) {
     //在搜索框聚焦时触发
     if (document.getElementById("search").hasAttribute("focus")) {
         //仅在当前搜索框内容等于请求内容时触发
-        //if (document.getElementById("search").value.toLowerCase()==data.q){
-        var sug_box = document.getElementById("sug_box");
-        var list = data.s;
-        var str = '';
-        if (list.length > 0) {
-            list.forEach(function (ele, index) {
-                str += '<div class="suggestion" onclick="search(' + "'" + ele + "'" + ')">' + ele + '</div>';
-            });
-            sug_box.innerHTML = str;
-        }
-        else {
-            document.getElementById("sug_box").innerHTML = "";
-        }
-        document.getElementById("suggestions").style.opacity = "1";
-        //}
+        // if (document.getElementById("search").value.toLowerCase()==data.q){
+            var sug_box = document.getElementById("sug_box");
+            var result_list = data.s;
+            var str = '';
+            sug_box.style.height = result_list.length*30+"px";
+            if (result_list.length > 0) {
+                result_list.forEach(function (ele, index) {
+                    str += '<div class="suggestion" onclick="search(' + "'" + ele + "'" + ')">' + ele + '</div>';
+                });
+                sug_box.innerHTML = str;
+            }
+            else {
+                document.getElementById("sug_box").innerHTML = "";
+            }
+        setTimeout(`document.getElementById("suggestions").style.opacity = "1";`, 1000);
+        // }
     }
     else {
         document.getElementById("suggestions").style.opacity = "0";
@@ -315,7 +328,7 @@ function strExpression2arrExpression(expression){
         s = expression.charAt(i);
         if (isNaN(s) && s != '.') {
             arr.push(s);
-        } 
+        }
         else {
             t = s;
             while (i < l) {
@@ -338,15 +351,15 @@ function strExpression2arrExpression(expression){
 
 //数组转前缀表达式
 function infixExpression2prefixExpression(arrExpression){
-    
+
     var s1 = [], s2 = [], operator = function (o) {
         var last = s1[s1.length - 1];
         if (s1.length == 0 || last == ')') {
             s1.push(o);
-        } 
+        }
         else if (priority[o] >= priority[last]) {
             s1.push(o);
-        } 
+        }
         else {
             s2.push(s1.pop());
             operator(o);
@@ -358,15 +371,15 @@ function infixExpression2prefixExpression(arrExpression){
         o = arrExpression[i];
         if (!isNaN(o)) {
             s2.push(o);
-        } 
+        }
         else {
             if (o == '+' || o == '-' || o == '*' || o == '/' || o=='^') {//运算符
                 operator(o)
-            } 
+            }
             else {//括号
                 if (o == ')') {//右括号
                     s1.push(o)
-                } 
+                }
                 else if(o == '('){//左括号
                     var s = s1.pop();
                     while (s!=undefined && s != ')' && s.length>0) {
@@ -398,7 +411,7 @@ function computePrefixExpression(prefixExpression){
         var o = prefixExpression.shift();
         if (!isNaN(o)) {
             s1.push(o);
-        } 
+        }
         else {
             switch (o) {
                 case '+':
@@ -436,3 +449,4 @@ function computePrefixExpression(prefixExpression){
 function calculate(string){
     return computePrefixExpression(infixExpression2prefixExpression(strExpression2arrExpression(string)));
 }
+//不会用Git真烦……

@@ -1,21 +1,25 @@
 function fresh_time(){
-    var time_send=new Date().getTime();
-    var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://api.rastart.top/time");
-    xhr.send();
-    xhr.onreadystatechange = function () {
-        var network_time = xhr.responseText;
-        if (isNaN(network_time))
-        {
-            network_time = new Date().getTime();
+    var time_send = new Date().getTime();
+    $.ajax({
+        url: "https://api.rastart.top/time",
+        type: "GET",
+        success: function (data) {
+            var network_time = data;
+            if (isNaN(network_time))
+            {
+                network_time = new Date().getTime();
+            }
+            var time_end=new Date().getTime();
+            var delay = (time_end - time_send) / 2;
+            console.log("网络延迟"+delay+"ms");
+            var real_nettime = network_time - delay;
+            var correction = real_nettime - time_send;
+            localStorage.setItem("corr",correction);
+        },
+        error: function () {
+            localStorage.setItem("coor","0");
         }
-        var time_end=new Date().getTime();
-        var delay = (time_end - time_send) / 2;
-        console.log("网络延迟"+delay+"ms");
-        var real_nettime = network_time - delay;
-        var correction = real_nettime - time_send;
-        localStorage.setItem("corr",correction);
-    };
+    });
 }
 if(get_settings("time_sync")==true){
     fresh_time();

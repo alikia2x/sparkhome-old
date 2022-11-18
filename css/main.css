@@ -1,0 +1,871 @@
+@keyframes popup {
+    0% {
+        opacity: 0;
+        scale: 0.8;
+    }
+
+    100% {
+        opacity: 1;
+        scale: 1;
+    }
+}
+
+@keyframes popdown {
+    0% {
+        opacity: 1;
+        scale: 1;
+    }
+
+    100% {
+        opacity: 0;
+        scale: 0.8;
+    }
+}
+
+@font-face {
+    font-family: "Harmony";
+    src: url("../font/HarmonyOS_Sans.ttf") format("truetype")
+}
+
+
+.fadeIn {
+    -webkit-animation-name: popup;
+    animation-name: popup;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+.fadeOut {
+    -webkit-animation-name: popdown;
+    animation-name: popdown;
+    animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+}
+
+body{
+    font-family: "微软雅黑", "苹方", "Arial", "黑体", '宋体';
+    user-select: none;
+}
+
+.bg_img {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
+    object-fit: cover;
+    overflow: hidden;
+    opacity: 0;
+    transition: .2s;
+}
+
+.version {
+    text-align: left;
+    color: white;
+    padding: 1px 2px;
+    width: fit-content;
+    background-color: rgba(255, 58, 58, 0.938);
+    border-radius: 3px;
+}
+
+.version_txt {
+    text-indent: 20px;
+    text-align: left;
+}
+
+.about_history {
+    position: absolute;
+    height: calc(100% - 190px);
+    overflow-y: auto;
+    line-height: 1em;
+    width: 80%;
+    left: 10%;
+    border-top: solid 1px rgba(0, 0, 0, 0.514);
+    scrollbar-width: none;
+    user-select: none;
+    transition: .2s;
+}
+
+.footer {
+    position: absolute;
+    padding: 2px 5px 2px 5px;
+    left: 50%;
+    bottom: 10px;
+    color: rgb(255, 255, 255);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    transform: translate(-50%, 0%);
+    cursor: default;
+    font-size: 14px;
+}
+
+.footer_link{
+    cursor: pointer;
+    transition: .3s;
+}
+.footer_link:hover{
+    color: rgb(255, 91, 91);
+}
+
+.about_lock {
+    margin-top: 20px;
+    height: 170px;
+    line-height: 10px;
+    user-select: none;
+    transition: .2s;
+    overflow: hidden;
+}
+
+[link=black]{
+    color: black;
+    text-decoration: none;
+    transition: .3s;
+}
+
+[link=white]{
+    color: white;
+    text-decoration: none;
+    transition: .3s;
+}
+
+[link]:hover{
+    color: rgb(255, 60, 60);
+}
+
+.close {
+    position: absolute;
+    right: 10px;
+    top: -10px;
+    height: 35px;
+    width: 45px;
+    line-height: 35px;
+    font-size: 20px;
+    text-align: center;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.close:hover {
+    background-color: rgb(230, 230, 230);
+    border: 0 solid rgb(230, 230, 230);
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.settings_scroll {
+    overflow: auto;
+}
+
+.settings_lock {
+    min-height: 50px;
+    border-bottom: 1px solid rgb(212, 212, 212);
+    overflow: hidden;
+}
+
+.settings_btn {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    right: 5px;
+    bottom: 5px;
+    color: white;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    transition: .2s;
+}
+
+.settings_btn:hover{
+    background-color: rgba(255, 255, 255, .2);
+}
+
+.settings_title {
+    position: absolute;
+    top: 0;
+    text-align: left;
+    left: 50%;
+    transform: translate(-50%,0);
+    font-size: 25px;
+    line-height: 5px;
+    color: rgb(255, 58, 58);
+}
+
+.default_img {
+    position: absolute;
+    margin-top: 2px;
+    width: calc(100% - 10px);
+    left: 10px;
+}
+
+.settings_check {
+    position: absolute;
+    text-align: right;
+    right: 0;
+    top: 0;
+    overflow-y: auto;
+}
+
+.setting{
+    position: relative;
+    width: 100%;
+    min-height: 40px;
+    border-radius: 10px;
+    background-color: rgb(255, 255, 255);
+}
+
+.engine{
+    position: relative;
+    width: 100%;
+    margin: 0 0;
+    min-height: 45px;
+    border-radius: 7px;
+    background-color: rgb(255, 255, 255);
+    transition: .3s;
+    line-height: 40px
+}
+
+.engine_name{
+    margin-left: 20px;
+    width: 70px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: absolute;
+}
+
+.add_engine_input{
+    width: 90%;
+    max-width: 360px;
+    margin: 3px 0 3px 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgb(238, 238, 238);
+    height: 24px;
+    outline-style: none;
+    transition: .2s;
+    padding-left: 5px;
+}
+.add_engine_input:hover{
+    background-color: rgb(229, 229, 229);
+}
+.add_engine_input:focus{
+    background-color: rgb(216, 216, 216);
+}
+
+.engine_url{
+    margin-left: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc(100% - 170px);
+    color: rgba(0, 0, 0, .6);
+    height: 40px;
+    position: absolute;
+}
+
+.engine_group{
+    position: relative;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 30px;
+    height: auto;
+    margin-left: 10px;
+    width: calc(100% - 30px);
+    background-color: rgb(255, 255, 255);
+}
+
+.engine:hover{
+    background-color: rgba(140, 140, 140, 0.144);
+}
+
+.engine[using]{
+    background-color: rgba(255, 0, 0, 0.1);
+}
+.remove {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    height: 20px;
+    width: 20px;
+    border-radius: 100px;
+    user-select: none;
+    -webkit-user-select: none;
+    background-color: rgba(0, 0, 0, 0.414);
+    transition: .3s;
+}
+
+.remove:hover{
+    background-color: rgba(255, 0, 0, 0.621);
+}
+
+.remove::before,
+.remove::after {
+    position: absolute;
+    content: ' ';
+    background-color: rgb(255, 255, 255);
+    left: 10px;
+    top: 3px;
+    width: 1px;
+    height: 14px;
+}
+
+.remove::before {
+    transform: rotate(45deg);
+}
+
+.remove::after {
+    transform: rotate(-45deg);
+}
+
+.setting_desc{
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.627);
+    line-height: 15px;
+    margin-left: 20px;
+    margin-right: 70px;
+    padding-bottom: 10px;
+}
+
+.settings_subtitle{
+    font-size: 20px;
+    font-weight: bold;
+    position: relative;
+    height: 35px;
+    line-height: 35px;
+}
+
+.setting_stitle{
+    line-height: 16px;
+    height: 20px;
+    top: 0;
+    position: relative;
+    left: 0;
+    margin: 5px 0;
+    padding-left: 10px;
+}
+
+/* 设置中的开关 */
+
+.switch {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 38px;
+    height: 22px;
+    transition: .25s;
+    overflow: hidden;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top:0;bottom:0;left:0;right:0;
+    border-radius: 100px;
+    background-color: rgb(225, 225, 225);
+    transition: .25s;
+}
+
+
+input:checked + .slider::before {
+    left: 20px;
+}
+
+input:checked + .slider{
+    background-color: red;
+}
+
+.slider::before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 2px;
+    bottom: 3px;
+    border-radius: 100px;
+    background-color: white;
+    box-shadow: 0 0 5px rgba(0,0,0,.2);
+    transition: .25s;
+}
+
+.switch_box{
+    right: 20px;
+    position: absolute;
+    top: 9px;
+}
+
+.setting_txt{
+    position: absolute;
+    margin-left: 20px;
+    line-height: 16px;
+    top: 12px;
+}
+
+.setting_group{
+    position: relative;
+    padding: 5px 0;
+    border-radius: 10px;
+    width: 100%;
+    margin-bottom: 30px;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+}
+
+.settings_img {
+    width: 160px;
+    height: 100px;
+    border-radius: 10px;
+    transition: .2s;
+    object-fit: cover;
+    opacity: 0;
+    padding: 5px 3px 5px 3px;
+}
+
+.settings_img:hover {
+    filter: brightness(0.7);
+}
+
+.settings_txt {
+    position: absolute;
+    text-align: left;
+    left: 5%;
+    top: 50px;
+    height: calc(100% - 50px);
+    width: 90%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    scrollbar-width: none;
+}
+
+.settings_txt::-webkit-scrollbar {
+    width: 0;
+}
+
+.wallpaper_apply {
+    display: inline-block;
+    padding: 3px 14px 4px 14px;
+    background-color: rgba(255, 30, 30, 0.8);
+    border: none;
+    border-radius: 6px;
+    color: white;
+    transition: .25s;
+    cursor: pointer;
+}
+
+.wallpaper_apply:hover{
+    background-color: rgb(255, 30, 30);
+    box-shadow: 0 0 10px rgba(255, 30, 30, .6);
+}
+
+.wallpaper_link {
+    width: 80%;
+    margin: 3px 0 3px 12px;
+    padding: 1px 3px;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+    height: 22px;
+    outline-style: none;
+    transition: .3s;
+    background-color: rgb(250, 250, 250);
+}
+.wallpaper_link:hover{
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.14);
+}
+.wallpaper_link:focus{
+    box-shadow: 0 0 5px rgba(75, 75, 75, 0.2);
+    background-color: white;
+}
+
+.body {
+    overflow: hidden;
+    background-color: rgb(15, 15, 15);
+}
+
+::-webkit-scrollbar {
+    width: 0;
+}
+
+.dropdown-menu {
+    opacity: 0;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, .5);
+    position: absolute;
+    color: rgb(0, 0, 0);
+    width: 90px;
+    display: none;
+    z-index: 5;
+    transition: .2s;
+    height: 0;
+}
+
+.dropdown-menu a {
+    padding: 5px 0;
+    border-radius: 14px;
+    text-decoration: none;
+    display: block;
+    z-index: 5;
+    font-size: 14px;
+    cursor: pointer;
+    transition: 300ms;
+    text-align: center;
+}
+
+.dropdown-menu a:hover {
+    background-color: rgb(255, 255, 255);
+}
+
+.hitokoto:hover {
+    background-color: rgba(255, 255, 255, .2);
+}
+
+.dropdown-btn {
+    width: 90px;
+    height: 30px;
+    outline:none;
+    background-color: rgba(255, 255, 255, 0.5);
+    border: 0 solid rgb(255, 255, 255);
+    border-radius: 17px;
+    font-size: 14px;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+}
+
+.setting_switch{
+    position: absolute;
+    right: 0;
+}
+
+.settings {
+    opacity: 0;
+    scale: 0.7;
+    position: absolute;
+    width: 600px;
+    height: 70%;
+    left: calc(50% - 300px);
+    bottom: 15%;
+    color: rgb(0, 0, 0);
+    border: 0 solid white;
+    line-height: 12px;
+    background-color: #ececec;
+    border-radius: 15px;
+    display: none;
+    text-align: center;
+    scrollbar-width: none;
+    z-index: 3;
+    transition: .25s;
+    user-select: none;
+}
+
+.about {
+    opacity: 0;
+    scale: 0.7;
+    position: absolute;
+    width: 600px;
+    height: 80%;
+    left: calc(50% - 300px);
+    bottom: 10%;
+    color: rgb(0, 0, 0);
+    border: 0 solid white;
+    font-size: 12px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 15px;
+    display: none;
+    text-align: center;
+    overflow-y: hidden;
+    z-index: 11;
+    transition: .25s;
+}
+
+.search {
+    margin-top: 10px;
+    position: absolute;
+    top: 190px;
+    left: 50%;
+    width: 450px;
+    height: 40px;
+    border: 0 solid rgb(161, 161, 161);
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, .7);
+    color: white;
+    box-sizing: border-box;
+    outline: none;
+    text-indent: -5px;
+    transform: translate(-50%, 0%);
+    text-align: center;
+    transition: 300ms;
+}
+
+.search::-webkit-input-placeholder{
+    color: rgb(40, 40, 40);
+}
+
+.search::-moz-placeholder{
+    color: rgb(40, 40, 40);
+}
+
+.time {
+    font-family: 'Harmony', serif;
+    text-shadow: 0 0 20px rgba(0,0,0,.6);
+    cursor: pointer;
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    font-size: 2.6em;
+    font-weight: lighter;
+    transform: translate(-50%, 0);
+    color: rgb(255, 255, 255);
+}
+
+.suggestion{
+    height: 30px;
+    line-height: 30px;
+    overflow-x: hidden;
+    color: rgb(32, 32, 32);
+    font-family: "微软雅黑", "苹方", "Arial", "黑体", '宋体';
+    background-color: rgba(255, 255, 255, 0.6);
+    text-indent: 30px;
+    cursor: pointer;
+    display: block;
+}
+.suggestion:hover{
+    background-color: rgb(255, 255, 255);
+}
+
+.suggestions{
+    position: absolute;
+    margin-top: 10px;
+    width: 700px;
+    border-radius: 20px;
+    left: 50%;
+    transform: translate(-50%,0);
+    top: 280px;
+    background: rgba(255, 255, 255, 0.6);
+    max-height: 330px;
+    overflow: auto;
+    scrollbar-width: none;
+    transition: .4s;
+    z-index: 1;
+}
+
+.sug_box{
+    height: 0;
+}
+
+.bing_daily{
+    position: relative;
+    height: 150px;
+}
+
+.links{
+    position: absolute;
+    top: 340px;
+    width: 590px;
+    max-height: calc(100vh - 450px);
+    height: auto;
+    left: 50%;
+    transform: translate(-50%,0);
+    overflow: auto;
+    scrollbar-width: none;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 10px;
+    transition: .2s;
+}
+
+.link{
+    position: relative;
+    display: inline-block;
+    width: 75px;
+    height: 75px;
+    margin: 20px;
+    margin-bottom: 30px;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, .75);
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+    transition: .2s;
+}
+
+.link:hover{
+    background-color: white;
+}
+
+.shortcut_icon{
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.shortcut_title{
+    position: absolute;
+    bottom: -24px;
+    font-size: 12px;
+    color: white;
+    height: 14px;
+    line-height: 12px;
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    left: 50%;
+    transform: translate(-50%,0);
+}
+
+@media screen and (max-height:400px){
+    .footer{
+        display: none;
+    }
+}
+
+@media screen and (min-width:900px) {
+    .search:hover {
+        width: 700px;
+        background-color: rgba(182, 182, 182, .4);
+    }
+
+    .search[focus] {
+        width: 700px;
+        background-color: rgba(32, 32, 32, .6);
+    }
+
+    .dropdown {
+        transform: translate(-50%, 0%);
+        margin-top: 10px;
+        z-index: 3;
+        position: absolute;
+        left: 50%;
+        top: 240px;
+    }
+
+}
+
+@media screen and (max-width:900px) and (min-width:600px){
+    .bing_daily{
+        height: calc(20vw + 50px);
+    }
+    .settings_img {
+        width: calc(50% - 20px);
+        height: 20vw;
+        max-height: 140px;
+    }
+    .search {
+        width: 340px;
+    }
+
+    .search:hover {
+        width: 500px;
+        background-color: rgba(182, 182, 182, .4);
+    }
+
+    .search:focus {
+        width: 500px;
+        background-color: rgba(32, 32, 32, .6);
+    }
+
+    .about {
+        width: 500px;
+        left: calc(50% - 250px);
+        font-size: 12px;
+    }
+
+    .settings {
+        position: absolute;
+        width: 500px;
+        left: calc(50% - 250px);
+        font-size: 0.8em;
+        overflow-x: hidden;
+    }
+
+    .dropdown {
+        transform: translate(-50%, 0%);
+        margin-top: 20px;
+        position: absolute;
+        left: 50%;
+        top: 240px;
+    }
+
+    .suggestions{
+        width: 500px;
+    }
+
+}
+
+@media screen and (max-width:600px){
+    .wallpaper_link{
+        width: calc(100% - 80px);
+    }
+    .wallpaper_apply {
+        padding: 3px 10px 4px 10px;
+    }
+    .engine_url{
+        margin-left: 70px;
+        width: calc(100% - 110px);
+    }
+    .engine_name{
+        margin-left: 10px;
+        width: 60px;
+        position: absolute;
+    }
+    .bing_daily{
+        height: calc(20vw + 50px);
+    }
+    .settings_img {
+        width: calc(50% - 20px);
+        height: 20vw;
+        max-height: 140px;
+    }
+    .search {
+        width: 70%;
+    }
+
+    .search:hover {
+        width: 90%;
+        background-color: rgba(182, 182, 182, .4);
+    }
+
+    .search:focus {
+        width: 90%;
+        background-color: rgba(32, 32, 32, .6);
+    }
+
+    .about {
+        width: 80%;
+        left: 10%;
+        bottom: 15%;
+        font-size: 12px;
+    }
+
+    .settings {
+        width: 80%;
+        left: 10%;
+        font-size: 0.8em;
+        overflow-x: hidden;
+    }
+
+    .dropdown {
+        transform: translate(-50%, 0%);
+        margin-top: 20px;
+        position: absolute;
+        left: 50%;
+        top: 240px;
+    }
+
+    .suggestions{
+        width: 90%;
+    }
+
+    .settings_img:hover {
+        filter: brightness(1);
+    }
+
+    .settings_img:focus {
+        filter: brightness(0.7);
+    }
+}
