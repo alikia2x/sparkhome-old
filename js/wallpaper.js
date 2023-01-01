@@ -33,7 +33,8 @@ function load_wallpaper() {
     //启动时加载上一次的壁纸
     let url = localStorage.getItem('pic');
     if (url == null) {
-        localStorage.setItem('pic', 'https://rastart.top/');
+        set_wallpaper("https://sparkhome.cdn.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920");
+        localStorage.setItem('pic', 'https://sparkhome.cdn.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920');
     }
     if (url === "bing") {
         set_wallpaper("bing");

@@ -13,11 +13,14 @@
     <link rel="stylesheet" href="./css/main.css">
     <script src="js/sweetalert.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-ico">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 
     <script>
         function load() {
+            hitokoto=new Hitokoto();
+            search=new Search();
             load_wallpaper();
-            new Hitokoto();
             set_engine();
             refresh_weather();
             load_settings();
@@ -38,7 +41,7 @@
     onkeydown="if(event.keyCode==13) {search_focus() } if(event.keyCode==27) search_blur()">
 
     <!-- 背景图 -->
-    <img class="bg_img" id="main" onmousedown="search_small()" onload="bg_loaded(this)" onerror="this.style.opacity='0'">
+    <img class="bg_img" id="main" onmousedown="search.blur()" onload="bg_loaded(this)" onerror="this.style.opacity='0'">
 
     <!-- 顶部时间 -->
     <a onclick="link('https\://time.is')">
@@ -58,7 +61,7 @@
     </div>
 
     <!-- 搜索框 -->
-    <input onclick="search_big()" class="search" type="text" name="search" id="search" placeholder="搜索"
+    <input onclick="search.focus()" class="search" type="text" name="search" id="search" placeholder="搜索"
         oninput="one_search()" onkeydown="if(event.keyCode==13) search(document.getElementById('search').value);"
         autocomplete="off">
 
@@ -81,10 +84,10 @@
         <!--关于-->
         <div class="about" id="about_box">
             <div id="about_lock" class="about_lock">
-                <div style="height: 80px;"><img src="./src/sparkhome.png" style="height: 80px;"></div>
-                <span>Version 2.2.0.221023_alpha</span>
+                <div style="height: 80px;"><img src="./img/sparkhome.png" style="height: 80px;"></div>
+                <span>Version 2.2.1.230102_alpha</span>
                 <br><br>
-                <a link="black" href="https://space.bilibili.com/600004959">访问我的哔哩哔哩主页</a>
+                <a link="black" href="https://danjiadi.com">访问我的个人网站</a>
                 <br><br>
                 <span>为我<a link="black" href="./doc/#/Donate/">捐助</a>，支持我的开发</span>
                 <br><br>
@@ -131,6 +134,10 @@
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="time_sync" onclick="save_settings()"><div class="slider"></div></label></div>
                     </div>
                     <div class="setting">
+                        <div class="setting_txt">搜索框聚焦时显示快捷链接</div>
+                        <div class="switch_box"><label class="switch"><input type="checkbox" id="show_shortcut_when_focus" onclick="save_settings()"><div class="slider"></div></label></div>
+                    </div>
+                    <div class="setting">
                         <div class="setting_txt">服务器连接质量检测</div><br><br><br>
                         <div class="setting_desc">开启后，如您与服务器的连接质量差则会发出提醒</div>
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="warn_server_conn" onclick="save_settings()"><div class="slider"></div></label></div>
@@ -142,15 +149,18 @@
 
                 <div class="setting_group">
                     <div class="setting">
-                        <div class="setting_txt">搜索框聚焦时背景模糊</div>
+                        <div class="setting_txt">搜索框聚焦时背景模糊</div><br><br><br>
+                        <div class="setting_desc">关闭后，可提升性能表现</div>
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="bg_blur" onclick="save_settings()" ><span class="slider"></span></label></div>
                     </div>
                     <div class="setting">
-                        <div class="setting_txt">毛玻璃效果</div>
+                        <div class="setting_txt">毛玻璃效果</div><br><br><br>
+                        <div class="setting_desc">关闭后，可提升性能表现</div>
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="enable_backdrop" onclick="save_settings()" ><span class="slider"></span></label></div>
                     </div>
                     <div class="setting">
-                        <div class="setting_txt">遮罩毛玻璃效果</div>
+                        <div class="setting_txt">遮罩毛玻璃效果</div><br><br><br>
+                        <div class="setting_desc">关闭后，可提升性能表现</div>
                         <div class="switch_box"><label class="switch"><input type="checkbox" id="cover_blur" onclick="save_settings()" ><span class="slider"></span></label></div>
                     </div>
                 </div>
@@ -206,25 +216,25 @@
                     <input type="button" name="wallpaper_btn" onclick="set_wallpaper(this.parentNode.children[0].value)" value="应用" class="wallpaper_apply">
                 </div>
                 <div id="default_bg" class="default_img">
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/2.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/2.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/3.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/3.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/4.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/4.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/5.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/5.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/6.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/6.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/2.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/2.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/3.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/3.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/4.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/4.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/5.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/5.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/6.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/6.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
                     <!--哎呀,居然被你发现了!既然被你发现了,那么……我是云堇单推人!(大声)-->
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/8.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/8.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
-                    <img _src="https://sparkhome.bj.bcebos.com/img/wallp/9.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
-                        onclick="set_wallpaper('https\://sparkhome.bj.bcebos.com/img/wallp/9.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/8.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/8.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
+                    <img _src="https://sparkhome.cdn.bcebos.com/img/wallp/9.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_400" src="" class="settings_img"
+                        onclick="set_wallpaper('https\://sparkhome.cdn.bcebos.com/img/wallp/9.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920')" onload="bg_loaded(this)">
                 </div>
             </div>
         </div>

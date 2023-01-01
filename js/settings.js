@@ -1,4 +1,4 @@
-var settings_list = ["show_weather", "show_hitokoto", "enable_backdrop", "bg_blur", "time_sync", "warn_server_conn", "cover_blur"];     
+var settings_list = ["show_weather", "show_hitokoto", "enable_backdrop", "bg_blur", "time_sync", "warn_server_conn", "cover_blur", "show_shortcut_when_focus"];     
 var default_settings = {
     "show_weather": true,
     "show_hitokoto": true,
@@ -7,6 +7,7 @@ var default_settings = {
     "time_sync": true,
     "warn_server_conn": true,
     "cover_blur": true,
+    "show_shortcut_when_focus": false,
 };
 
 function load_img() {
@@ -14,7 +15,6 @@ function load_img() {
     for (var i = 0; i < bg.length; i++) {
         bg[i].setAttribute('src', bg[i].getAttribute("_src"));
     }
-    console.log("Done");
 }
 
 function load_settings() {
@@ -54,7 +54,7 @@ function save_settings() {
     localStorage.setItem("settings", JSON.stringify(current_settings));
     refresh_weather();
     load_blur();
-    load_hitokoto();
+    hitokoto.show();
 }
 
 function init_settings() {

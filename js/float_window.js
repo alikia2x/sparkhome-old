@@ -19,7 +19,7 @@ function drop_disappear() {
 
 function about_out() {
     $.ajax({
-        url: "https://api.rastart.top/about",
+        url: "/about",
         type: "GET",
         success: function (data) {
             $("#about_history")[0].innerHTML = data;
@@ -35,6 +35,7 @@ function about_close() {
     cover_about.style.backgroundColor = "rgba(0,0,0,0)";
     if (get_settings("cover_blur")) {
         cover_about.style.backdropFilter = "blur(0px)";
+        cover_about.style.setProperty("-webkit-backdrop-filter","blur(0px)");
     }
     about_box.style.opacity = 0;
     about_box.style.scale = 0.7;
@@ -56,6 +57,7 @@ function settings_close() {
     cover_settings.style.backgroundColor = "rgba(0,0,0,0)";
     if (get_settings("cover_blur")) {
         cover_settings.style.backdropFilter = "blur(0px)";
+        cover_settings.style.setProperty("-webkit-backdrop-filter","blur(0px)");
     }
     settings.style.opacity = 0;
     settings.style.scale = 0.7;
@@ -73,6 +75,7 @@ function out_motion(cover,window) {
     cover.style.backgroundColor = "rgba(0,0,0,0.5)";
     if (get_settings("cover_blur")) {
         cover.style.backdropFilter = "blur(10px)";
+        cover.style.setProperty("-webkit-backdrop-filter","blur(10px)");
     }
     window.style.opacity = 1;
     window.style.scale = 1;

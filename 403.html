@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <title id="title">404-页面不存在</title>
+    <title id="title">403-请求被拒绝</title>
     <link rel="shortcut icon" href="favicon.ico">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,15 +12,15 @@
     <body>
         <div class="main_box">
             <div class="title">
-                404
+                403
                 <div class="line"></div>
             </div>
             <div class="subtitle" id="subtitle">
-                页面不存在
+                请求被拒绝
             </div>
             <div class="desc" id="desc">
-                您遇到了404错误。它意味着您所访问的资源在服务器上不存在。<br>
-                如果您是通过输入网址而跳转到此界面，请检查您输入的网址。<br>
+                您遇到了403错误。它意味着您的请求被服务器拒绝了。<br>
+                这可能是因为您在试图访问您无权访问的文件或数据<br>
                 如果您是由点击官方页面上的链接而跳转到此界面，请<a href = "mailto:contact@danjiadi.com?subject=星火主页-反馈" class="contat">联系我们</a>。<br>
             </div>
             <div class="btn" onclick="window.location.href='https\://rastart.top';">
@@ -31,11 +31,12 @@
             lang=navigator.language;
             if(lang=="en" || lang.toLowerCase=="en-us"){
                 document.getElementById("desc").innerHTML=`
-                You encountered a 404 error. It means that the resource you are accessing does not exist on the server. <br>
-                If you jumped to this page by entering a URL, please check whether there is any typo in the URL. <br>
+                You encountered a 403 error. 
+                It means your request was rejected by the server. <br>
+                This may be because you are trying to access a file or data which you do not have permission<br>
                 If you jumped to this page by clicking the link in the official page, please <a href = "mailto:contact@danjiadi.com?subject=SparkHome feedback" class="contat">contact us</a>.<br>`;
-                document.getElementById("subtitle").innerHTML="Page Not Found";
-                document.title="404 Not Found";
+                document.getElementById("subtitle").innerHTML="Permission denied";
+                document.title="403 Forbidden";
                 document.getElementById("link").innerHTML="Back to home";
             }
         </script>

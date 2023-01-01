@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-    <title id="title">404-页面不存在</title>
+    <title id="title">429-请求过多</title>
     <link rel="shortcut icon" href="favicon.ico">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -12,30 +12,25 @@
     <body>
         <div class="main_box">
             <div class="title">
-                404
+                429
                 <div class="line"></div>
             </div>
             <div class="subtitle" id="subtitle">
-                页面不存在
+                请求过于频繁
             </div>
             <div class="desc" id="desc">
-                您遇到了404错误。它意味着您所访问的资源在服务器上不存在。<br>
-                如果您是通过输入网址而跳转到此界面，请检查您输入的网址。<br>
-                如果您是由点击官方页面上的链接而跳转到此界面，请<a href = "mailto:contact@danjiadi.com?subject=星火主页-反馈" class="contat">联系我们</a>。<br>
-            </div>
-            <div class="btn" onclick="window.location.href='https\://rastart.top';">
-                <a href="https://rastart.top" class="return" id="link">返回主页</a>
+                您遇到了429错误。它意味着您的请求频率过快。<br>
+                请不要频繁刷新页面。
             </div>
         </div>
         <script>
             lang=navigator.language;
             if(lang=="en" || lang.toLowerCase=="en-us"){
                 document.getElementById("desc").innerHTML=`
-                You encountered a 404 error. It means that the resource you are accessing does not exist on the server. <br>
-                If you jumped to this page by entering a URL, please check whether there is any typo in the URL. <br>
-                If you jumped to this page by clicking the link in the official page, please <a href = "mailto:contact@danjiadi.com?subject=SparkHome feedback" class="contat">contact us</a>.<br>`;
-                document.getElementById("subtitle").innerHTML="Page Not Found";
-                document.title="404 Not Found";
+                You encountered a 429 error. It means that your request frequency is too high. <br>
+                Please don't refresh too often.`;
+                document.getElementById("subtitle").innerHTML="Too Many Requests";
+                document.title="429 Too Many Requests";
                 document.getElementById("link").innerHTML="Back to home";
             }
         </script>

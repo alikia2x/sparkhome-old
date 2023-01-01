@@ -41,6 +41,91 @@ const engine_name_trans = {'baidu': '百度', 'bing': '必应', 'google': '谷�
         "tieba": "https://tieba.baidu.com/f?ie=utf-8&kw=%s&fr=search",//百度贴吧
     };
 
+class Search{
+    constructor() {
+        const engine_name_trans = { 'baidu': '百度', 'bing': '必应', 'google': '谷歌', 'sougou': '搜狗', 'fsou': "F搜" };
+        const engine_list = {
+            "baidu": "https://www.baidu.com/s?wd=%s",
+            "bing": "https://cn.bing.com/search?q=%s",
+            "google": "https://www.google.com/search?q=%s",
+            "yandex": "https://yandex.com/search/?text=%s",
+            "sougou": "https://www.sogou.com/web?query=%s",
+            "360": "https://www.so.com/s?q=%s",
+            "duckduckgo": "https://duckduckgo.com/?q=%s",
+            "ecosia": "https://www.ecosia.org/search?q=%s",
+            "fsou": "https://fsoufsou.com/search?q=%s",
+            "google_trans": "https://translate.google.cn/?sl=%sl&tl=%tl&text=%s&op=translate",//谷歌翻译
+            "csdn": "https://so.csdn.net/so/search?q=%s",//csdn
+            "amazon": "https://www.amazon.cn/s?k=%s",//亚马逊
+            "wiki": "https://en.wikipedia.org/wiki/Special:Search?search=%s",//维基百科
+            "bilibili": "https://search.bilibili.com/all?keyword=%s",//哔哩哔哩
+            "tencent_video": "https://v.qq.com/x/search/?q=%s",//腾讯视频
+            "qq_music": "https://y.qq.com/n/ryqq/search?w=%s",//QQ音乐
+            "douyin": "https://www.douyin.com/search/%s",//抖音
+            "iqiyi": "https://so.iqiyi.com/so/q_%s",//爱奇艺
+            "youku": "https://so.youku.com/search_video/q_%s",//优酷
+            "douyu": "https://www.douyu.com/search/?kw=%s",//斗鱼
+            "huya": "https://www.huya.com/search?hsk=%s",//虎牙
+            "pexel": "https://www.pexels.com/zh-cn/search/%s/",//pexel
+            "163music": "https://music.163.com/#/search/m/?s=%s",//网易云音乐
+            "zhihu": "https://www.zhihu.com/search?type=content&q=%s",//知乎
+            "cnblogs": "https://zzk.cnblogs.com/s?w=%s",//cnblogs
+            "jd": "https://search.jd.com/Search?keyword=%s",//京东
+            "tmall": "https://list.tmall.com/search_product.htm?q=%s",//天猫
+            "taobao": "https://s.taobao.com/search?q=%s",//淘宝
+            "weibo": "https://s.weibo.com/weibo?q=%s",//微博
+            "douban": "https://www.douban.com/search?q=%s",//豆瓣
+            "juejin": "https://juejin.cn/search?query=%s",//稀土掘金
+            "suning": "https://search.suning.com/%s/",//苏宁易购
+            "weipinhui": "https://category.vip.com/suggest.php?keyword=%s",//唯品会
+            "souhu": "https://search.sohu.com/?queryType=outside&keyword=%s",//搜狐
+            "netease": "https://www.163.com/search?keyword=%s",//网易
+            "toutiao": "https://so.toutiao.com/search?dvpf=pc&source=input&keyword=%s",//今日头条
+            "xigua": "https://www.ixigua.com/search/%s",//西瓜视频
+            "tieba": "https://tieba.baidu.com/f?ie=utf-8&kw=%s&fr=search",//百度贴吧
+            "baidu_baike": "https://baike.baidu.com/search?word=%s", //百度百科
+            "youtube": "https://www.youtube.com/results?search_query=%s",//YouTube
+            "twitter": "https://twitter.com/search?q=%s",//Twitter
+        }
+    }
+    focus() {
+        $("#search").attr("focus", true);
+        if (get_settings("show_shortcut_when_focus")==false) {
+            $("#shortcut").css("opacity", "0");
+            setTimeout('$("#shortcut").css("display","none");',200);
+        }
+        if (get_settings("bg_blur")) {
+            $("#main").css("filter","blur(10px) brightness(0.7)");
+            $("#main").css("transform","scale(1.15)");
+        }
+        else {
+            $("#main").css("filter","brightness(0.5)");
+        }
+    }
+    blur() {
+        if (document.getElementById("search").getAttribute("focus") != null) {
+            document.getElementById("search").removeAttribute("focus");
+            document.getElementById("shortcut").style.display="inline";
+            setTimeout('document.getElementById("shortcut").style.opacity = "1";',60);
+            if (get_settings("bg_blur") === true) {
+                //动画
+                document.getElementById("main").style.animationName = "bg_small";
+                document.getElementById("main").style.animationDuration = "0.3s";
+                //固定设置
+                document.getElementById("main").style.transform = "scale(1)";
+                document.getElementById("main").style.filter = "blur(0px)";
+            }
+            else {
+                document.getElementById("main").style.filter = "";
+            }
+            document.getElementById("suggestions").style.opacity = "0";
+            document.getElementById("search").value = "";
+            drop_disappear();
+            setTimeout('document.getElementById("sug_box").style.display = "none";document.getElementById("sug_box").innerHTML = "";', 150);
+        }
+    }
+}
+
 function search_big() {
     document.getElementById("search").setAttribute("focus", "true");
     document.getElementById("shortcut").style.opacity = "0";

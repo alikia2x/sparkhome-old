@@ -59,7 +59,6 @@ function smart_trans(text) {
                     }
                     add_smart_sug("翻译: " + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-translate");
                 }
-                //
                 else if (lang_dic[target_lang] != null) {
                     var word_display = plain_txt;
                     if (plain_txt.length >= 40){
@@ -74,17 +73,6 @@ function smart_trans(text) {
     else if (text.indexOf('是什么意思') != -1) {
         if (text.indexOf('是什么意思') == text.length - 5) {
             var plain_txt = text.substr(0, text.length - 5);
-            var word_display = plain_txt;
-            if (plain_txt.length >= 40){
-                word_display = plain_txt.substr(0, 37) + "...";
-            }
-            add_smart_sug("翻译:" + word_display, "link('https://translate.google.cn/?sl=auto&tl=zh-CN&text=" + plain_txt + "&op=translate')", "icon-translate");
-            return true;
-        }
-    }
-    else if (text.indexOf('什么意思') != -1) {
-        if (text.indexOf('什么意思') == text.length - 4) {
-            var plain_txt = text.substr(0, text.length - 4);
             var word_display = plain_txt;
             if (plain_txt.length >= 40){
                 word_display = plain_txt.substr(0, 37) + "...";

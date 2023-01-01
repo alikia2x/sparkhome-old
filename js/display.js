@@ -1,18 +1,20 @@
-const element_list = ["search_engine", "engine_txt", "search", "footer"];
-const normal_opacity = ["0.9", "0.5", "0.7"];
-const blur_opacity = ["0.4", "0.4", "0.5"];
+const element_list = ["#search_engine", "#engine_txt", "#search", "div.link"];
+const normal_opacity = ["0.8", "0.8", "0.8", "0.9"];
+const blur_opacity = ["0.6", "0.6", "0.6", "0.7"];
 function load_blur() {
     let element_blur = get_settings("enable_backdrop");
     let cover_blur = get_settings("cover_blur");
     //加载元素毛玻璃效果
     for (let i = 0; i < element_list.length; i++) {
         if (element_blur) {
-            $("#"+element_list[i])[0].setAttribute("style", "-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(10px)");
-            $("#"+element_list[i])[0].style.backgroundColor = "rgba(255,255,255," + blur_opacity[i] + ")";
+            $(element_list[i]).css("-webkit-backdrop-filter", "blur(10px)");
+            $(element_list[i]).css("backdrop-filter", "blur(10px)");
+            $(element_list[i])[0].style.backgroundColor = "rgba(255,255,255," + blur_opacity[i] + ")";
         }
         else {
-            $("#"+element_list[i])[0].setAttribute("style", "-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px)");
-            $("#"+element_list[i])[0].style.backgroundColor = "rgba(255,255,255," + normal_opacity[i] + ")";
+            $(element_list[i]).css("-webkit-backdrop-filter", "blur(0px)");
+            $(element_list[i]).css("backdrop-filter", "blur(0px)");
+            $(element_list[i])[0].style.backgroundColor = "rgba(255,255,255," + normal_opacity[i] + ")";
         }
     }
     if (cover_blur) {
@@ -45,28 +47,28 @@ class Hitokoto {
     }
     //加载与显示
     load() {
+        this.show();
+        //查询是否有缓存
+        let cache = localStorage.getItem("hitokoto_cache");
+        //缓存存在则使用缓存数据并发起缓存请求，不存在则发起缓存请求并在得到数据后直接写入DOM
+        if (cache != null) {
+            $("#hitokoto")[0].innerHTML = cache;
+            this.fetch();
+        }
+        else {
+            this.fetch(true);
+        }
+    }
+    //根据用户的设置来控制一言的显示
+    show() {
         if (get_settings('show_hitokoto')) {
             document.getElementById("hitokoto").style.display="inline";
         }
         else{
             document.getElementById("hitokoto").style.display="none";
         }
-        let cache=localStorage.getItem("hitokoto_cache")
-        if (cache != null) {
-            $("#hitokoto")[0].innerHTML = cache;
-            this.push2cache();
-        }
-        else {
-            this.push2cache(true);
-        }
     }
-    fetch() {
-        $.ajax({
-            url: "https://v1.hitokoto.cn?c=i", type: "GET",
-            success: function (data) {return data;}
-        });
-    }
-    push2cache(push2home) {   
+    fetch(push2home) {
         $.ajax({
             url: "https://v1.hitokoto.cn?c=i", type: "GET",
             success: function (data) {

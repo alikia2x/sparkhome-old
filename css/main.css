@@ -231,6 +231,7 @@ body{
 
 .engine_name{
     margin-left: 20px;
+    line-height: 45px;
     width: 70px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -259,13 +260,14 @@ body{
 
 .engine_url{
     margin-left: 120px;
+    line-height: 45px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     width: calc(100% - 170px);
     color: rgba(0, 0, 0, .6);
     height: 40px;
-    position: absolute;
+    position: absolute;   
 }
 
 .engine_group{
@@ -495,12 +497,12 @@ input:checked + .slider{
     border-radius: 14px;
     background-color: rgba(255, 255, 255, .5);
     position: absolute;
-    color: rgb(0, 0, 0);
+    color: black;
     width: 90px;
     display: none;
     z-index: 5;
     transition: .2s;
-    height: 0;
+    height: auto;
 }
 
 .dropdown-menu a {
@@ -527,12 +529,16 @@ input:checked + .slider{
     width: 90px;
     height: 30px;
     outline:none;
-    background-color: rgba(255, 255, 255, 0.5);
     border: 0 solid rgb(255, 255, 255);
     border-radius: 17px;
     font-size: 14px;
     cursor: pointer;
-    color: rgb(255, 255, 255);
+    color: black;
+    transition: .2s;
+}
+
+.dropdown-btn:hover{
+    background-color: rgba(255, 255, 255, .8) !important;
 }
 
 .setting_switch{
@@ -686,6 +692,7 @@ input:checked + .slider{
     border-radius: 10px;
     background-color: rgba(255, 255, 255, .75);
     backdrop-filter: blur(5px);
+    -webktit-backdrop-filter: blur(5px);
     cursor: pointer;
     transition: .2s;
 }
@@ -843,8 +850,8 @@ input:checked + .slider{
     }
 
     .settings {
-        width: 80%;
-        left: 10%;
+        width: 95%;
+        left: 2.5%;
         font-size: 0.8em;
         overflow-x: hidden;
     }

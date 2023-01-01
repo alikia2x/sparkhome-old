@@ -1,25 +1,30 @@
 # -*- coding: utf-8 -*-
 from time import time
-import traceback,flask,requests,base64,chardet,urllib,sys,codecs
+import traceback
+import flask
+import requests
+import base64
+import chardet
+import urllib
+import sys
+import codecs
+import cv2
 from bs4 import BeautifulSoup
 from urllib.parse import urlparse
 from gevent import pywsgi
-from flask import jsonify, Response
+from flask import jsonify, Response, abort, request, send_file
 from flask_cors import CORS, cross_origin
 
 sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
 
-'''
-flask: web框架,通过flask提供的装饰器@server.route()将普通函数转换为服务
-'''
 headers = {
     "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
 }
 
-not_fond_dict = {"code": 404, "info": "你走错地了~(￣▽￣)"}
-para_error_dict = {"code": -1, "info": "参数错误(* ￣︿￣)"}
-b64_error_dict = {"code": -2, "info": "Base64 解码错误T_T"}
-unknown_err_dict = {"code": 114514, "info": "未知错误.┗|｀O′|┛"}
+not_fond = {"code": 404, "info": "你走错地了~(￣▽￣)"}
+para_error = {"code": -1, "info": "参数错误(* ￣︿￣)"}
+b64_error = {"code": -2, "info": "Base64 解码错误T_T"}
+unknown_err = {"code": 114514, "info": "未知错误.┗|｀O′|┛"}
 
 
 def getFavicon(url):
@@ -86,14 +91,14 @@ def geticon():
     try:
         url = flask.request.args.get('url')
     except:
-        return jsonify(para_error_dict)
+        return jsonify(para_error)
     if url == None:
-        return jsonify(para_error_dict)
+        return jsonify(para_error)
     # 解码参数中的base64
     try:
         url = base64.b64decode(url).decode()
     except ValueError:
-        return jsonify(b64_error_dict)
+        return jsonify(b64_error)
     print("收到请求:"+url)
     # 简单的反爬虫策略，加上user-agent可以应对绝大部分网站
     domain = urlparse(url).scheme+"://"+urlparse(url).netloc
@@ -110,7 +115,7 @@ def geticon():
         return jsonify(data)
     except:
         traceback.print_exc()
-        err_dict = unknown_err_dict
+        err_dict = unknown_err
         err_dict["detail"] = traceback.format_exc()
         return jsonify(err_dict)
 
@@ -127,24 +132,87 @@ def ping():
     data["message"] = "万叶，我的叶宝🤤"
     return jsonify(data)
 
+
 @app.route('/about', methods=['get'])
 def about():
-    with open("../about.html","r",encoding="utf-8") as fp:
-        data=fp.read()
-    return data
+    with open("./about.html", "r", encoding="utf-8") as fp:
+        return fp.read()
+
 
 @app.route('/bing', methods=['get'])
 def bing():
-    with open("../bing/today_bing.json","r",encoding="utf-8") as fp:
-        data=fp.read()
-    return Response(data, mimetype='application/json')
+    with open("./bing/today_bing.json", "r", encoding="utf-8") as fp:
+        return Response(fp.read(), mimetype='application/json')
 
-# Response fucking 404 requests
+
+@app.route('/index.html', methods=['GET'])
+@app.route('/', methods=['GET'])
+def index():
+    try:
+        with open("index.html", encoding="utf-8") as fp:
+            return fp.read()
+    except FileNotFoundError:
+        abort(404)
+    except:
+        abort(500)
+
+@app.route('/js/<file_name>')
+def js(file_name):
+    try:
+        with open("./js/"+file_name, encoding="utf-8") as fp:
+            return fp.read()
+    except FileNotFoundError:
+        abort(404)
+    except:
+        abort(500)
+
+@app.route('/css/<file_name>')
+def css(file_name):
+    try:
+        with open("./css/"+file_name, encoding="utf-8") as fp:
+            return Response(fp.read(), mimetype='text/css')
+    except FileNotFoundError:
+        abort(404)
+    except:
+        abort(500)
+
+@app.route('/font/<file_name>')
+def font(file_name):
+    try:
+        return send_file("./font/"+file_name, mimetype="application/font-woff2")
+    except FileNotFoundError:
+        abort(404)
+    except:
+        abort(500)
+
+@app.route('/img/<file_name>')
+def img(file_name):
+    try:
+        return send_file("./img/"+file_name)
+    except FileNotFoundError:
+        abort(404)
+    except:
+        abort(500)
+
 @app.errorhandler(404)
-def page_not_found(e):
-    return jsonify(not_fond_dict)
+def page_not_found():
+    with open("404.html", encoding="utf-8") as fp:
+        return fp.read()
 
+@app.errorhandler(500)
+def page_not_found():
+    with open("500.html", encoding="utf-8") as fp:
+        return fp.read()
 
+@app.errorhandler(403)
+def page_not_found():
+    with open("403.html", encoding="utf-8") as fp:
+        return fp.read()
+
+@app.errorhandler(429)
+def page_not_found():
+    with open("429.html", encoding="utf-8") as fp:
+        return fp.read()
 
 server = pywsgi.WSGIServer(('localhost', 5003), app)
 server.serve_forever()
