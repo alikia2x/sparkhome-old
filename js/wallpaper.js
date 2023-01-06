@@ -1,6 +1,6 @@
 function get_bing(){
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://api.rastart.top/bing", true);
+    xhr.open("GET", "/bing", true);
     xhr.onreadystatechange = function() {
         if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
             let data = xhr.responseText;

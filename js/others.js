@@ -13,7 +13,7 @@ Array.prototype.clean = function (deleteValue) {
 function test_delay(){
     var time_send=new Date().getTime();
     var xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://api.rastart.top/ping");
+    xhr.open("GET", "/ping");
     xhr.send();
     xhr.onreadystatechange = function () {
         var time_end=new Date().getTime();

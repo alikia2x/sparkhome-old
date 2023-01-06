@@ -1,7 +1,7 @@
 function fresh_time(){
     var time_send = new Date().getTime();
     $.ajax({
-        url: "https://api.rastart.top/time",
+        url: "/time",
         type: "GET",
         success: function (data) {
             var network_time = data;
