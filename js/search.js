@@ -124,6 +124,18 @@ class Search{
             setTimeout('document.getElementById("sug_box").style.display = "none";document.getElementById("sug_box").innerHTML = "";', 150);
         }
     }
+    search(keyword) {
+        let url;
+        var engine = localStorage.getItem('engine');
+        if (engine in include_engine) {
+            url = include_engine[engine].replace("%s", keyword);
+        }
+        else {
+            let engine_list = JSON.parse(localStorage.getItem("engine_list"));
+            url = engine_list[engine].replace("%s",keyword);
+        }
+        link(url);
+    }
 }
 
 function search_big() {
@@ -326,19 +338,6 @@ function remove_engine(element) {
             fresh_setting_engine();
         }
       })
-}
-
-function search(keyword) {
-    let url;
-    var engine = localStorage.getItem('engine');
-    if (engine in include_engine) {
-        url = include_engine[engine].replace("%s", keyword);
-    }
-    else {
-        let engine_list = JSON.parse(localStorage.getItem("engine_list"));
-        url = engine_list[engine].replace("%s",keyword);
-    }
-    link(url);
 }
 
 function init_engine() {

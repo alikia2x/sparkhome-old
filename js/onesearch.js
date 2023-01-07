@@ -111,9 +111,9 @@ function smart_url(text) {
     clear_smart_sug()
     //别问我,这re我自己也看不懂了.
     //反正url,域名,ip都能很好匹配就对了
-    var url_re = /^https?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?:?[0-9]{0,5}\/?[a-zA-Z0-9-_.~!*'();:@&=+$,/?#\[\]%]*$/;
-    var domain_re = /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z][-a-zA-Z]{0,62})+\.?:?[0-9]{0,5}\/?[-a-zA-Z0-9/.?&=]*$/;
-    var ip_re = /^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}:?[0-9]{0,5}\/?[-a-zA-Z0-9/.?&=]*$/;
+    var url_re = /^https?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
+    var domain_re = /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z][-a-zA-Z]{0,62})+\.?:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
+    var ip_re = /^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
     if (url_re.test(text)) {
         var result_sug = document.createElement('div');
         result_sug.setAttribute("class", "suggestion");
@@ -204,7 +204,7 @@ function now_date(text) {
     sec = addZero(sec);
     hour = addZero(hour);
     if (text == "日期"){
-        var result = y + "年" + mon + "月" + d + "日";
+        var result = y + "/" + mon + "/" + d;
         add_smart_sug(result+"(单击以复制)", "copy('" + result + "');", "icon-date");
     }
     else if (text == "时间"){
@@ -284,7 +284,7 @@ function suggestion(data) {
             sug_box.style.height = result_list.length*30+"px";
             if (result_list.length > 0) {
                 result_list.forEach(function (ele, index) {
-                    str += '<div class="suggestion" onclick="search(' + "'" + ele + "'" + ')">' + ele + '</div>';
+                    str += '<div class="suggestion" onclick="search.search(' + "'" + ele + "'" + ')">' + ele + '</div>';
                 });
                 sug_box.innerHTML = str;
             }
