@@ -62,7 +62,7 @@
 
     <!-- 搜索框 -->
     <input onclick="search.focus()" class="search" type="text" name="search" id="search" placeholder="搜索"
-        oninput="one_search()" onkeydown="if(event.keyCode==13) search(document.getElementById('search').value);"
+        oninput="one_search()" onkeydown="if(event.keyCode==13) search.search(this.value);"
         autocomplete="off">
 
     <!-- 搜索联想 -->

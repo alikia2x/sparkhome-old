@@ -6,6 +6,7 @@ import (
 	"runtime/debug"
 	"time"
 
+	"github.com/badoux/goscraper"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,7 +26,20 @@ func errorHttp(c *gin.Context) {
 	c.Next()
 }
 
+func get_site_info(url string) (string, string) {
+	s, err := goscraper.Scrape(url, 5)
+	if err != nil {
+		log.SetPrefix("[Error]")
+		log.Println(err)
+		return "", ""
+	}
+	log.SetPrefix("[Info] ")
+	log.Printf("Received Website Information Request, URL: %s, Title:%s, Icon:%s\n", url, s.Preview.Title, s.Preview.Icon)
+	return s.Preview.Title, s.Preview.Icon
+}
+
 func main() {
+
 	app := gin.Default()
 	// 指明html加载文件目录
 	app.LoadHTMLFiles("./html/index.html", "./doc/doc.html", "./html/500.html", "./html/404.html", "./html/about.html")
@@ -53,6 +67,17 @@ func main() {
 	})
 	app.GET("/about", func(context *gin.Context) {
 		context.HTML(200, "about.html", nil)
+	})
+	app.GET("/icon", func(c *gin.Context) {
+		// 获取请求path中的参数
+		url := c.Query("url")
+		title, icon := get_site_info(url)
+		data := map[string]string{
+			"url":   url,
+			"title": title,
+			"icon":  icon,
+		}
+		c.JSON(200, data)
 	})
 	app.NoRoute(func(c *gin.Context) {
 		// 实现内部重定向

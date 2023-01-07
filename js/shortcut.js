@@ -33,29 +33,15 @@ function add_shortcut() {
             shortcut2add["url"]=url;
 
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://api.rastart.top/icon?url="+btoa(url));
+            xhr.open("GET", "/icon?url="+url);
             xhr.send();
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    var data=xhr.responseText;
-                    try {
-                        var data = JSON.parse(data);
-                        if (data["code"]==0){
-                            data["icon"]=decodeURIComponent(atob(data["icon"]));
-                            data["title"]=decodeURIComponent(atob(data["title"]));
-                            if (title==""){shortcut2add["title"]=data["title"];}
-                            else{shortcut2add["title"]=title;}
-                            if (icon==""){shortcut2add["icon"]=data["icon"];}
-                            else{shortcut2add["icon"]=icon;}
-                        }
-                        else {
-                            shortcut2add["title"]=url;
-                            shortcut2add["icon"]=icon;
-                        }
-                    } catch (e) {
-                        shortcut2add["title"]=url;
-                        shortcut2add["icon"]=icon;
-                    }
+                    var data = JSON.parse(xhr.responseText);
+                    shortcut2add["url"] = data.url;
+                    shortcut2add["title"] = data.title;
+                    shortcut2add["icon"] = data.icon;
+                    
                     var current_shortcut=JSON.parse(localStorage.getItem("shortcut"));
                     current_shortcut.push(shortcut2add);
                     localStorage.setItem("shortcut",JSON.stringify(current_shortcut));
