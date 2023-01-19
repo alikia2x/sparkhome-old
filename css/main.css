@@ -876,4 +876,8 @@ input:checked + .slider{
     .settings_img:focus {
         filter: brightness(0.7);
     }
+
+    .links{
+        width: 95vw;
+    }
 }
