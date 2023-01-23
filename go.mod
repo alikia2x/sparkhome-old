@@ -3,14 +3,12 @@ module spark/backend
 go 1.19
 
 require (
-	github.com/PuerkitoBio/goquery v1.8.0
 	github.com/badoux/goscraper v0.0.0-20190827161153-36995ce6b19f
 	github.com/gin-gonic/gin v1.8.2
 	go.uber.org/zap v1.24.0
 )
 
 require (
-	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
