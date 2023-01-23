@@ -1,4 +1,4 @@
-const engine_name_trans = {'baidu': '百度', 'bing': '必应', 'google': '谷歌', 'sougou': '搜狗', 'fsou': "F搜"},
+const engine_name_trans = { 'baidu': '百度', 'bing': '必应', 'google': '谷歌', 'sougou': '搜狗', 'fsou': "F搜" },
     include_engine = {
         "baidu": "https://www.baidu.com/s?wd=%s",
         "bing": "https://cn.bing.com/search?q=%s",
@@ -43,8 +43,8 @@ const engine_name_trans = {'baidu': '百度', 'bing': '必应', 'google': '谷�
 
 class Search{
     constructor() {
-        const engine_name_trans = { 'baidu': '百度', 'bing': '必应', 'google': '谷歌', 'sougou': '搜狗', 'fsou': "F搜" };
-        const engine_list = {
+        this.engine_name_trans = { 'baidu': '百度', 'bing': '必应', 'google': '谷歌', 'sougou': '搜狗', 'fsou': "F搜" };
+        this.engine_list = {
             "baidu": "https://www.baidu.com/s?wd=%s",
             "bing": "https://cn.bing.com/search?q=%s",
             "google": "https://www.google.com/search?q=%s",
@@ -87,6 +87,11 @@ class Search{
             "youtube": "https://www.youtube.com/results?search_query=%s",//YouTube
             "twitter": "https://twitter.com/search?q=%s",//Twitter
         }
+        this.basic_engine = {
+            "baidu": "https://www.baidu.com/s?wd=%s",
+            "bing": "https://cn.bing.com/search?q=%s",
+            "google": "https://www.google.com/search?q=%s",
+        };
     }
     focus() {
         $("#search").attr("focus", true);
@@ -101,28 +106,26 @@ class Search{
         else {
             $("#main").css("filter","brightness(0.5)");
         }
+        $("#search").focus()
     }
     blur() {
-        if (document.getElementById("search").getAttribute("focus") != null) {
-            document.getElementById("search").removeAttribute("focus");
-            document.getElementById("shortcut").style.display="inline";
-            setTimeout('document.getElementById("shortcut").style.opacity = "1";',60);
+        if ($("#search").attr("focus") != null) {
+            $("#search").removeAttr("focus");
+            $("#shortcut").css("display","inline");
+            setTimeout(' $("#shortcut").css("opacity","1"); ',60);
             if (get_settings("bg_blur") === true) {
-                //动画
-                document.getElementById("main").style.animationName = "bg_small";
-                document.getElementById("main").style.animationDuration = "0.3s";
-                //固定设置
-                document.getElementById("main").style.transform = "scale(1)";
-                document.getElementById("main").style.filter = "blur(0px)";
+                $("#main").css("transform", "scale(1)");
+                $("#main").css("filter", "blur(0px)");
             }
             else {
-                document.getElementById("main").style.filter = "";
+                $("#main").css("filter", "");
             }
-            document.getElementById("suggestions").style.opacity = "0";
-            document.getElementById("search").value = "";
+            $("#suggestions").css("opacity", "0");
+            $("#search").val("");
             drop_disappear();
-            setTimeout('document.getElementById("sug_box").style.display = "none";document.getElementById("sug_box").innerHTML = "";', 150);
+            setTimeout('$("#sug_box").css("display", "none"); $("#sug_box").html("");', 150);
         }
+        $("#search").blur()
     }
     search(keyword) {
         let url;
@@ -136,53 +139,11 @@ class Search{
         }
         link(url);
     }
-}
-
-function search_big() {
-    document.getElementById("search").setAttribute("focus", "true");
-    document.getElementById("shortcut").style.opacity = "0";
-    if (get_settings("bg_blur") === true) {
-        document.getElementById("main").style.filter = "blur(10px) brightness(0.7)";
-        document.getElementById("main").style.transform = "scale(1.15)";
-    }
-    else {
-        document.getElementById("main").style.filter = "brightness(0.5)";
-    }
-    setTimeout('document.getElementById("shortcut").style.display="none";',200);
-}
-
-function search_small() {
-    if (document.getElementById("search").getAttribute("focus") != null) {
-        document.getElementById("search").removeAttribute("focus");
-        document.getElementById("shortcut").style.display="inline";
-        setTimeout('document.getElementById("shortcut").style.opacity = "1";',60);
-        if (get_settings("bg_blur") === true) {
-            //动画
-            document.getElementById("main").style.animationName = "bg_small";
-            document.getElementById("main").style.animationDuration = "0.3s";
-            //固定设置
-            document.getElementById("main").style.transform = "scale(1)";
-            document.getElementById("main").style.filter = "blur(0px)";
-        }
-        else {
-            document.getElementById("main").style.filter = "";
-        }
-        document.getElementById("suggestions").style.opacity = "0";
-        document.getElementById("search").value = "";
-        drop_disappear();
-        setTimeout('document.getElementById("sug_box").style.display = "none";document.getElementById("sug_box").innerHTML = "";', 150);
+    init_engine() {
+        
     }
 }
 
-function search_blur() {
-    document.getElementById("search").blur();
-    search_small();
-}
-
-function search_focus() {
-    document.getElementById("search").focus();
-    search_big();
-}
 
 //检查是否有自定义引擎
 function check_extra_engine() {

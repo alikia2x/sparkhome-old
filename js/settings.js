@@ -21,10 +21,10 @@ function load_settings() {
     var i = 0;
     init_settings();
     //读取设置
-    var current_settings = JSON.parse(localStorage.getItem("settings"));
+    let current_settings = JSON.parse(localStorage.getItem("settings"));
 
-    for (setting in current_settings) {
-        var check = document.getElementById(settings_list[i]);
+    for (let setting in current_settings) {
+        let check = document.getElementById(settings_list[i]);
         if (current_settings[setting] == true) {
             check.checked = true;
         }
