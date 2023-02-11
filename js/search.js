@@ -92,10 +92,13 @@ class Search{
             "bing": "https://cn.bing.com/search?q=%s",
             "google": "https://www.google.com/search?q=%s",
         };
+        //在constructor阶段就将它初始化，init_engine阶段若读取到新的引擎会自动覆盖。
+        this.current_engine_list=this.basic_engine;
+        this.init_engine();
     }
     focus() {
-        $("#search").attr("focus", true);
-        if (get_settings("show_shortcut_when_focus")==false) {
+        document.getElementById("search").setAttribute("focus", "true");
+        if (get_settings("show_shortcut_when_focus")===false) {
             $("#shortcut").css("opacity", "0");
             setTimeout('$("#shortcut").css("display","none");',200);
         }
@@ -139,8 +142,20 @@ class Search{
         }
         link(url);
     }
-    init_engine() {
-        
+    //初始化引擎
+    init_engine(){
+        if (localStorage.getItem("engine_list")==null){
+            localStorage.setItem("engine_list",JSON.stringify(this.basic_engine));
+        }
+        else{
+            try{
+                this.current_engine_list=JSON.parse(localStorage.getItem("engine_list"));
+            }
+            catch (e) {
+                console.warn("Error parsing engine list. Initializing...");
+                localStorage.setItem("engine_list",JSON.stringify(this.basic_engine));
+            }
+        }
     }
 }
 
