@@ -4,8 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"os"
+    "io/ioutil"
+    "os"
 	"time"
+    "net/http"
 
 	"github.com/badoux/goscraper"
 	"github.com/gin-gonic/gin"
@@ -53,6 +55,12 @@ func getLogWriter() zapcore.WriteSyncer {
 }
 
 func main() {
+    response, _ := http.Get("https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1")
+    defer response.Body.Close()
+
+    body, _ :=ioutil.ReadAll(response.Body)
+    fmt.Println(string(body))
+
 	config := make(map[string]string)
 	_, ConfigExistErr := os.Stat("./config.json")
 	if ConfigExistErr == nil {
@@ -117,6 +125,9 @@ func main() {
 		}
 		c.JSON(200, data)
 	})
+    app.GET("/bing", func(context *gin.Context) {
+        context.HTML(200, "about.html", nil)
+    })
 	app.NoRoute(func(c *gin.Context) {
 		// 实现内部重定向
 		c.HTML(404, "404.html", nil)

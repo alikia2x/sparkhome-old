@@ -39,8 +39,8 @@ function load_settings() {
 
 function get_settings(name) {
     init_settings();
-    var current_settings = JSON.parse(localStorage.getItem("settings"));
-    return current_settings[name];
+    let current_settings = JSON.parse(localStorage.getItem("settings"));
+    return Boolean(current_settings[name]);
 }
 
 function save_settings() {
