@@ -6,6 +6,21 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var dict = {
+    "en": {
+        "搜索": "Search"
+    }
+};
+
+function t(text) {
+    var lang = navigator.language;
+    if (lang.includes("en")) {
+        return dict["en"][text];
+    } else {
+        return text;
+    }
+}
+
 var Background = function (_React$Component) {
     _inherits(Background, _React$Component);
 
@@ -23,7 +38,9 @@ var Background = function (_React$Component) {
     _createClass(Background, [{
         key: "render",
         value: function render() {
-            return React.createElement("img", { src: this.props.src, className: "w-full h-full fixed object-cover inset-0 duration-300" + (this.state.blur ? "blur-sm scale-125" : "") });
+            var css = "w-full h-full fixed object-cover inset-0 duration-300 z-0 ";
+            var var_css = this.state.blur ? "blur-sm scale-125" : "";
+            return React.createElement("img", { src: this.props.src, className: css + var_css });
         }
     }]);
 
@@ -47,7 +64,9 @@ var Search = function (_React$Component2) {
     _createClass(Search, [{
         key: "render",
         value: function render() {
-            return React.createElement("input", { type: "text", placeholder: "\u641C\u7D22" });
+            var css = "relative z-1 w-[400px] h-10 rounded-3xl top-48 left-1/2 translate-x-[-50%] text-center outline-none border-solid border-0 duration-200 hover:w-[600px] focus:w-[600px] ";
+            var var_css = get_settings("elementBackdrop") ? "bg-[rgba(255,255,255,0.7)] backdrop-blur" : "bg-[rgba(255,255,255,0.9)]";
+            return React.createElement("input", { type: "text", placeholder: t('搜索'), className: css + var_css });
         }
     }]);
 
@@ -102,5 +121,10 @@ function get_settings(name) {
 init_settings();
 
 var root = ReactDOM.createRoot(document.getElementById('root'));
-var element = React.createElement(Background, { src: settings["wallpaper"] });
+var element = React.createElement(
+    "div",
+    null,
+    React.createElement(Background, { src: settings["wallpaper"] }),
+    React.createElement(Search, null)
+);
 root.render(element);
