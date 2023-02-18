@@ -1,3 +1,19 @@
+const dict = {
+    "en": {
+        "搜索": "Search",
+    },
+};
+
+function t(text) {
+    var lang = navigator.language;
+    if (lang.includes("en")) {
+        return dict["en"][text];
+    }
+    else {
+        return text;
+    }
+}
+
 class Background extends React.Component {
     constructor(props) {
         super(props);
@@ -6,8 +22,10 @@ class Background extends React.Component {
         }
     }
     render() {
+        const css = "w-full h-full fixed object-cover inset-0 duration-300 z-0 ";
+        var var_css = this.state.blur ? "blur-sm scale-125" : "";
         return (
-            <img src={this.props.src} className={"w-full h-full fixed object-cover inset-0 duration-300" + (this.state.blur ? "blur-sm scale-125" : "")}></img>
+            <img src={this.props.src} className={css + var_css}></img>
         );
     }
 }
@@ -20,8 +38,10 @@ class Search extends React.Component{
         }
     }
     render() {
+        const css = "relative z-1 w-[400px] h-10 rounded-3xl top-48 left-1/2 translate-x-[-50%] text-center outline-none border-solid border-0 duration-200 hover:w-[600px] focus:w-[600px] ";
+        var var_css = get_settings("elementBackdrop") ? "bg-[rgba(255,255,255,0.7)] backdrop-blur" : "bg-[rgba(255,255,255,0.9)]";
         return (
-            <input type="text" placeholder="搜索"></input>
+            <input type="text" placeholder={t('搜索')} className={ css + var_css }></input>
         );
     }
 }
@@ -75,5 +95,10 @@ function get_settings(name) {
 init_settings();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const element = <Background src={settings["wallpaper"]} />;
+const element = (
+    <div>
+        <Background src={settings["wallpaper"]} />
+        <Search></Search>
+    </div>
+);
 root.render(element);
