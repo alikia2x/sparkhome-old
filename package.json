@@ -1,27 +1,5 @@
 {
   "name": "sparkhome",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/JulianDan/SparkHome.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/JulianDan/SparkHome/issues"
-  },
-  "homepage": "https://github.com/JulianDan/SparkHome#readme",
-  "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-react-app": "^3.1.2"
-  },
-  "devDependencies": {
-    "tailwindcss": "^3.2.6"
-  }
+  "version": "0.1.0",
+  "private": true
 }
