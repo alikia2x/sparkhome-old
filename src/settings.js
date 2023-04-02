@@ -1,3 +1,4 @@
+import React from 'react';
 const default_settings = {
   wallpaper:
     "https://sparkhome.cdn.bcebos.com/img/wallp/1.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920",

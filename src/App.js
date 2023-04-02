@@ -28,7 +28,8 @@ class App extends React.Component {
       connectionCheck: true,
       coverBlur: true,
       showShortcutOnFocus: false,
-    }
+    },
+    bgBlur: false,
   }
 
   init_settings() {
@@ -52,10 +53,6 @@ class App extends React.Component {
     }
   }
 
-  get_settings(name) {
-    return this.state.settings[name];
-  }
-
   componentDidMount() {
     this.init_settings();
   }
@@ -63,8 +60,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Background src={this.state.settings.wallpaper} />
-        <Search />
+        <Background src={this.state.settings.wallpaper} enableBlur={this.state.settings.bgBlur} blur={this.state.bgBlur} />
+        <Search elementBackdrop={this.state.settings.elementBackdrop} />
       </div>
     );
   }
