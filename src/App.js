@@ -14,22 +14,28 @@ const default_settings = {
   connectionCheck: true,
   coverBlur: true,
   showShortcutOnFocus: false,
+  search_engines: {
+    "baidu": {
+      "name": "百度",
+      "link": "https://www.baidu.com/s?wd=%s",
+    },
+    "google": {
+      "name": "谷歌",
+      "link": "https://www.google.com/search?q=%s"
+    },
+    "bing": {
+      "name": "必应",
+      "link": "https://www.bing.com/search?q=%s"
+    }
+  }
 };
 
 class App extends React.Component {
   state = {
-    settings: {
-      wallpaper: "",
-      showWeather: true,
-      showHitokoto: true,
-      elementBackdrop: true,
-      bgBlur: true,
-      timeSync: true,
-      connectionCheck: true,
-      coverBlur: true,
-      showShortcutOnFocus: false,
-    },
-    bgBlur: false,
+    settings: {},
+    //背景聚焦状态
+    isFocus: false,
+    currentSearchEngine: "baidu",
   }
 
   init_settings() {
@@ -38,15 +44,15 @@ class App extends React.Component {
       localStorage.setItem("settings", JSON.stringify(default_settings));
     } else {
       const settings = JSON.parse(localStorage.getItem("settings"));
-      this.setState({ settings });
+      this.setState({ settings: settings });
     }
   }
 
   change_settings(name, value) {
     try {
-      const settings = { ...this.state.settings };
+      var settings = this.state.settings;
       settings[name] = value;
-      this.setState({ settings });
+      this.setState({ settings: settings });
       localStorage.setItem("settings", JSON.stringify(settings));
     } catch (error) {
       console.error(error);
@@ -60,8 +66,8 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Background src={this.state.settings.wallpaper} enableBlur={this.state.settings.bgBlur} blur={this.state.bgBlur} />
-        <Search elementBackdrop={this.state.settings.elementBackdrop} />
+        <Background src={this.state.settings.wallpaper} enableBlur={this.state.settings.bgBlur} isFocus={this.state.isFocus} />
+        <Search elementBackdrop={this.state.settings.elementBackdrop} engine={default_settings["search_engines"][this.state.currentSearchEngine]["link"]} />
       </div>
     );
   }
