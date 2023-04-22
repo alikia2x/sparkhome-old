@@ -26,3 +26,5 @@ yarn-error.log*
 #backend
 /backend/gin.log
 /backend/program.log
+
+.env
