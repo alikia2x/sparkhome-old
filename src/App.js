@@ -3,7 +3,7 @@ import './index.css';
 import Search from './components/search';
 import Background from './components/background';
 
-const default_settings = {
+const defaultSettings = {
   wallpaper:
     "https://sparkhome.cdn.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920",
   showWeather: true,
@@ -14,7 +14,7 @@ const default_settings = {
   connectionCheck: true,
   coverBlur: true,
   showShortcutOnFocus: false,
-  search_engines: {
+  searchEngines: {
     "baidu": {
       "name": "百度",
       "link": "https://www.baidu.com/s?wd=%s",
@@ -38,17 +38,17 @@ class App extends React.Component {
     currentSearchEngine: "baidu",
   }
 
-  init_settings() {
+  initSettings() {
     if (localStorage.getItem("settings") === null) {
-      this.setState({ settings: default_settings });
-      localStorage.setItem("settings", JSON.stringify(default_settings));
+      this.setState({ settings: defaultSettings });
+      localStorage.setItem("settings", JSON.stringify(defaultSettings));
     } else {
       const settings = JSON.parse(localStorage.getItem("settings"));
       this.setState({ settings: settings });
     }
   }
 
-  change_settings(name, value) {
+  changeSettings(name, value) {
     try {
       var settings = this.state.settings;
       settings[name] = value;
@@ -60,14 +60,14 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.init_settings();
+    this.initSettings();
   }
 
   render() {
     return (
       <div>
         <Background src={this.state.settings.wallpaper} enableBlur={this.state.settings.bgBlur} isFocus={this.state.isFocus} />
-        <Search elementBackdrop={this.state.settings.elementBackdrop} engine={default_settings["search_engines"][this.state.currentSearchEngine]["link"]} />
+        <Search elementBackdrop={this.state.settings.elementBackdrop} engine={defaultSettings["searchEngines"][this.state.currentSearchEngine]["link"]} />
       </div>
     );
   }
