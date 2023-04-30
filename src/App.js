@@ -2,6 +2,7 @@ import React from 'react';
 import './index.css';
 import Search from './components/search';
 import Background from './components/background';
+import Selector from './components/selector';
 
 const defaultSettings = {
   wallpaper:
@@ -36,6 +37,7 @@ class App extends React.Component {
     //背景聚焦状态
     isFocus: false,
     currentSearchEngine: "baidu",
+    engineNameList: [],
   }
 
   initSettings() {
@@ -59,14 +61,24 @@ class App extends React.Component {
     }
   }
 
+  getEnginesNameList() {
+    var settingsDict = this.state.settings;
+    return Object.keys(settingsDict).map(function (key) {
+      return settingsDict[key]["name"];
+    });
+  }
+
   componentDidMount() {
     this.initSettings();
+    console.log(this.state.settings);
+    this.setState({ engineNameList: this.getEnginesNameList() });
   }
 
   render() {
     return (
       <div>
         <Background src={this.state.settings.wallpaper} enableBlur={this.state.settings.bgBlur} isFocus={this.state.isFocus} />
+        <Selector items={this.state.engineNameList} />
         <Search elementBackdrop={this.state.settings.elementBackdrop} engine={defaultSettings["searchEngines"][this.state.currentSearchEngine]["link"]} />
       </div>
     );
