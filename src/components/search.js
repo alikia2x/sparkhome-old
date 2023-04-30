@@ -35,7 +35,7 @@ function Search(props) {
   }
 
   function handleSearch() {
-    console.log('search:', query);
+    window.open(props.engine.replace("%s", query));
   }
 
   function getSearchSuggestions(value) {
