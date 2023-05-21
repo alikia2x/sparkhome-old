@@ -2,7 +2,7 @@ import React from 'react';
 import './index.css';
 import Search from './components/search';
 import Background from './components/background';
-import Selector from './components/selector';
+import Dropdown from './components/dropdown';
 
 const defaultSettings = {
   wallpaper:
@@ -15,6 +15,7 @@ const defaultSettings = {
   connectionCheck: true,
   coverBlur: true,
   showShortcutOnFocus: false,
+  currentSearchEngine: "baidu",
   searchEngines: {
     "baidu": {
       "name": "百度",
@@ -33,11 +34,9 @@ const defaultSettings = {
 
 class App extends React.Component {
   state = {
-    settings: {},
+    settings: defaultSettings,
     //背景聚焦状态
     isFocus: false,
-    currentSearchEngine: "baidu",
-    engineNameList: [],
   }
 
   initSettings() {
@@ -52,6 +51,7 @@ class App extends React.Component {
 
   changeSettings(name, value) {
     try {
+      this.initSettings();
       var settings = this.state.settings;
       settings[name] = value;
       this.setState({ settings: settings });
@@ -62,24 +62,44 @@ class App extends React.Component {
   }
 
   getEnginesNameList() {
-    var settingsDict = this.state.settings;
-    return Object.keys(settingsDict).map(function (key) {
-      return settingsDict[key]["name"];
-    });
+    var settingsDict = this.state.settings["searchEngines"];
+    var nameList = [];
+    for (var key in settingsDict) {
+      nameList.push(key);
+    }
+    return nameList;
   }
 
   componentDidMount() {
     this.initSettings();
-    console.log(this.state.settings);
-    this.setState({ engineNameList: this.getEnginesNameList() });
+  }
+
+  componentDidUpdate() {
+    this.changeSettings("searchEngines", {
+      "baidu": {
+        "name": "百度",
+        "link": "https://www.baidu.com/s?wd=%s",
+      },
+      "google": {
+        "name": "谷歌",
+        "link": "https://www.google.com/search?q=%s"
+      },
+    });
   }
 
   render() {
     return (
-      <div>
-        <Background src={this.state.settings.wallpaper} enableBlur={this.state.settings.bgBlur} isFocus={this.state.isFocus} />
-        <Selector items={this.state.engineNameList} />
-        <Search elementBackdrop={this.state.settings.elementBackdrop} engine={defaultSettings["searchEngines"][this.state.currentSearchEngine]["link"]} />
+      <div id="app" className='h-full relative'>
+        <Background src={this.state.settings.wallpaper} enableBlur={this.state.settings.bgBlur}
+          isFocus={this.state.isFocus} />
+
+        <Dropdown items={this.getEnginesNameList()}
+          current={this.state.settings.searchEngines[this.state.settings.currentSearchEngine]["name"]} //获取当前引擎的名字
+          css="top-[17rem] left-1/2 translate-x-[-50%] "
+          elementBackdrop={this.state.settings.elementBackdrop}/>
+        
+        <Search elementBackdrop={this.state.settings.elementBackdrop}
+          engine={this.state.settings.searchEngines[this.state.settings.currentSearchEngine]["link"]} />
       </div>
     );
   }
