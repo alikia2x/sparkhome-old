@@ -6,7 +6,7 @@ function Search(props) {
     translate-x-[-50%] text-center outline-none border-solid border-0 duration-200 hover:w-[600px] \
     focus:w-[600px] text-white \
     ";
-  var varCSS = props.elementBackdrop
+  let varCSS = props.elementBackdrop
     ? "bg-[rgba(255,255,255,0.2)] backdrop-blur-xl dark:bg-[rgba(24,24,24,0.7)]"
     : "bg-[rgba(255,255,255,0.9)]";
 
