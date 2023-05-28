@@ -52,7 +52,7 @@ class App extends React.Component {
   changeSettings(name, value) {
     try {
       this.initSettings();
-      var settings = this.state.settings;
+      let settings = this.state.settings;
       settings[name] = value;
       this.setState({ settings: settings });
       localStorage.setItem("settings", JSON.stringify(settings));
@@ -62,10 +62,10 @@ class App extends React.Component {
   }
 
   getEnginesNameList() {
-    var settingsDict = this.state.settings["searchEngines"];
-    var nameList = [];
-    for (var key in settingsDict) {
-      nameList.push(key);
+    let settingsDict = this.state.settings["searchEngines"];
+    let nameList = [];
+    for (let key in settingsDict) {
+      nameList.push(this.state.settings.searchEngines[key]["name"]);
     }
     return nameList;
   }
@@ -73,19 +73,7 @@ class App extends React.Component {
   componentDidMount() {
     this.initSettings();
   }
-
-  componentDidUpdate() {
-    this.changeSettings("searchEngines", {
-      "baidu": {
-        "name": "百度",
-        "link": "https://www.baidu.com/s?wd=%s",
-      },
-      "google": {
-        "name": "谷歌",
-        "link": "https://www.google.com/search?q=%s"
-      },
-    });
-  }
+  
 
   render() {
     return (
