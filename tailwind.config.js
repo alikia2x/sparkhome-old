@@ -5,7 +5,11 @@ module.exports = {
     ],
     darkMode: false, 
     theme: {
-      extend: {},
+      extend: {
+        fontFamily: {
+          'DIN': ['DIN', 'sans-serif'], // 替换为你自定义字体的名称和堆栈
+        },
+      },
     },
     variants: {
       extend: {},
