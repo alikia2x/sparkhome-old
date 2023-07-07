@@ -2,10 +2,10 @@ import { React, useState } from 'react';
 
 function Search(props) {
   const css =
-    "relative z-1 w-[400px] h-10 rounded-3xl top-48 left-1/2 placeholder:text-slate-200 \
-    translate-x-[-50%] text-center outline-none border-solid border-0 duration-200 hover:w-[600px] \
-    focus:w-[600px] text-white \
-    ";
+    "relative z-1 w-[400px] h-10 rounded-3xl top-48 left-1/2 placeholder:text-slate-200 " +
+    "translate-x-[-50%] text-center outline-none border-solid border-0 duration-200 hover:w-[600px] " +
+    "focus:w-[600px] text-white ";
+  
   let varCSS = props.elementBackdrop
     ? "bg-[rgba(255,255,255,0.2)] backdrop-blur-xl dark:bg-[rgba(24,24,24,0.7)]"
     : "bg-[rgba(255,255,255,0.9)]";
