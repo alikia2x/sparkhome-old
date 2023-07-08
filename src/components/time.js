@@ -1,50 +1,38 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
 
-const Time = ({ format }) => {
-    const [date, setDate] = useState(new Date());
-    const [timeDiff, setTimeDiff] = useState(0);
+const Time = ({ showSecond }) => {
+    const [currentTime, setCurrentTime] = useState(new Date());
 
-    // 请求网络时间
     useEffect(() => {
-        const fetchTime = async () => {
-            const apiUrl = process.env.REACT_APP_API_URL + '/time';
-            try {
-                const serverTimeStart = new Date().getTime();
-                const { data } = await axios.get(apiUrl).data.timestamp;
-                const serverTimeEnd = new Date().getTime();
-                const serverTimeReceived = (serverTimeStart + serverTimeEnd) / 2;
-                const serverTime = new Date(data).getTime();
-                // 计算网络请求延迟
-                setTimeDiff(serverTime - serverTimeReceived);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchTime();
-    }, []);
-
-    // 更新时间
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setDate(new Date(new Date().getTime() + timeDiff));
-        }, 150);
+        const timer = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
 
         return () => {
-            clearInterval(interval);
+            clearInterval(timer);
         };
-    }, [timeDiff]);
+    }, []);
 
-    const timeFormat = format === 'hh:mm' ? 'HH:mm' : 'HH:mm:ss';
-    const timeString = moment(date).format(timeFormat);
+    const formatTime = () => {
+        const hours = currentTime.getHours().toString().padStart(2, "0");
+        const minutes = currentTime.getMinutes().toString().padStart(2, "0");
+        const seconds = currentTime.getSeconds().toString().padStart(2, "0");
+
+        if (showSecond) {
+            return `${hours}:${minutes}:${seconds}`;
+        } else {
+            return `${hours}:${minutes}`;
+        }
+    };
 
     return (
-        <div className="relative top-24 text-2xl font-din translate-x-[-50%] left-1/2 duration-200 text-white text-4xl text-center font-DIN text-shadow-lg" style={{textShadow:"0px 0px 5px #222"}}>
-            {timeString}
+        <div
+            className="relative top-24 short:top-0 text-2xl font-din translate-x-[-50%] left-1/2 duration-200 text-white text-4xl text-center font-DIN text-shadow-lg"
+            style={{ textShadow: "0px 0px 5px #222" }}
+        >
+            {formatTime()}
         </div>
     );
-}
+};
 
 export default Time;
