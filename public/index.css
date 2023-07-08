@@ -560,6 +560,9 @@ video {
 .text-center {
   text-align: center;
 }
+.font-DIN {
+  font-family: DIN, sans-serif;
+}
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
@@ -607,9 +610,6 @@ video {
 .duration-200 {
   transition-duration: 200ms;
 }
-.duration-300 {
-  transition-duration: 300ms;
-}
 
 body {
   margin: 0;
@@ -623,6 +623,11 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+@font-face {
+  font-family: "DIN";
+  src: url("./DIN.ttf");
 }
 
 .placeholder\:text-slate-200::placeholder {
@@ -647,5 +652,12 @@ code {
   .dark\:text-slate-200 {
     --tw-text-opacity: 1;
     color: rgb(226 232 240 / var(--tw-text-opacity));
+  }
+}
+
+@media (min-height: 360px) {
+
+  .xshort\:top-36 {
+    top: 9rem;
   }
 }
