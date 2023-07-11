@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
-class Dropdown extends Component {
+class Selector extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,6 +13,7 @@ class Dropdown extends Component {
     componentDidMount() {
         document.addEventListener("click", this.handleClickOutside);
     }
+
     componentWillUnmount() {
         document.removeEventListener("click", this.handleClickOutside);
     }
@@ -23,7 +24,7 @@ class Dropdown extends Component {
             this.dropdownRef.current &&
             !this.dropdownRef.current.contains(event.target)
         ) {
-            this.setState({ dropdownIsVisible: false });
+            this.setState({dropdownIsVisible: false});
         }
     };
 
@@ -37,20 +38,21 @@ class Dropdown extends Component {
     //点击更改了当前的选中项
     changeSelected(target) {
         this.props.selectedOnChange(target);
-        this.setState({ dropdownIsVisible: false });
+        this.setState({dropdownIsVisible: false});
     }
 
     render() {
-        const { items, current, elementBackdrop, css } = this.props;
-        const { dropdownIsVisible } = this.state;
-        //处理整个Dropdown的CSS
-        let boxVarCSS = elementBackdrop
-            ? "bg-[rgba(255,255,255,0.2)] backdrop-blur-xl dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
-            : "bg-[rgba(255,255,255,0.9)]";
+        const {items, current, elementBackdrop, css} = this.props;
+        const {dropdownIsVisible} = this.state;
+        //Selector框架的CSS
         let boxCSS =
-            "relative w-20 h-8 text-white z-10 text-center leading-8 rounded-2xl cursor-pointer select-none";
-        if (css !== undefined) boxCSS = `${css} ${boxCSS} ${boxVarCSS}`;
-        else boxCSS = `${boxCSS} ${boxVarCSS}`;
+            "relat w-20 h-auto text-white text-center cursor-pointer select-none";
+        if (css !== undefined) boxCSS = `${css} ${boxCSS}`;
+
+        let btnVarCSS = elementBackdrop
+            ? "bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200 backdrop-blur-lg"
+            : "bg-[rgba(255,255,255,0.9)]";
+        let btnCSS = "rounded-2xl h-8";
 
         //Dropdown单个item的CSS
         let itemCSS =
@@ -59,19 +61,17 @@ class Dropdown extends Component {
             ? ""
             : "pointer-events-none opacity-0";
         let itemVarCSS = elementBackdrop
-            ? "bg-[rgba(255,255,255,0.7)] backdrop-blur-xl dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
+            ? "bg-[rgba(255,255,255,0.7)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
             : "bg-[rgba(255,255,255,0.9)]";
         itemCSS = `${itemCSS} ${itemVarCSS} ${itemVisibleCSS}`;
 
         return (
-            <div className={boxCSS} ref={this.dropdownRef}>
-                <div
-                    name="dropdown-text"
-                    onClick={() => this.toggleDropdownVisibility()}
-                >
+            <div className={boxCSS}>
+                <div className={btnCSS + btnVarCSS} ref={this.dropdownRef}
+                     onClick={() => this.toggleDropdownVisibility()}>
                     {current}
                 </div>
-                <div name="dropdown-menu" className={itemCSS}>
+                <div className={itemCSS}>
                     {Object.keys(items).map((index) => (
                         <div
                             key={index}
@@ -86,4 +86,6 @@ class Dropdown extends Component {
     }
 }
 
-export default Dropdown;
+//烦死了烦死了烦死了适配真是恶心为什么没有完美的浏览器嘤嘤嘤
+//烦死了烦死了烦死了为什么我当初要用React啊啊啊啊啊啊啊啊啊啊
+export default Selector;
