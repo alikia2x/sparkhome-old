@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 
-const Time = ({ showSecond }) => {
+const Time = ({showSecond}) => {
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
@@ -27,8 +27,8 @@ const Time = ({ showSecond }) => {
 
     return (
         <div
-            className="relative top-24 short:top-0 text-2xl font-din translate-x-[-50%] left-1/2 duration-200 text-white text-4xl text-center font-DIN text-shadow-lg"
-            style={{ textShadow: "0px 0px 5px #222" }}
+            className="absolute top-24 short:top-0 font-din translate-x-[-50%] left-1/2 duration-200 text-white text-4xl text-center font-DIN text-shadow-lg"
+            style={{textShadow: "0px 0px 5px #222"}}
         >
             {formatTime()}
         </div>
