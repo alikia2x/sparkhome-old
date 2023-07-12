@@ -44,34 +44,35 @@ class Selector extends Component {
     render() {
         const {items, current, elementBackdrop, css} = this.props;
         const {dropdownIsVisible} = this.state;
-        //Selector框架的CSS
+        // Selector 框架的 CSS
         let boxCSS =
             "relat w-20 h-auto text-white text-center cursor-pointer select-none";
         if (css !== undefined) boxCSS = `${css} ${boxCSS}`;
 
+        // Selector 按钮的 CSS
         let btnVarCSS = elementBackdrop
-            ? "bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200 backdrop-blur-lg"
+            ? "bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(24,24,24,0.7)] text-slate-100 dark:text-slate-100 backdrop-blur-lg"
             : "bg-[rgba(255,255,255,0.9)]";
-        let btnCSS = "rounded-2xl h-8";
+        let btnCSS = "rounded-2xl h-8 pt-1";
 
-        //Dropdown单个item的CSS
-        let itemCSS =
-            "w-20 h-auto mt-1 text-center leading-8 rounded-2xl cursor-pointer select-none transition-all";
-        let itemVisibleCSS = dropdownIsVisible
+        // Selector 列表 的 CSS
+        let listCSS =
+            "w-20 h-auto mt-1 text-center leading-8 rounded-2xl cursor-pointer select-none transition-all overflow-scroll";
+        let listVisibleCSS = dropdownIsVisible
             ? ""
             : "pointer-events-none opacity-0";
-        let itemVarCSS = elementBackdrop
+        let listVarCSS = elementBackdrop
             ? "bg-[rgba(255,255,255,0.7)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
             : "bg-[rgba(255,255,255,0.9)]";
-        itemCSS = `${itemCSS} ${itemVarCSS} ${itemVisibleCSS}`;
+        listCSS = `${listCSS} ${listVarCSS} ${listVisibleCSS}`;
 
         return (
             <div className={boxCSS}>
-                <div className={btnCSS + btnVarCSS} ref={this.dropdownRef}
+                <div className={btnCSS + " " + btnVarCSS} ref={this.dropdownRef}
                      onClick={() => this.toggleDropdownVisibility()}>
                     {current}
                 </div>
-                <div className={itemCSS}>
+                <div className={listCSS} style={{maxHeight: 2 * this.props.max_show.toString() + "rem"}}>
                     {Object.keys(items).map((index) => (
                         <div
                             key={index}

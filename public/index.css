@@ -496,11 +496,11 @@ video {
 .top-0 {
   top: 0px;
 }
-.top-24 {
-  top: 6rem;
+.top-42 {
+  top: 10.5rem;
 }
-.top-48 {
-  top: 12rem;
+.top-56 {
+  top: 14rem;
 }
 .top-\[17rem\] {
   top: 17rem;
@@ -645,15 +645,14 @@ video {
 .pr-4 {
   padding-right: 1rem;
 }
+.pt-1 {
+  padding-top: 0.25rem;
+}
 .text-center {
   text-align: center;
 }
 .font-DIN {
   font-family: DIN, sans-serif;
-}
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
 }
 .text-4xl {
   font-size: 2.25rem;
