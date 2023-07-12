@@ -231,6 +231,7 @@ class App extends React.Component {
 
                 <Selector
                     items={this.getEnginesNameList()}
+                    max_show={7}
                     current={
                         this.state.settings.searchEngines[
                             this.state.settings.currentSearchEngine
