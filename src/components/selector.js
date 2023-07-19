@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import '../style/scrollbar.css';
 
 class Selector extends Component {
     constructor(props) {
@@ -44,20 +45,20 @@ class Selector extends Component {
     render() {
         const {items, current, elementBackdrop, css} = this.props;
         const {dropdownIsVisible} = this.state;
-        // Selector 框架的 CSS
+        // Selector框架的CSS
         let boxCSS =
-            "relat w-20 h-auto text-white text-center cursor-pointer select-none";
+            "relat w-20 h-8 text-white text-center cursor-pointer select-none";
         if (css !== undefined) boxCSS = `${css} ${boxCSS}`;
 
-        // Selector 按钮的 CSS
+        // Selector按钮的CSS
         let btnVarCSS = elementBackdrop
             ? "bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(24,24,24,0.7)] text-slate-100 dark:text-slate-100 backdrop-blur-lg"
             : "bg-[rgba(255,255,255,0.9)]";
         let btnCSS = "rounded-2xl h-8 pt-1";
 
-        // Selector 列表 的 CSS
+        // Selector列表的CSS
         let listCSS =
-            "w-20 h-auto mt-1 text-center leading-8 rounded-2xl cursor-pointer select-none transition-all overflow-scroll";
+            "w-20 h-auto mt-1 text-center leading-8 rounded-2xl cursor-pointer select-none transition-all overflow-scroll overflow-x-hidden noScrollbar";
         let listVisibleCSS = dropdownIsVisible
             ? ""
             : "pointer-events-none opacity-0";
@@ -66,16 +67,21 @@ class Selector extends Component {
             : "bg-[rgba(255,255,255,0.9)]";
         listCSS = `${listCSS} ${listVarCSS} ${listVisibleCSS}`;
 
+        // Selector单个item的CSS
+        let itemCSS = "hover:bg-[rgba(230,230,230,0.9)] dark:hover:bg-[rgba(90,90,90,0.9)]";
+
         return (
             <div className={boxCSS}>
                 <div className={btnCSS + " " + btnVarCSS} ref={this.dropdownRef}
                      onClick={() => this.toggleDropdownVisibility()}>
                     {current}
                 </div>
-                <div className={listCSS} style={{maxHeight: 2 * this.props.max_show.toString() + "rem"}}>
+                <div className={listCSS}
+                     style={{maxHeight: 2 * this.props.max_show.toString() + "rem"}}>
                     {Object.keys(items).map((index) => (
                         <div
                             key={index}
+                            className={itemCSS}
                             onClick={() => this.changeSelected(items[index])}
                         >
                             {items[index]}
@@ -87,6 +93,4 @@ class Selector extends Component {
     }
 }
 
-//烦死了烦死了烦死了适配真是恶心为什么没有完美的浏览器嘤嘤嘤
-//烦死了烦死了烦死了为什么我当初要用React啊啊啊啊啊啊啊啊啊啊
 export default Selector;

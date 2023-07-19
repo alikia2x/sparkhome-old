@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import { createStore } from 'redux';
 import {XMarkIcon} from '@heroicons/react/24/outline';
 import {Transition} from '@headlessui/react';
 
@@ -29,23 +30,27 @@ const Window = ({onClose, content}) => {
             leaveTo="opacity-0 backdrop-blur-none"
             className="absolute h-screen w-screen top-0 left-0 z-20"
         >
+            {/*全屏幕框架*/}
             <div className="fixed inset-0 flex items-center justify-center">
+                {/*窗口框体*/}
                 <div
                     className="w-[85vw] sm:w-128 lg:w-144 xl:w-168
                     h-144 lg:h-160 mh:h-128 st:h-96 2xst:h-80
                     bg-white rounded-lg dark:bg-neutral-900 dark:text-slate-200">
-                    <div className="relative h-10 w-full">
+                    {/*标题栏*/}
+                    <div className="relative h-10 lg:h-14 border-b-[1px] border-solid border-neutral-300 w-full">
                         <button
                             className="absolute rounded-md
-                            w-12 h-8 mt-1 mr-1 pl-5 right-0
+                            w-12 h-8 lg:w-16 lg:h-10 mt-1 mr-1 lg:mt-2 lg:mr-2 pl-3.5 lg:pl-5 right-0
                             hover:bg-gray-200 focus:bg-gray-200
                             dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                             onClick={handleClose}
                         >
-                            <XMarkIcon className="w-5 h-5 md:w-6 md:h-6 st:h-5 st:w-5"/>
+                            <XMarkIcon className="w-5 h-5 lg:w-6 lg:h-6 st:h-5 st:w-5"/>
                         </button>
                     </div>
-                    <div className="overflow-scroll pl-4 pr-4 h-">{content}</div>
+                    {/*内容*/}
+                    <div className="overflow-scroll pl-4 pr-4 h-134 lg:h-144 mh:h-118 mh:lg:h-114 st:h-86 st:lg:h-82 2xst:h-70 2xst:lg:h-64">{content}</div>
                 </div>
             </div>
         </Transition>

@@ -1,4 +1,6 @@
 import React from "react";
+import {createStore} from 'redux';
+
 import "./index.css";
 import Search from "./components/search";
 import Background from "./components/background";
@@ -33,87 +35,6 @@ const defaultSettings = {
             name: "必应",
             link: "https://www.bing.com/search?q=%s",
         },
-        "nxawd": {
-            "name": "fsaoxk",
-            "link": "https://www.nxawd.com/search?q=%s"
-        },
-        "asjkd": {
-            "name": "lmfrl",
-            "link": "https://www.asjkd.com/search?q=%s"
-        },
-        "qoweu": {
-            "name": "khqzl",
-            "link": "https://www.qoweu.com/search?q=%s"
-        },
-        "icvjz": {
-            "name": "qpczf",
-            "link": "https://www.icvjz.com/search?q=%s"
-        },
-        "zbpae": {
-            "name": "lwozh",
-            "link": "https://www.zbpae.com/search?q=%s"
-        },
-        "pnsew": {
-            "name": "ftprs",
-            "link": "https://www.pnsew.com/search?q=%s"
-        },
-        "yuzsm": {
-            "name": "rtupx",
-            "link": "https://www.yuzsm.com/search?q=%s"
-        },
-        "jefoa": {
-            "name": "wimcf",
-            "link": "https://www.jefoa.com/search?q=%s"
-        },
-        "hltez": {
-            "name": "yzfgr",
-            "link": "https://www.hltez.com/search?q=%s"
-        },
-        "hqaeg": {
-            "name": "rqpmd",
-            "link": "https://www.hqaeg.com/search?q=%s"
-        },
-        "hxndy": {
-            "name": "fciru",
-            "link": "https://www.hxndy.com/search?q=%s"
-        },
-        "kqdyn": {
-            "name": "zcrfg",
-            "link": "https://www.kqdyn.com/search?q=%s"
-        },
-        "zowbt": {
-            "name": "lfbxz",
-            "link": "https://www.zowbt.com/search?q=%s"
-        },
-        "wstgx": {
-            "name": "xwkfm",
-            "link": "https://www.wstgx.com/search?q=%s"
-        },
-        "lxryc": {
-            "name": "dorgs",
-            "link": "https://www.lxryc.com/search?q=%s"
-        },
-        "hkqbg": {
-            "name": "jmspl",
-            "link": "https://www.hkqbg.com/search?q=%s"
-        },
-        "irhjo": {
-            "name": "pkgrh",
-            "link": "https://www.irhjo.com/search?q=%s"
-        },
-        "rgtcl": {
-            "name": "fhkqy",
-            "link": "https://www.rgtcl.com/search?q=%s"
-        },
-        "drtsz": {
-            "name": "mqwbg",
-            "link": "https://www.drtsz.com/search?q=%s"
-        },
-        "wqkru": {
-            "name": "shqgm",
-            "link": "https://www.wqkru.com/search?q=%s"
-        }
-
     },
 };
 
@@ -180,6 +101,13 @@ class App extends React.Component {
         this.setState({showWindow: !this.state.showWindow});
     };
 
+    handleMainAppKeyDown(event) {
+        if (event.key === "Enter") {
+            console.debug("Pressed Enter.")
+            document.getElementById("searchBox").blur();
+        }
+    }
+
     render() {
         return (
             <div id="app" className="h-full fixed overflow-hidden w-full">
@@ -196,16 +124,7 @@ class App extends React.Component {
                     <Window onClose={this.handleToggleWindow} content={(
                         <div>
                             <h1 className="text-lg font-semibold">A Window</h1>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sit amet eros molestie,
-                                pharetra lectus at, blandit enim. Etiam et lorem vel elit venenatis venenatis. Fusce eu
-                                porttitor justo, non malesuada tortor. Aenean luctus eros sem, eget maximus leo faucibus
-                                et. Praesent lobortis urna eu ipsum imperdiet fermentum. Quisque rutrum viverra
-                                convallis. Fusce vulputate justo vitae nisl pulvinar, at placerat libero rutrum. </p>
-                            <p>Fusce varius arcu leo, pulvinar consequat dui mattis quis. Morbi ipsum nisi, hendrerit
-                                nec sodales quis, pulvinar iaculis ex. Aenean pulvinar consectetur lacinia. Nulla
-                                facilisi. Aliquam molestie viverra augue sit amet viverra. Vestibulum laoreet tincidunt
-                                eros, et lobortis odio suscipit ut. Sed vehicula lacus eu est interdum tristique. Cras
-                                eu magna lectus. Phasellus finibus diam id consectetur consequat. </p>
+                            <p>Lorem ipsum</p>
                         </div>
                     )}
                     />

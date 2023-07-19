@@ -1,0 +1,7 @@
+.noScrollbar::-webkit-scrollbar {
+    width: 0;
+}
+
+.noScrollbar {
+    scrollbar-width: none;
+}
