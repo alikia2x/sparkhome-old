@@ -9,6 +9,9 @@ import Window from "./components/window";
 
 import {Cog8ToothIcon} from '@heroicons/react/24/outline';
 
+import {connect} from 'react-redux';
+import {UPDATE_SETTINGS} from './actions/types';
+
 const defaultSettings = {
     wallpaper:
         "https://sparkhome.cdn.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920",
@@ -110,7 +113,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <div id="app" className="h-full fixed overflow-hidden w-full">
+            <div id="app" className="h-full fixed overflow-hidden w-full font-DIN">
                 <div id="settingsBtn" className="absolute z-20 right-4 bottom-4 w-10 h-10">
                     <button
                         className="p-2 text-white bg-[rgba(255,255,255,0.2)] hover:bg-gray-600 rounded-full"
@@ -124,7 +127,7 @@ class App extends React.Component {
                     <Window onClose={this.handleToggleWindow} content={(
                         <div>
                             <h1 className="text-lg font-semibold">A Window</h1>
-                            <p>Lorem ipsum</p>
+                            <p>{JSON.stringify(this.props.settings)}</p>
                         </div>
                     )}
                     />
@@ -165,4 +168,10 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        settings: state.settings,
+    };
+};
+
+export default connect(mapStateToProps, {UPDATE_SETTINGS})(App);
