@@ -1,12 +1,12 @@
 import React from "react";
-import {createStore} from 'redux';
-
 import "./index.css";
+
 import Search from "./components/search";
 import Background from "./components/background";
 import Selector from "./components/selector";
 import Time from "./components/time";
 import Window from "./components/window";
+
 import {Cog8ToothIcon} from '@heroicons/react/24/outline';
 
 const defaultSettings = {

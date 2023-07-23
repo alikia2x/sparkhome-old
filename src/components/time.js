@@ -6,7 +6,7 @@ const Time = ({showSecond}) => {
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentTime(new Date());
-        }, 1000);
+        }, 150);
 
         return () => {
             clearInterval(timer);
