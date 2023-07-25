@@ -5,9 +5,9 @@ class Selector extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dropdownIsVisible: false,
+            selectorIsVisible: false,
         };
-        this.dropdownRef = React.createRef();
+        this.selectorRef = React.createRef();
     }
 
     //挂载和卸载组件时，同步添加/删除事件监听器
@@ -19,32 +19,32 @@ class Selector extends Component {
         document.removeEventListener("click", this.handleClickOutside);
     }
 
-    //处理在Dropdown之外的任意位置的点击，使其在点击后关闭Dropdown
+    //处理在selector之外的任意位置的点击，使其在点击后关闭selector
     handleClickOutside = (event) => {
         if (
-            this.dropdownRef.current &&
-            !this.dropdownRef.current.contains(event.target)
+            this.selectorRef.current &&
+            !this.selectorRef.current.contains(event.target)
         ) {
-            this.setState({dropdownIsVisible: false});
+            this.setState({selectorIsVisible: false});
         }
     };
 
-    //切换Dropdown的可见性
-    toggleDropdownVisibility() {
+    //切换selector的可见性
+    toggleselectorVisibility() {
         this.setState((prevState) => ({
-            dropdownIsVisible: !prevState.dropdownIsVisible,
+            selectorIsVisible: !prevState.selectorIsVisible,
         }));
     }
 
     //点击更改了当前的选中项
     changeSelected(target) {
         this.props.selectedOnChange(target);
-        this.setState({dropdownIsVisible: false});
+        this.setState({selectorIsVisible: false});
     }
 
     render() {
         const {items, current, elementBackdrop, css} = this.props;
-        const {dropdownIsVisible} = this.state;
+        const {selectorIsVisible} = this.state;
         // Selector框架的CSS
         let boxCSS =
             "relat w-20 h-8 text-white text-center cursor-pointer select-none";
@@ -59,7 +59,7 @@ class Selector extends Component {
         // Selector列表的CSS
         let listCSS =
             "w-20 h-auto mt-1 text-center leading-8 rounded-2xl cursor-pointer select-none transition-all overflow-scroll overflow-x-hidden noScrollbar";
-        let listVisibleCSS = dropdownIsVisible
+        let listVisibleCSS = selectorIsVisible
             ? ""
             : "pointer-events-none opacity-0";
         let listVarCSS = elementBackdrop
@@ -72,8 +72,8 @@ class Selector extends Component {
 
         return (
             <div className={boxCSS}>
-                <div className={btnCSS + " " + btnVarCSS} ref={this.dropdownRef}
-                     onClick={() => this.toggleDropdownVisibility()}>
+                <div className={btnCSS + " " + btnVarCSS} ref={this.selectorRef}
+                     onClick={() => this.toggleselectorVisibility()}>
                     {current}
                 </div>
                 <div className={listCSS}

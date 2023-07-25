@@ -5,15 +5,29 @@ import App from "./App";
 
 import {createStore} from 'redux';
 import {Provider} from 'react-redux';
-import rootReducer from './reducers'; // 您需要创建一个reducer来处理状态更新
+import rootReducer from './reducers';
+import {connect} from 'react-redux';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import { PersistGate } from 'redux-persist/integration/react';
 
-const store = createStore(rootReducer); // 创建Redux store
+const persistConfig = {
+    key: 'settings',
+    storage,
+};
+
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = createStore(persistedReducer); // 创建Redux store
+const persistor = persistStore(store); // 创建持久化的store
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <App/>
+            <PersistGate loading={null} persistor={persistor}>
+                <App />
+            </PersistGate>
         </Provider>,
     </React.StrictMode>
 );

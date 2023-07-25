@@ -50,8 +50,10 @@ const Window = ({onClose, content}) => {
                         </button>
                     </div>
                     {/*内容*/}
-                    <div
-                        className="overflow-y-scroll overflow-x-hidden text-justify pl-4 pr-4 h-134 lg:h-144 mh:h-118 mh:lg:h-114 st:h-86 st:lg:h-82 2xst:h-70 2xst:lg:h-64 w-full break-all">{content}</div>
+                    <div className="overflow-y-scroll overflow-x-hidden text-justify pl-4 pr-4 pt-4 h-134 lg:h-144
+                        mh:h-118 mh:lg:h-114 st:h-86 st:lg:h-82 2xst:h-70 2xst:lg:h-64 w-full break-all">
+                        {content}
+                    </div>
                 </div>
             </div>
         </Transition>
