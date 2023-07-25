@@ -1,4 +1,4 @@
-import {UPDATE_SETTINGS} from '../actions/types';
+import { UPDATE_SETTINGS } from "../actions/types";
 
 const initialState = {
     wallpaper:
@@ -7,7 +7,6 @@ const initialState = {
     showHitokoto: true,
     elementBackdrop: true,
     bgBlur: true,
-    timeSync: true,
     connectionCheck: true,
     coverBlur: true,
     showShortcutOnFocus: false,
@@ -34,7 +33,7 @@ const settingsReducer = (state = initialState, action) => {
         case UPDATE_SETTINGS:
             return {
                 ...state,
-                ...action.payload,
+                settings: action.payload,
             };
         default:
             return state;

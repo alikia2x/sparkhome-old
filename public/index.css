@@ -602,6 +602,12 @@ video {
 .overflow-x-hidden {
   overflow-x: hidden;
 }
+.overflow-y-scroll {
+  overflow-y: scroll;
+}
+.break-all {
+  word-break: break-all;
+}
 .rounded-2xl {
   border-radius: 1rem;
 }
@@ -658,14 +664,23 @@ video {
 .pl-4 {
   padding-left: 1rem;
 }
+.pr-2 {
+  padding-right: 0.5rem;
+}
 .pr-4 {
   padding-right: 1rem;
 }
 .pt-1 {
   padding-top: 0.25rem;
 }
+.pt-4 {
+  padding-top: 1rem;
+}
 .text-center {
   text-align: center;
+}
+.text-justify {
+  text-align: justify;
 }
 .font-DIN {
   font-family: DIN, sans-serif;
@@ -750,22 +765,22 @@ video {
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
 
 @font-face {
-  font-family: "DIN";
-  src: url("./DIN.ttf");
+    font-family: "DIN";
+    src: url("./D-DIN.woff");
 }
 
 .placeholder\:text-slate-200::placeholder {
