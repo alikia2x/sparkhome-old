@@ -33,7 +33,7 @@ const settingsReducer = (state = initialState, action) => {
         case UPDATE_SETTINGS:
             return {
                 ...state,
-                settings: action.payload,
+                ...action.payload,
             };
         default:
             return state;

@@ -47,13 +47,13 @@ class Selector extends Component {
         const {selectorIsVisible} = this.state;
         // Selector框架的CSS
         let boxCSS =
-            "relat w-20 h-8 text-white text-center cursor-pointer select-none";
+            "relat w-20 h-8 text-center cursor-pointer select-none";
         if (css !== undefined) boxCSS = `${css} ${boxCSS}`;
 
         // Selector按钮的CSS
         let btnVarCSS = elementBackdrop
             ? "bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(24,24,24,0.7)] text-slate-100 dark:text-slate-100 backdrop-blur-lg"
-            : "bg-[rgba(255,255,255,0.9)]";
+            : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100";
         let btnCSS = "rounded-2xl h-8 pt-1";
 
         // Selector列表的CSS
@@ -64,11 +64,13 @@ class Selector extends Component {
             : "pointer-events-none opacity-0";
         let listVarCSS = elementBackdrop
             ? "bg-[rgba(255,255,255,0.7)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
-            : "bg-[rgba(255,255,255,0.9)]";
+            : "bg-[rgba(235,235,235,0.95)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100";
         listCSS = `${listCSS} ${listVarCSS} ${listVisibleCSS}`;
 
         // Selector单个item的CSS
-        let itemCSS = "hover:bg-[rgba(230,230,230,0.9)] dark:hover:bg-[rgba(90,90,90,0.9)]";
+        let itemCSS = elementBackdrop
+            ? "hover:bg-[rgba(230,230,230,0.9)] dark:hover:bg-slate-700"
+            : "hover:bg-white dark:hover:bg-neutral-700";
 
         return (
             <div className={boxCSS}>

@@ -11,46 +11,15 @@ import Settings from "./components/settings";
 import {Cog8ToothIcon} from '@heroicons/react/24/outline';
 
 import {connect} from 'react-redux';
-import {updateSettings} from './actions/settingsActions';
-
-const defaultSettings = {
-    wallpaper:
-        "https://sparkhome.cdn.bcebos.com/img/wallp/7.jpg?x-bce-process=image/resize%2Climit_0%2Cm_lfit%2Cw_1920",
-    showWeather: true,
-    showHitokoto: true,
-    elementBackdrop: true,
-    bgBlur: true,
-    timeSync: true,
-    connectionCheck: true,
-    coverBlur: true,
-    showShortcutOnFocus: false,
-    currentSearchEngine: "baidu",
-    timeShowSecond: true,
-    searchEngines: {
-        baidu: {
-            name: "百度",
-            link: "https://www.baidu.com/s?wd=%s",
-        },
-        google: {
-            name: "谷歌",
-            link: "https://www.google.com/search?q=%s",
-        },
-        bing: {
-            name: "必应",
-            link: "https://www.bing.com/search?q=%s",
-        },
-    },
-};
+import { updateSettings } from './actions/settingsActions';
 
 class App extends React.Component {
     state = {
-        settings: defaultSettings,
         //背景聚焦状态
         isFocus: false,
         showWindow: false,
     };
 
-    
 
     getEnginesNameList() {
         let engineDict = this.props.settings["searchEngines"];
@@ -62,9 +31,9 @@ class App extends React.Component {
     }
 
     //使用箭头函数，使得`this`能正常指代。
-    handleDropdownChange = (target) => {
+    handleSelectorChange = (target) => {
         let engineDict = this.props.settings["searchEngines"];
-        //为了保证Dropdown组件的可复用性，给其名为`items`的props的传值为引擎名称的显示名称列表，而非`searchEngines`这个dict。
+        //为了保证Selector组件的可复用性，给其名为`items`的props的传值为引擎名称的显示名称列表，而非`searchEngines`这个dict。
         //这会导致调用回调时，此函数接收到的是显示名称，故遍历反查出其key。
         for (let key in engineDict) {
             if (this.props.settings["searchEngines"][key]["name"] === target) {
@@ -88,6 +57,10 @@ class App extends React.Component {
         }
     }
 
+    componentDidMount() {
+        //Nothing yet.
+    }
+
     render() {
         return (
             <div id="app" className="h-full fixed overflow-hidden w-full font-DIN"
@@ -102,11 +75,8 @@ class App extends React.Component {
                 </div>
 
                 {this.state.showWindow && (
-                    <Window onClose={this.handleToggleWindow} content={(
-                        <div>
-                            <h1 className="text-lg font-semibold">A Window</h1>
-                            <Settings/>
-                        </div>
+                    <Window coverBackdrop={this.props.settings.elementBackdrop} onClose={this.handleToggleWindow} content={(
+                        <Settings/>
                     )}
                     />
                 )}
@@ -132,7 +102,7 @@ class App extends React.Component {
                     current={this.props.settings.searchEngines[this.props.settings.currentSearchEngine]["name"]}
                     css="top-[17rem] st:top-44 z-10 left-1/2 translate-x-[-50%] absolute"
                     elementBackdrop={this.props.settings.elementBackdrop}
-                    selectedOnChange={this.handleDropdownChange}
+                    selectedOnChange={this.handleSelectorChange}
                 />
             </div>
         );
