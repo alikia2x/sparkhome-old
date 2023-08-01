@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {createStore} from 'redux';
 import {XMarkIcon} from '@heroicons/react/24/outline';
 import {Transition} from '@headlessui/react';
 
@@ -23,11 +22,11 @@ const Window = ({onClose, content}) => {
         <Transition
             show={isOpen}
             enter="transition-all duration-150"
-            enterFrom="opacity-0 backdrop-blur-none"
-            enterTo="opacity-100 backdrop-blur-md"
+            enterFrom="opacity-0 backdrop-blur-none brightness-100"
+            enterTo="opacity-100 backdrop-blur-md brightness-75"
             leave="transition-all duration-250"
-            leaveFrom="opacity-100 backdrop-blur-md"
-            leaveTo="opacity-0 backdrop-blur-none"
+            leaveFrom="opacity-100 backdrop-blur-md brightness-75"
+            leaveTo="opacity-0 backdrop-blur-none brightness-100"
             className="absolute h-screen w-screen top-0 left-0 z-20"
         >
             {/*全屏幕框架*/}
