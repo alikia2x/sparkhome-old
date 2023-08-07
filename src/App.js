@@ -63,8 +63,7 @@ class App extends React.Component {
 
     render() {
         return (
-            <div id="app" className="h-full fixed overflow-hidden w-full font-DIN"
-                 onKeyDown={(e) => this.handleMainAppKeyDown(e)}>
+            <div id="app" className="h-full fixed overflow-hidden w-full font-DIN">
                 <div id="settingsBtn" className="absolute z-20 right-4 bottom-4 w-10 h-10">
                     <button
                         className="p-2 text-white bg-[rgba(255,255,255,0.2)] hover:bg-gray-600 rounded-full"
