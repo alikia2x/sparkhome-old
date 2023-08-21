@@ -17,7 +17,7 @@ class App extends React.Component {
     state = {
         //背景聚焦状态
         isFocus: false,
-        showWindow: false,
+        showSettings: false,
     };
 
 
@@ -46,8 +46,8 @@ class App extends React.Component {
         this.setState({isFocus: !this.state.isFocus});
     };
 
-    handleToggleWindow = () => {
-        this.setState({showWindow: !this.state.showWindow});
+    handleToggleSettings = () => {
+        this.setState({showSettings: !this.state.showSettings});
     };
 
     handleMainAppKeyDown = (e) => {
@@ -67,18 +67,16 @@ class App extends React.Component {
                 <div id="settingsBtn" className="absolute z-20 right-4 bottom-4 w-10 h-10">
                     <button
                         className="p-2 text-white bg-[rgba(255,255,255,0.2)] hover:bg-gray-600 rounded-full"
-                        onClick={this.handleToggleWindow}
+                        onClick={this.handleToggleSettings}
                     >
                         <Cog8ToothIcon className="w-5 h-5"/>
                     </button>
                 </div>
 
-                {this.state.showWindow && (
-                    <Window coverBackdrop={this.props.settings.elementBackdrop} onClose={this.handleToggleWindow} content={(
+                <Window isShow={this.state.showSettings} coverBackdrop={this.props.settings.elementBackdrop} onClose={this.handleToggleSettings} content={(
                         <Settings/>
                     )}
-                    />
-                )}
+                />
 
                 <Background
                     src={this.props.settings.wallpaper}
@@ -99,7 +97,7 @@ class App extends React.Component {
                     max_show={7}
                     //获取当前引擎的名字
                     current={this.props.settings.searchEngines[this.props.settings.currentSearchEngine]["name"]}
-                    css="top-[17rem] st:top-44 z-10 left-1/2 translate-x-[-50%] absolute"
+                    css="top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute"
                     elementBackdrop={this.props.settings.elementBackdrop}
                     selectedOnChange={this.handleSelectorChange}
                 />

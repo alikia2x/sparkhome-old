@@ -1,27 +1,24 @@
-import React, {useState, useEffect} from 'react';
-import {XMarkIcon} from '@heroicons/react/24/outline';
+import React, { useEffect } from 'react';
+import { XMarkIcon } from '@heroicons/react/24/outline';
+import '../style/window.css';
 
-const Window = ({onClose, content}) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    useEffect(() => {
-        setIsOpen(true);
-
-        return () => {
-            setIsOpen(false);
-        };
-    }, []);
+const Window = ({isShow, coverBackdorp, onClose, content}) => {
 
     const handleClose = () => {
-        setIsOpen(false);
+        document.getElementById("window").style.opacity = "0";
         setTimeout(onClose, 300); // Wait for the fade-out animation to complete before closing
     };
 
+    useEffect(() => {
+        if (isShow) {
+            setTimeout(() => { document.getElementById("window").style.opacity = "1" }, 10)
+        }
+    }, [isShow])
+
     return (
-        <div className="fixed inset-0 flex items-center justify-center">
+        <div id="window" className={"inset-0 flex items-center justify-center z-20 backdrop-blur-md fixed transition-all duration-300 " + (isShow ? "inline" : "hidden")}>
             {/*窗口框体*/}
-            <div
-                className="w-[85vw] sm:w-128 lg:w-144 xl:w-168
+            <div className="w-[85vw] sm:w-128 lg:w-144 xl:w-168
                 h-144 lg:h-160 mh:h-128 st:h-96 2xst:h-80
                 bg-white rounded-lg dark:bg-neutral-900 dark:text-slate-200">
                 {/*标题栏*/}
