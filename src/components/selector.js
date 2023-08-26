@@ -30,7 +30,7 @@ class Selector extends Component {
     };
 
     //切换selector的可见性
-    toggleselectorVisibility() {
+    toggleSelectorVisibility() {
         this.setState((prevState) => ({
             selectorIsVisible: !prevState.selectorIsVisible,
         }));
@@ -43,12 +43,12 @@ class Selector extends Component {
     }
 
     render() {
-        const {items, current, elementBackdrop, css} = this.props;
+        const {items, current, elementBackdrop, classes} = this.props;
         const {selectorIsVisible} = this.state;
         // Selector框架的CSS
         let boxCSS =
-            "relat w-20 h-8 text-center cursor-pointer select-none";
-        if (css !== undefined) boxCSS = `${css} ${boxCSS}`;
+            "relate w-20 h-8 text-center cursor-pointer select-none";
+        if (classes !== undefined) boxCSS = `${classes} ${boxCSS}`;
 
         // Selector按钮的CSS
         let btnVarCSS = elementBackdrop
@@ -75,7 +75,7 @@ class Selector extends Component {
         return (
             <div className={boxCSS}>
                 <div className={btnCSS + " " + btnVarCSS} ref={this.selectorRef}
-                     onClick={() => this.toggleselectorVisibility()}>
+                     onClick={() => this.toggleSelectorVisibility()}>
                     {current}
                 </div>
                 <div className={listCSS}

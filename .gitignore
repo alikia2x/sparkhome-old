@@ -25,7 +25,9 @@ yarn-error.log*
 
 .env
 
+#IDEs
 .vscode
 .fleet
+.idea
 
 /backend/__pycache__

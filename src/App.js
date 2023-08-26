@@ -42,7 +42,7 @@ class App extends React.Component {
         }
     };
 
-    handleSearchboxFocusSwitch = () => {
+    handleSearchbarFocusSwitch = () => {
         this.setState({isFocus: !this.state.isFocus});
     };
 
@@ -91,7 +91,7 @@ class App extends React.Component {
                 <Search
                     elementBackdrop={this.props.settings.elementBackdrop}
                     engine={this.props.settings.searchEngines[this.props.settings.currentSearchEngine]["link"]}
-                    onFocusSwitch={this.handleSearchboxFocusSwitch}
+                    onFocusSwitch={this.handleSearchbarFocusSwitch}
                 />
 
                 <Selector
@@ -99,7 +99,7 @@ class App extends React.Component {
                     max_show={5}
                     //获取当前引擎的名字
                     current={this.props.settings.searchEngines[this.props.settings.currentSearchEngine]["name"]}
-                    css="top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute"
+                    classes="top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute"
                     elementBackdrop={this.props.settings.elementBackdrop}
                     selectedOnChange={this.handleSelectorChange}
                 />
