@@ -37,16 +37,21 @@ function Settings(props) {
 
     return (
         <div>
-            <ToggleSetting
-                settingKey="showWeather"
-                checked={settings.showWeather}
-                onChange={handleToggleChange}
-            />
+            <div className="relative w-full h-84 align-middle">
+                显示
+                <ToggleSetting
+                    settingKey="showWeather"
+                    checked={settings.showWeather}
+                    onChange={handleToggleChange}
+                />
+            </div>
+            <br/>
             <ToggleSetting
                 settingKey="elementBackdrop"
                 checked={settings.elementBackdrop}
                 onChange={handleToggleChange}
             />
+            
         </div>
     );
 }

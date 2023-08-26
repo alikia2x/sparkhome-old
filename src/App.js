@@ -73,9 +73,11 @@ class App extends React.Component {
                     </button>
                 </div>
 
-                <Window isShow={this.state.showSettings} coverBackdrop={this.props.settings.elementBackdrop} onClose={this.handleToggleSettings} content={(
+                <Window isShow={this.state.showSettings} elementBackdrop={this.props.settings.elementBackdrop} onClose={this.handleToggleSettings}
+                    content={(
                         <Settings/>
                     )}
+                    title="设置"
                 />
 
                 <Background
@@ -94,7 +96,7 @@ class App extends React.Component {
 
                 <Selector
                     items={this.getEnginesNameList()}
-                    max_show={7}
+                    max_show={5}
                     //获取当前引擎的名字
                     current={this.props.settings.searchEngines[this.props.settings.currentSearchEngine]["name"]}
                     css="top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute"

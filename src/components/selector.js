@@ -58,7 +58,7 @@ class Selector extends Component {
 
         // Selector列表的CSS
         let listCSS =
-            "w-20 h-auto mt-1 text-center leading-8 rounded-2xl cursor-pointer select-none transition-all overflow-scroll overflow-x-hidden noScrollbar";
+            "w-20 h-auto mt-1 text-center leading-8 rounded-2xl cursor-pointer select-none transition-all overflow-y-auto overflow-x-hidden noScrollbar";
         let listVisibleCSS = selectorIsVisible
             ? ""
             : "pointer-events-none opacity-0";
@@ -79,7 +79,8 @@ class Selector extends Component {
                     {current}
                 </div>
                 <div className={listCSS}
-                     style={{maxHeight: 2 * this.props.max_show.toString() + "rem"}}>
+                    // 这样可以让边缘漏出一点，暗示用户可以滚动
+                     style={{maxHeight: (2 * this.props.max_show + 0.8) + "rem"}}>
                     {Object.keys(items).map((index) => (
                         <div
                             key={index}
