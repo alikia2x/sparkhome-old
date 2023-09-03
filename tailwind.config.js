@@ -3,9 +3,12 @@ module.exports = {
         './public/**/*.html',
         './src/**/*.{js,jsx,ts,tsx,vue}',
     ],
-    darkMode: false,
+    darkMode: 'class',
     theme: {
         extend: {
+            lineHeight: {
+                '12': '3rem',
+            },
             fontFamily: {
                 'DIN': ['DIN', 'sans-serif'], // 替换为你自定义字体的名称和堆栈
             },

@@ -3,24 +3,27 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import '../style/window.css';
 import '../style/scrollbar.css';
 
-const Window = ({ isShow, elementBackdrop, onClose, content, title}) => {
+const Window = ({ isShow, elementBackdrop, onClose, content, title }) => {
+    const windowCoverRef = React.useRef(null);
+    const windowRef = React.useRef(null);
 
     const handleClose = () => {
-        document.getElementById("window").style.transitionDuration = "300ms";
-        document.getElementById("window").style.opacity = "0";
+        windowCoverRef.current.style.transitionDuration = '300ms';
+        windowCoverRef.current.style.opacity = '0';
         setTimeout(onClose, 300); // Wait for the fade-out animation to complete before closing
     };
 
     useEffect(() => {
         if (isShow) {
             setTimeout(() => {
-                document.getElementById("window").style.transitionDuration = "150ms";
-                document.getElementById("window").style.opacity = "1";
+                windowCoverRef.current.style.transitionDuration = '150ms';
+                windowCoverRef.current.style.opacity = '1';
+                windowRef.current.style.scale = "1";
             }, 10)
         }
-    }, [isShow])
+    })
 
-    let windowCSS = "inset-0 flex items-center justify-center z-20 fixed transition-all duration-150 opacity-0 scale-1";
+    let windowCSS = "inset-0 flex items-center justify-center z-20 fixed transition-all duration-150 opacity-0";
     let windowShow = isShow ? "inline" : "hidden";
     let windowCover = elementBackdrop ? "backdrop-blur-md backdrop-brightness-75" : "backdrop-brightness-50";
     windowCSS = windowCSS + ' ' + windowShow + ' ' + windowCover;
@@ -30,12 +33,13 @@ const Window = ({ isShow, elementBackdrop, onClose, content, title}) => {
             ? "bg-[rgba(255,255,255,0.7)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
             : "bg-[rgba(255,255,255,1)] dark:bg-[rgba(24,24,24,1)] text-slate-700 dark:text-slate-200";
     titleBarCSS = titleBarCSS + ' ' + titleBarBackdrop;
+
     return (
-        <div id="window" className={windowCSS}>
+        <div ref={windowCoverRef} className={windowCSS} >
             {/*窗口框体*/}
-            <div className="w-[85vw] sm:w-128 lg:w-144 xl:w-168
+            <div ref={windowRef} className="w-[85vw] sm:w-128 lg:w-144 xl:w-168
                             h-144 lg:h-160 mh:h-128 st:h-96 2xst:h-80
-                            bg-white rounded-lg dark:bg-neutral-900 dark:text-slate-200">
+                            bg-white rounded-lg dark:bg-neutral-900 dark:text-slate-200 transition-all duration-150" style={{ "scale": "0.75" }}>
                 {/*标题栏*/}
                 <div className={titleBarCSS}>
                     <div className="absolute h-10 w-full lg:h-14 text-center text-xl leading-5 pt-[10px] lg:pt-[18px]">
@@ -48,7 +52,7 @@ const Window = ({ isShow, elementBackdrop, onClose, content, title}) => {
                         dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         onClick={handleClose}
                     >
-                        <XMarkIcon className="w-5 h-5 lg:w-6 lg:h-6 st:h-5 st:w-5"/>
+                        <XMarkIcon className="w-5 h-5 lg:w-6 lg:h-6"/>
                     </button>
                 </div>
                 {/*内容*/}

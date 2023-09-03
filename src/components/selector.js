@@ -73,7 +73,7 @@ class Selector extends Component {
             : "hover:bg-white dark:hover:bg-neutral-700";
 
         return (
-            <div className={boxCSS}>
+            <div className={boxCSS} onClick={this.props.onClick}>
                 <div className={btnCSS + " " + btnVarCSS} ref={this.selectorRef}
                      onClick={() => this.toggleSelectorVisibility()}>
                     {current}

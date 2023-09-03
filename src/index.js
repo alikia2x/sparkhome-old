@@ -9,6 +9,7 @@ import rootReducer from './reducers';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { PersistGate } from 'redux-persist/integration/react';
+import './locale/index';
 
 const persistConfig = {
     key: 'settings',
