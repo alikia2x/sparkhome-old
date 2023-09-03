@@ -46,16 +46,12 @@ function Search(props) {
     }
 
     function handleFocus() {
-        props.onFocusSwitch(false);
-    }
-
-    function handleBlur() {
-        props.onFocusSwitch(true);
+        props.onFocus();
     }
 
     return (
         <input
-            id="searchBox"
+            id="searchbox"
             type="text"
             placeholder={"搜索"}
             className={css + varCSS}
@@ -64,7 +60,7 @@ function Search(props) {
             onCompositionStart={handleCompositionStart}
             onCompositionEnd={handleCompositionEnd}
             onFocus={handleFocus}
-            onBlur={handleBlur}
+            ref={props.searchboxRef}
             value={query}
         ></input>
     );
