@@ -1,5 +1,9 @@
 {
+    "settings":{
+        "title": "Settings"
+    },
     "introText": {
+        "windowTitle": "SparkHome Guide",
         "title": "Welcome to SparkHome! 👏",
         "firstPara": "It's a browser homepage that aims for simplicity and efficiency, while maintaining beauty and functionality.",
         "secondPara": "You can try typing anything you want to know into the search box. Or maybe... before you hit enter, you'll already get the answer to your question.",

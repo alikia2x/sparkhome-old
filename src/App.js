@@ -13,6 +13,8 @@ import { Cog8ToothIcon } from "@heroicons/react/24/outline";
 
 import { connect } from "react-redux";
 import { updateSettings } from "./actions/settingsActions";
+import { Trans } from 'react-i18next';
+
 
 class App extends React.Component {
     constructor() {
@@ -61,7 +63,7 @@ class App extends React.Component {
     }
 
     handleToggleSettings = () => {
-        this.setState({ windowInfo: { "content": <Settings></Settings>, "title": "设置" } });
+        this.setState({ windowInfo: { "content": <Settings></Settings>, "title": <Trans>settings.title</Trans> } });
         this.setState({ showSettings: !this.state.showSettings });
     };
 
@@ -80,7 +82,7 @@ class App extends React.Component {
             //localStorage.setItem("firstLaunchFlag", "好困啊");
             setTimeout(() => {
                 this.setState({ showSettings: true });
-                this.setState({ windowInfo: { "content": <Welcome handleContinue={this.props.onClose}></Welcome>, "title": "星火主页 向导" } });
+                this.setState({ windowInfo: { "content": <Welcome handleContinue={this.props.onClose}></Welcome>, "title": <Trans>introText.windowTitle</Trans> } });
             }, 500);
         }
     }
