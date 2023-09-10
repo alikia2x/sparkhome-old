@@ -1,4 +1,14 @@
 {
+    "home": {
+        "search": "Search"
+    },
+    "search": {
+        "engine": {
+            "baidu": "Baidu",
+            "google": "Google",
+            "bing": "Bing"
+        }
+    },
     "settings":{
         "title": "Settings"
     },
