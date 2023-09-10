@@ -1,6 +1,7 @@
 import { UPDATE_SETTINGS } from "../actions/types";
 
 const initialState = {
+    version: 1,
     wallpaper:
         "https://sparkhome.cdn.bcebos.com/img/wallp/1.jpg?x-bce-process=style/2K",
     showWeather: true,
@@ -14,18 +15,9 @@ const initialState = {
     timeShowSecond: true,
     focusWhenLaunch: false,
     searchEngines: {
-        baidu: {
-            name: "百度",
-            link: "https://www.baidu.com/s?wd=%s",
-        },
-        google: {
-            name: "谷歌",
-            link: "https://www.google.com/search?q=%s",
-        },
-        bing: {
-            name: "必应",
-            link: "https://www.bing.com/search?q=%s",
-        },
+        "baidu": "https://www.baidu.com/s?wd=%s",
+        "google": "https://www.google.com/search?q=%s",
+        "bing": "https://www.bing.com/search?q=%s"
     },
 };
 
