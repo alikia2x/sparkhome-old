@@ -28,7 +28,7 @@ const Time = ({showSecond}) => {
     return (
         <div
             className="absolute top-42 short:top-0 translate-x-[-50%] left-1/2 duration-200 text-white text-4xl text-center font-DIN text-shadow-lg"
-            style={{textShadow: "0px 0px 5px #222"}}
+            style={{textShadow: "0px 0px 5px rgba(30,30,30,0.5)"}}
         >
             {formatTime()}
         </div>

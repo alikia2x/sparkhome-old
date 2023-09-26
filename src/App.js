@@ -23,17 +23,17 @@ function App(props) {
     const searchboxRef = useRef(null);
 
     const [isFocus, setIsFocus] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
+    const [showWindow, setShowWindow] = useState(false);
     const [windowInfo, setWindowInfo] = useState({
         content: <></>,
         title: "",
     });
 
     const getEnginesNameList = () => {
-        const engineDict = props.settings["searchEngines"];
+        const engineDict = props.settings.searchEngines;
         const nameList = [];
         for (let key in engineDict) {
-            nameList.push(props.settings.searchEngines[key]["name"]);
+            nameList.push(t('search.engine.'+key));
         }
         return nameList;
     };
@@ -59,24 +59,34 @@ function App(props) {
 
     const handleToggleSettings = () => {
         setWindowInfo({ content: <Settings></Settings>, title: t('settings.title') });
-        setShowSettings(!showSettings);
+        setShowWindow(!showWindow);
     };
 
-    const handleKeyPress = (event) => {
+    const handleWelcomeContinue = () => {
+        setShowWindow(false);
+    }
+
+    const handleKeyUp = (event) => {
         if ((event.key === " " || event.key === "Enter") && !isFocus) {
             event.preventDefault();
             searchbarFocus();
-        } else if (event.key === "Escape" && isFocus) {
+        }
+        else if (event.key === "Escape") {
             searchbarBlur();
         }
+        else if (event.ctrlKey && event.key === "s") {
+            handleToggleSettings();
+        }
+        console.debug(event.ctrlKey, event.key);
     };
 
     const initialCheck = () => {
         if (localStorage.getItem("firstLaunchFlag")) ;
         else {
             setTimeout(() => {
-                setShowSettings(true);
-                setWindowInfo({ content: <Welcome handleContinue={handleToggleSettings}></Welcome>, title: t('introText.windowTitle') });
+                setShowWindow(true);
+                setWindowInfo({ content: <Welcome handleContinue={handleWelcomeContinue}></Welcome>, title: t('introText.windowTitle') });
+                localStorage.setItem("firstLaunchFlag", "true");
             }, 500);
         }
     };
@@ -86,10 +96,10 @@ function App(props) {
             searchbarFocus();
         }
         initialCheck();
-        document.addEventListener("keydown", handleKeyPress);
+        document.addEventListener("keyup", handleKeyUp);
 
         return () => {
-            document.removeEventListener("keydown", handleKeyPress);
+            document.removeEventListener("keyup", handleKeyUp);
         };
     }, [props.settings.focusWhenLaunch]);
 
@@ -114,7 +124,7 @@ function App(props) {
             </div>
 
             <Window
-                isShow={showSettings}
+                isShow={showWindow}
                 elementBackdrop={props.settings.elementBackdrop}
                 onClose={handleToggleSettings}
                 content={windowInfo["content"]}
@@ -132,9 +142,7 @@ function App(props) {
 
             <Search
                 elementBackdrop={props.settings.elementBackdrop}
-                engine={
-                    t('search.engine.'+props.settings.currentSearchEngine)
-                }
+                engine={props.settings.searchEngines[props.settings.currentSearchEngine]}
                 onFocus={searchbarFocus}
                 searchboxRef={searchboxRef}
             />

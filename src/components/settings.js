@@ -25,9 +25,35 @@ function ToggleSetting({ settingKey, checked, onChange, classes }) {
     );
 }
 
+function SettingsRow({ name, description, settingKey, settings, updateSettings }) {
+    const handleToggleChange = (settingKey, isEnabled) => {
+        console.log(settingKey, isEnabled)
+        updateSettings({
+            ...settings,
+            [settingKey]: isEnabled,
+        });
+    };
+    return (
+        <div
+            name="SettingsRow"
+            className="relative w-full h-auto bg-white dark:bg-zinc-800 px-3 rounded-md"
+        >
+            <span className="text-base absolute leading-4 top-4">{name}</span>
+            <ToggleSetting
+                classes="mt-3 right-4 absolute"
+                settingKey={settingKey}
+                checked={settings[settingKey]}
+                onChange={handleToggleChange}
+            />
+            <span className="text-sm text-neutral-500 pt-[2.1rem] h-auto block pb-4 max-w-[90%]">
+                {description}
+            </span>
+        </div>
+    );
+}
+
 function Settings(props) {
     const { settings, updateSettings } = props;
-
     const handleToggleChange = (settingKey, isEnabled) => {
         updateSettings({
             ...settings,
@@ -40,9 +66,11 @@ function Settings(props) {
             <div name="SetingsGroup" className="">
                 <div
                     name="SettingsRow"
-                    className="relative w-full h-12 bg-slate-200 dark:bg-zinc-800 px-3 rounded-md"
+                    className="relative w-full h-12 bg-white dark:bg-zinc-800 px-3 rounded-md"
                 >
-                    <span className="text-base absolute leading-4 top-4">聚焦搜索框时背景模糊</span>
+                    <span className="text-base absolute leading-4 top-4">
+                        聚焦搜索框时背景模糊
+                    </span>
                     <ToggleSetting
                         classes="mt-3 right-4 absolute"
                         settingKey="bgBlur"
@@ -50,17 +78,39 @@ function Settings(props) {
                         onChange={handleToggleChange}
                     />
                 </div>
-                <br />
-                <ToggleSetting
-                    settingKey="elementBackdrop"
-                    checked={settings.elementBackdrop}
-                    onChange={handleToggleChange}
-                />
-                <ToggleSetting
-                    settingKey="focusWhenLaunch"
-                    checked={settings.focusWhenLaunch}
-                    onChange={handleToggleChange}
-                />
+                <div
+                    name="SettingsRow"
+                    className="relative w-full h-auto min-h-[3rem] bg-white dark:bg-zinc-800 px-3 rounded-md"
+                >
+                    <span className="text-base absolute leading-4 top-4">
+                        元素毛玻璃效果
+                    </span>
+                    <ToggleSetting
+                        classes="mt-3 right-4 absolute"
+                        settingKey="elementBackdrop"
+                        checked={settings.elementBackdrop}
+                        onChange={handleToggleChange}
+                    />
+
+                    <span className="text-sm text-slate-500 pt-8 h-auto block">
+                        开启后，页面中的部分元素将添加背景模糊效果。此选项可能会影响性能。
+                    </span>
+                </div>
+                <div
+                    name="SettingsRow"
+                    className="relative w-full h-12 bg-slate-200 dark:bg-zinc-800 px-3 rounded-md"
+                >
+                    <span className="text-base absolute leading-4 top-4">
+                        主页启动时自动聚焦到搜索框
+                    </span>
+                    <ToggleSetting
+                        classes="mt-3 right-4 absolute"
+                        settingKey="focusWhenLaunch"
+                        checked={settings.focusWhenLaunch}
+                        onChange={handleToggleChange}
+                    />
+                </div>
+                <SettingsRow name="元素毛玻璃效果" description={"开启后，页面中的部分元素将添加背景模糊效果。此选项可能会影响性能。啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊"} settingKey="elementBackdrop" settings={settings} updateSettings={updateSettings}></SettingsRow>
             </div>
         </div>
     );
