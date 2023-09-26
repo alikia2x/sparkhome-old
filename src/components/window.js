@@ -9,15 +9,20 @@ const Window = ({ isShow, elementBackdrop, onClose, content, title }) => {
 
     const handleClose = () => {
         windowCoverRef.current.style.transitionDuration = '300ms';
+        windowRef.current.style.transitionDuration = '300ms';
+        windowRef.current.style.scale = "0.75";
+        windowRef.current.style.opacity = "0"
         windowCoverRef.current.style.opacity = '0';
-        setTimeout(onClose, 300); // Wait for the fade-out animation to complete before closing
+        setTimeout(onClose, 310); // Wait for the fade-out animation to complete before closing
     };
 
     useEffect(() => {
         if (isShow) {
             setTimeout(() => {
                 windowCoverRef.current.style.transitionDuration = '150ms';
+                windowRef.current.style.transitionDuration = '150ms';
                 windowCoverRef.current.style.opacity = '1';
+                windowRef.current.style.opacity = "1";
                 windowRef.current.style.scale = "1";
             }, 10)
         }
@@ -39,7 +44,7 @@ const Window = ({ isShow, elementBackdrop, onClose, content, title }) => {
             {/*窗口框体*/}
             <div ref={windowRef} className="w-[85vw] sm:w-128 lg:w-144 xl:w-168
                             h-144 lg:h-160 mh:h-128 st:h-96 2xst:h-80
-                            bg-white rounded-lg dark:bg-neutral-900 dark:text-slate-200 transition-all duration-150" style={{ "scale": "0.75" }}>
+                            bg-neutral-100 rounded-lg dark:bg-black dark:text-slate-200 transition-all duration-150" style={{ "scale": "0.75" }}>
                 {/*标题栏*/}
                 <div className={titleBarCSS}>
                     <div className="absolute h-10 w-full lg:h-14 text-center text-xl leading-5 pt-[10px] lg:pt-[18px]">
