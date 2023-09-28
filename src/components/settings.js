@@ -63,7 +63,7 @@ function Settings(props) {
 
     return (
         <div className="pt-4">
-            <div name="SetingsGroup" className="">
+            <div name="SetingsGroup" className="bg-white dark:bg-zinc-800 rounded-md">
                 <div
                     name="SettingsRow"
                     className="relative w-full h-12 bg-white dark:bg-zinc-800 px-3 rounded-md"
@@ -96,21 +96,14 @@ function Settings(props) {
                         开启后，页面中的部分元素将添加背景模糊效果。此选项可能会影响性能。
                     </span>
                 </div>
-                <div
-                    name="SettingsRow"
-                    className="relative w-full h-12 bg-slate-200 dark:bg-zinc-800 px-3 rounded-md"
-                >
-                    <span className="text-base absolute leading-4 top-4">
-                        主页启动时自动聚焦到搜索框
-                    </span>
-                    <ToggleSetting
-                        classes="mt-3 right-4 absolute"
-                        settingKey="focusWhenLaunch"
-                        checked={settings.focusWhenLaunch}
-                        onChange={handleToggleChange}
-                    />
-                </div>
-                <SettingsRow name="元素毛玻璃效果" description={"开启后，页面中的部分元素将添加背景模糊效果。此选项可能会影响性能。啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊啊"} settingKey="elementBackdrop" settings={settings} updateSettings={updateSettings}></SettingsRow>
+                <SettingsRow name="主页启动时自动聚焦到搜索框"
+                    settingKey="focusWhenLaunch" settings={settings} updateSettings={updateSettings}>
+                </SettingsRow>
+                
+                <SettingsRow name="元素毛玻璃效果"
+                    description={"开启后，页面中的部分元素将添加背景模糊效果。此选项可能会影响性能。"}
+                    settingKey="elementBackdrop" settings={settings} updateSettings={updateSettings}>
+                </SettingsRow>
             </div>
         </div>
     );

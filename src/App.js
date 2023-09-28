@@ -24,6 +24,7 @@ function App(props) {
 
     const [isFocus, setIsFocus] = useState(false);
     const [showWindow, setShowWindow] = useState(false);
+    const [showOneSearch, setShowOnesearch] = useState(false);
     const [windowInfo, setWindowInfo] = useState({
         content: <></>,
         title: "",

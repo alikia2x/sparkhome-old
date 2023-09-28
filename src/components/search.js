@@ -1,10 +1,11 @@
 import { React, useState } from "react";
 import { useTranslation } from 'react-i18next';
+import OneSearch from "./onesearch";
 
 function Search(props) {
     const { t } = useTranslation();
     const css =
-        "absolute z-1 w-2/3 sm:w-80 md:w-[400px] focus:w-11/12 focus:sm:w-[600px] hover:w-11/12 hover:sm:w-[600px] h-10 rounded-3xl top-56 short:top-24 left-1/2 " +
+        "absolute z-1 w-2/3 sm:w-80 md:w-[400px] focus:w-11/12 focus:sm:w-[600px] hover:w-11/12 hover:sm:w-[600px] h-10 rounded-3xl left-1/2 " +
         "translate-x-[-50%] text-center outline-none border-solid border-0 duration-200 " +
         "pr-2 ";
 
@@ -52,19 +53,26 @@ function Search(props) {
     }
 
     return (
-        <input
-            id="searchbox"
-            type="text"
-            placeholder={t('home.search')}
-            className={css + varCSS}
-            onChange={handleInput}
-            onKeyDown={handleKeyDown}
-            onCompositionStart={handleCompositionStart}
-            onCompositionEnd={handleCompositionEnd}
-            onFocus={handleFocus}
-            ref={props.searchboxRef}
-            value={query}
-        ></input>
+        <div className="absolute w-full top-56 short:top-24 z-1 left-1/2 translate-x-[-50%]">
+            <input
+                id="searchbox"
+                type="text"
+                placeholder={t('home.search')}
+                className={css + varCSS}
+                onChange={handleInput}
+                onKeyDown={handleKeyDown}
+                onCompositionStart={handleCompositionStart}
+                onCompositionEnd={handleCompositionEnd}
+                onFocus={handleFocus}
+                ref={props.searchboxRef}
+                value={query}
+            ></input>
+            <OneSearch
+                elementBackdrop={props.elementBackdrop}
+            >
+
+            </OneSearch>
+        </div>
     );
 }
 
