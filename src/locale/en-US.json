@@ -6,7 +6,8 @@
         "engine": {
             "baidu": "Baidu",
             "google": "Google",
-            "bing": "Bing"
+            "bing": "Bing",
+            "duckduckgo": "DuckDuckGo"
         }
     },
     "settings":{

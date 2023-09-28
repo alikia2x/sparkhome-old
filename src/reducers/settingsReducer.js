@@ -1,4 +1,5 @@
 import { UPDATE_SETTINGS } from "../actions/types";
+import i18n from "../locale/index";
 
 const initialState = {
     version: 1,
@@ -11,14 +12,24 @@ const initialState = {
     connectionCheck: true,
     coverBlur: true,
     showShortcutOnFocus: false,
-    currentSearchEngine: "baidu",
+    currentSearchEngine:
+        i18n.language.includes("en") ? "google" : "baidu",
     timeShowSecond: true,
     focusWhenLaunch: false,
-    searchEngines: {
-        "baidu": "https://www.baidu.com/s?wd=%s",
-        "google": "https://www.google.com/search?q=%s",
-        "bing": "https://www.bing.com/search?q=%s"
-    },
+    searchEngines: 
+        i18n.language.includes("en") ?
+            {   
+                "google": "https://www.google.com/search?q=%s",
+                "bing": "https://www.bing.com/search?q=%s",
+                "duckduckgo": "https://duckduckgo.com/?q=%s"
+            }
+            :
+            {
+                "baidu": "https://www.baidu.com/s?wd=%s",
+                "google": "https://www.google.com/search?q=%s",
+                "bing": "https://www.bing.com/search?q=%s"
+            }
+    ,
 };
 
 const settingsReducer = (state = initialState, action) => {

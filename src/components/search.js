@@ -9,7 +9,7 @@ function Search(props) {
         "pr-2 ";
 
     let varCSS = props.elementBackdrop
-        ? "bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(24,24,24,0.7)] backdrop-blur-xl placeholder:text-slate-200 text-white"
+        ? "bg-[rgba(255,255,255,0.4)] dark:bg-[rgba(24,24,24,0.75)] backdrop-blur-xl placeholder:text-slate-500 dark:placeholder:text-slate-400 text-slate-900 dark:text-white"
         : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.9)] placeholder:text-slate-500 text-slate-800 dark:text-slate-300 dark:text-white";
 
     const [query, setQuery] = useState("");

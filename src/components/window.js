@@ -16,7 +16,14 @@ const Window = ({ isShow, elementBackdrop, onClose, content, title }) => {
         setTimeout(onClose, 310); // Wait for the fade-out animation to complete before closing
     };
 
+    const handleKeyPress = (event) => {
+        if (event.key==="Escape") {
+            handleClose();
+        }
+    };
+
     useEffect(() => {
+        document.addEventListener("keydown", handleKeyPress);
         if (isShow) {
             setTimeout(() => {
                 windowCoverRef.current.style.transitionDuration = '150ms';
@@ -26,6 +33,9 @@ const Window = ({ isShow, elementBackdrop, onClose, content, title }) => {
                 windowRef.current.style.scale = "1";
             }, 10)
         }
+        return () => {
+            document.removeEventListener("keydown", handleKeyPress);
+        };
     })
 
     let windowCSS = "inset-0 flex items-center justify-center z-20 fixed transition-all duration-150 opacity-0";
