@@ -29,22 +29,26 @@ function App(props) {
         title: "",
     });
 
-    const getEnginesNameList = () => {
+    const getEnginesKeyList = () => {
         const engineDict = props.settings.searchEngines;
-        const nameList = [];
+        const keyDict = [];
         for (let key in engineDict) {
-            nameList.push(t('search.engine.'+key));
+            keyDict.push(key);
         }
-        return nameList;
+        return keyDict;
     };
 
-    const handleEngineChange = (target) => {
-        const engineDict = props.settings["searchEngines"];
-        for (let key in engineDict) {
-            if (props.settings["searchEngines"][key]["name"] === target) {
-                props.updateSettings({ currentSearchEngine: key });
-            }
+    const getEngineName = (target) => {
+        if (t('search.engine.' + target) === 'search.engine.' + target) {
+            return target;
         }
+        else {
+            return t('search.engine.' + target);
+        }
+    }
+
+    const handleEngineChange = (target) => {
+        props.updateSettings({ currentSearchEngine: target });
     };
 
     const searchbarFocus = () => {
@@ -66,18 +70,19 @@ function App(props) {
         setShowWindow(false);
     }
 
-    const handleKeyUp = (event) => {
-        if ((event.key === " " || event.key === "Enter") && !isFocus) {
+    const handleKeyPress = (event) => {
+        if ((event.key === " " || event.key === "Enter") && isFocus===true) {
             event.preventDefault();
             searchbarFocus();
         }
-        else if (event.key === "Escape") {
+        else if (event.key === "Escape" && isFocus===false) {
+            event.preventDefault();
             searchbarBlur();
         }
-        else if (event.ctrlKey && event.key === "s") {
+        else if (event.altKey && event.keyCode === 83) {
+            event.preventDefault();
             handleToggleSettings();
         }
-        console.debug(event.ctrlKey, event.key);
     };
 
     const initialCheck = () => {
@@ -96,10 +101,10 @@ function App(props) {
             searchbarFocus();
         }
         initialCheck();
-        document.addEventListener("keyup", handleKeyUp);
+        document.addEventListener("keydown", handleKeyPress);
 
         return () => {
-            document.removeEventListener("keyup", handleKeyUp);
+            document.removeEventListener("keydown", handleKeyPress);
         };
     }, [props.settings.focusWhenLaunch]);
 
@@ -148,14 +153,16 @@ function App(props) {
             />
 
             <Selector
-                items={getEnginesNameList()}
+                items={getEnginesKeyList()}
                 max_show={5}
                 current={
-                    t('search.engine.'+props.settings.currentSearchEngine)
+                    getEngineName(props.settings.currentSearchEngine)
                 }
-                classes="top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute"
+                classes="w-28 h-8 top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute "
                 elementBackdrop={props.settings.elementBackdrop}
                 selectedOnChange={handleEngineChange}
+                displayHandler={getEngineName}
+                align="center"
             />
         </div>
     );
