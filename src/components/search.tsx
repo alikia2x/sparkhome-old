@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import OneSearch from "./onesearch";
+import OneSearch from "./settings/onesearch";
 import { SettingsContext } from "../contexts/settingsContext";
 
 function Search(props: {onFocus: () => void, searchBoxRef: React.RefObject<HTMLInputElement>}) {
