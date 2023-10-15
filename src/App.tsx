@@ -5,7 +5,7 @@ import Background from "./components/background";
 import Selector from "./components/selector";
 import Time from "./components/time";
 import Window from "./components/window";
-import Settings from "./components/settings";
+import Settings from "./components/settings/settings";
 import Welcome from "./components/welcome";
 
 import { Cog8ToothIcon } from "@heroicons/react/24/outline";
