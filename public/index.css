@@ -994,7 +994,7 @@ code {
 
 @font-face {
     font-family: "DIN";
-    src: url("./D-DIN.woff2");
+    src: url("./resources/D-DIN.woff2");
 }
 
 .placeholder\:text-slate-500::placeholder {

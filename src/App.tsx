@@ -11,7 +11,7 @@ import Welcome from "./components/welcome";
 import { Cog8ToothIcon } from "@heroicons/react/24/outline";
 import { useTranslation } from "react-i18next";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import settingsReducer from "./reducers/settingsReducer_React";
 import { useImmerReducer } from "use-immer";
 import { enableMapSet } from "immer";
@@ -26,7 +26,6 @@ function App(props) {
 
     const [isFocus, setIsFocus] = useState(false);
     const [showWindow, setShowWindow] = useState(false);
-    const [showOneSearch, setShowOnesearch] = useState(false);
     const [windowInfo, setWindowInfo] = useState({
         content: <></>,
         title: "",
@@ -34,8 +33,12 @@ function App(props) {
     const [settings, dispatchSettings] = useImmerReducer(settingsReducer, initialSettings);
 
     const getEnginesKeyList = () => {
-        const engines:Map = settings.get("searchEngines");
-        //x
+        const keys: IterableIterator<string> = settings.get("searchEngines").keys();
+        let keyDict: Array<string> = [];
+        let key;
+        while ((key = keys.next().value) !== undefined) {
+            keyDict.push(key);
+        }
         return keyDict;
     };
 
@@ -48,7 +51,7 @@ function App(props) {
     };
 
     const handleEngineChange = (target) => {
-        props.updateSettings({ currentSearchEngine: target });
+        dispatchSettings({ type: "PATCH", key: "currentSearchEngine", value: target });
     };
 
     const searchBarFocus = () => {
@@ -61,36 +64,24 @@ function App(props) {
         searchBoxRef.current.blur();
     };
 
-    const handleToggleSettings = (target?: boolean) => {
+    const handleToggleSettings = useCallback((target?: boolean) => {
         setWindowInfo({
-            content: <Settings></Settings>,
-            title: t("settings.title"),
+          content: <Settings></Settings>,
+          title: t("settings.title"),
         });
         if (target != null) {
-            setShowWindow(target);
-            return;
+          setShowWindow(target);
+          return;
         }
         setShowWindow(!showWindow);
-    };
+      }, [setWindowInfo, setShowWindow, showWindow, t]);
 
     const handleWelcomeContinue = () => {
         setShowWindow(false);
     };
 
-    const handleKeyPress = (event) => {
-        if ((event.key === " " || event.key === "Enter") && isFocus === false) {
-            event.preventDefault();
-            searchBarFocus();
-        } else if (event.key === "Escape" && isFocus === true) {
-            event.preventDefault();
-            searchBarBlur();
-        } else if (event.altKey && event.keyCode === 83 && showWindow === false) {
-            event.preventDefault();
-            handleToggleSettings();
-        }
-    };
-
-    const initialCheck = () => {
+   
+    const initialCheck = useCallback(() => {
         if (localStorage.getItem("firstLaunchFlag") == null) {
             setTimeout(() => {
                 setShowWindow(true);
@@ -101,22 +92,37 @@ function App(props) {
                 localStorage.setItem("firstLaunchFlag", "true");
             }, 500);
         }
-    };
+    }, [setShowWindow, setWindowInfo, t]);
 
     useEffect(() => {
+        initialCheck();
+        enableMapSet();
+        loadSettings(dispatchSettings);
+
         if (settings.get("focusWhenLaunch")) {
             searchBarFocus();
         }
-        initialCheck();
-        document.addEventListener("keydown", handleKeyPress);
 
-        enableMapSet();
-        loadSettings(dispatchSettings);
+        const handleKeyPress = (event) => {
+            if ((event.key === " " || event.key === "Enter") && isFocus === false) {
+                event.preventDefault();
+                searchBarFocus();
+            } else if (event.key === "Escape" && isFocus === true) {
+                event.preventDefault();
+                searchBarBlur();
+            } else if (event.altKey && event.keyCode === 83 && showWindow === false) {
+                event.preventDefault();
+                handleToggleSettings();
+            }
+        };
+    
+
+        document.addEventListener("keydown", handleKeyPress);
 
         return () => {
             document.removeEventListener("keydown", handleKeyPress);
         };
-    }, [isFocus]);
+    }, [isFocus, showWindow, handleToggleSettings, initialCheck, dispatchSettings]);
 
     let settingsBtnBackdrop = settings.get("elementBackdrop") ? "backdrop-blur-md" : "";
     let settingsBtnCSS =
