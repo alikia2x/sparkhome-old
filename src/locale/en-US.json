@@ -11,15 +11,24 @@
         }
     },
     "settings":{
-        "title": "Settings"
+        "title": "Settings",
+        "bgBlur": {
+            "title": "Background Blur",
+            "description": "Blur background when search box is focused."
+        },
+        "focusWhenLaunch": {
+            "title": "Auto Focus",
+            "description": "When enabled, the search box will be focused when the page is launched."
+        },
+        "elementBackdrop": {
+            "title": "Element Backdrop Effect",
+            "description": "Some elements will have a background blur effect when enabled. <b>This option may affect performance.</b>"
+        }
     },
     "introText": {
         "windowTitle": "SparkHome Guide",
         "title": "Welcome to SparkHome! 👏",
-        "firstPara": "It's a browser homepage that aims for simplicity and efficiency, while maintaining beauty and functionality.",
-        "secondPara": "You can try typing anything you want to know into the search box. Or maybe... before you hit enter, you'll already get the answer to your question.",
-        "thirdPara": "Now, click the button below to get started. Just click on the searchbox or hit the space bar to get ready to search.",
-        "fourthPara": "Of course, there are many more features waiting for you to explore!",
+        "introText": "It's a browser homepage that aims for simplicity and efficiency, while maintaining beauty and functionality.\n\nYou can try typing anything you want to know into the search box. Or maybe... before you hit enter, you'll already get the answer to your question.\n\nNow, click the button below to get started. Just click on the search box or hit the space bar to get ready to search.\n\nOf course, there are many more features waiting for you to explore!",
         "continueBtn": "Let's get started!"
     }
 }

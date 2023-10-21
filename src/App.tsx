@@ -19,12 +19,13 @@ import { enableMapSet } from "immer";
 import { initialSettings, loadSettings } from "./const/settings";
 
 import { SettingsContext, SettingsDispatchContext } from "./contexts/settingsContext";
+import moment from "moment";
 
-function App(props) {
+function App() {
     const { t } = useTranslation();
     const searchBoxRef = useRef(null);
 
-    const [isFocus, setIsFocus] = useState(false);
+    const [searchBoxIsFocus, setSearchBoxFocus] = useState(false);
     const [showWindow, setShowWindow] = useState(false);
     const [windowInfo, setWindowInfo] = useState({
         content: <></>,
@@ -55,12 +56,12 @@ function App(props) {
     };
 
     const searchBarFocus = () => {
-        setIsFocus(true);
+        setSearchBoxFocus(true);
         searchBoxRef.current.focus();
     };
 
     const searchBarBlur = () => {
-        setIsFocus(false);
+        setSearchBoxFocus(false);
         searchBoxRef.current.blur();
     };
 
@@ -74,55 +75,51 @@ function App(props) {
           return;
         }
         setShowWindow(!showWindow);
-      }, [setWindowInfo, setShowWindow, showWindow, t]);
+      }, [showWindow, t]);
 
     const handleWelcomeContinue = () => {
         setShowWindow(false);
     };
 
-   
     const initialCheck = useCallback(() => {
-        if (localStorage.getItem("firstLaunchFlag") == null) {
+        if (localStorage.getItem("firstLaunchFlag") === null) {
             setTimeout(() => {
-                setShowWindow(true);
-                setWindowInfo({
-                    content: <Welcome handleContinue={handleWelcomeContinue}></Welcome>,
-                    title: t("introText.windowTitle"),
-                });
-                localStorage.setItem("firstLaunchFlag", "true");
+                setTimeout(() => {
+                    setShowWindow(true);
+                    setWindowInfo({
+                        content: <Welcome handleContinue={handleWelcomeContinue}></Welcome>,
+                        title: t("introText.windowTitle"),
+                    });
+                    localStorage.setItem("firstLaunchFlag", "true");
+                }, 500);
             }, 500);
         }
-    }, [setShowWindow, setWindowInfo, t]);
+    }, []);
 
+    const handleKeyPress = useCallback((event) => {
+        if ((event.key === " " || event.key === "Enter") && document.activeElement !== searchBoxRef.current && showWindow === false) {
+            event.preventDefault();
+            searchBarFocus();
+        } else if (event.key == "Escape" && document.activeElement === searchBoxRef.current && showWindow === false) {
+            event.preventDefault();
+            searchBarBlur();
+        } else if (event.altKey && event.keyCode === 83 && showWindow === false) {
+            event.preventDefault();
+            handleToggleSettings();
+        }
+    }, []);
+    
     useEffect(() => {
         initialCheck();
         enableMapSet();
         loadSettings(dispatchSettings);
-
-        if (settings.get("focusWhenLaunch")) {
-            searchBarFocus();
-        }
-
-        const handleKeyPress = (event) => {
-            if ((event.key === " " || event.key === "Enter") && isFocus === false) {
-                event.preventDefault();
-                searchBarFocus();
-            } else if (event.key === "Escape" && isFocus === true) {
-                event.preventDefault();
-                searchBarBlur();
-            } else if (event.altKey && event.keyCode === 83 && showWindow === false) {
-                event.preventDefault();
-                handleToggleSettings();
-            }
-        };
-    
 
         document.addEventListener("keydown", handleKeyPress);
 
         return () => {
             document.removeEventListener("keydown", handleKeyPress);
         };
-    }, [isFocus, showWindow, handleToggleSettings, initialCheck, dispatchSettings]);
+    }, [dispatchSettings, handleKeyPress, initialCheck]);
 
     let settingsBtnBackdrop = settings.get("elementBackdrop") ? "backdrop-blur-md" : "";
     let settingsBtnCSS =
@@ -146,13 +143,14 @@ function App(props) {
                         title={windowInfo["title"]}
                     />
 
-                    <Background src={settings.get("wallpaper")} isFocus={isFocus} onClick={() => searchBarBlur()} />
+                    <Background src={settings.get("wallpaper")} isFocus={searchBoxIsFocus} onClick={() => searchBarBlur()} />
 
                     <Time showSecond={settings.get("timeShowSecond")} />
 
                     <Search
                         onFocus={searchBarFocus}
                         searchBoxRef={searchBoxRef}
+                        autoFocus={settings.get("focusWhenLaunch")}
                     />
 
                     <Selector
