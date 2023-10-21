@@ -54,7 +54,7 @@ const Selector = (props) => {
     listCSS = `${listCSS} ${listVarCSS} ${listVisibleCSS}`;
 
     let itemCSS = elementBackdrop
-        ? "hover:bg-[rgba(220,223,230,0.9)] dark:hover:bg-slate-700"
+        ? "hover:bg-[rgba(220,223,230,0.9)] dark:hover:bg-neutral-500"
         : "hover:bg-white dark:hover:bg-neutral-700";
 
     return (

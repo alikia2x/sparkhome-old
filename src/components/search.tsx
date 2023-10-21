@@ -1,9 +1,10 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import OneSearch from "./settings/onesearch";
 import { SettingsContext } from "../contexts/settingsContext";
+import { React } from "react";
 
-function Search(props: {onFocus: () => void, searchBoxRef: React.RefObject<HTMLInputElement>}) {
+function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTMLInputElement>, autoFocus: boolean}) {
     const settings = useContext(SettingsContext);
     const engine = settings.get("searchEngines").get(settings.get("currentSearchEngine"));
     
@@ -52,6 +53,12 @@ function Search(props: {onFocus: () => void, searchBoxRef: React.RefObject<HTMLI
         console.log("search suggestions:", value);
     }
 
+    useEffect(() => {
+        if (props.autoFocus) {
+            props.searchBoxRef.current.focus();
+        }
+    }, [props.autoFocus, props.searchBoxRef]);
+
     return (
         <div className="absolute w-full top-56 short:top-24 z-1 left-1/2 translate-x-[-50%]">
             <input
@@ -63,7 +70,7 @@ function Search(props: {onFocus: () => void, searchBoxRef: React.RefObject<HTMLI
                 onKeyDown={handleKeyDown}
                 onCompositionStart={handleCompositionStart}
                 onCompositionEnd={handleCompositionEnd}
-                onFocus={props.onFocus}
+                onFocus={() => { props.onFocus() }}
                 ref={props.searchBoxRef}
                 value={query}
             ></input>

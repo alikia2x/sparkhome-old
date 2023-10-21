@@ -1,16 +1,18 @@
 import { useContext } from "react";
 import { SettingsContext, SettingsDispatchContext } from "../../contexts/settingsContext";
 import ToggleSetting from "./toggle";
+import { useTranslation } from "react-i18next";
 
 type SettingsSwitchRowProps = {
-    name: string;
-    description: string;
     settingKey: string;
 };
 
-function SettingsSwitchRow({ name, description, settingKey }: SettingsSwitchRowProps) {
+function SettingsSwitchRow({ settingKey }: SettingsSwitchRowProps) {
+    const { t } = useTranslation();
     const settings = useContext(SettingsContext);
     const dispatch = useContext(SettingsDispatchContext);
+    const name = t("settings." + settingKey + ".title");
+    const description = t("settings." + settingKey + ".description");
 
     const handleToggleChange = (isEnabled: boolean) => {
         dispatch({
@@ -30,7 +32,6 @@ function SettingsSwitchRow({ name, description, settingKey }: SettingsSwitchRowP
                 onChange={(isEnabled) => handleToggleChange(isEnabled)}
             />
             <span className="text-sm text-neutral-500 pt-[2.4rem] h-auto block pb-4 max-w-[90%]">{description}</span>
-            <div className="h-[1px] ml-6 bg-neutral-200"></div>
         </div>
     );
 }

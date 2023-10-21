@@ -4,7 +4,7 @@ import '../style/window.css';
 import '../style/scrollbar.css';
 import { SettingsContext } from '../contexts/settingsContext';
 
-const Window = (props: { isShow: boolean, onClose: (target?: boolean) => void, content: JSX.Element, title: string }) => {
+const Window = (props: { isShow: boolean, onClose: (target?: boolean) => void, content: React.ReactNode, title: string }) => {
     const windowCoverRef = React.useRef(null);
     const windowRef = React.useRef(null);
     const settings = useContext(SettingsContext);

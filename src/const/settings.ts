@@ -71,20 +71,20 @@ export const loadSettings = (dispatchHook) => {
         // 遍历模板Settings的每一个元素：
         // 当浏览器存储的Settings也有对应元素时，用存储的值覆盖模板值，否则保持模板默认;
         if (parsedSettings.get("version") === settings.get("version")) {
-            console.log("[Settings Initialization] Successfully loaded settings.");
+            //console.log("[Settings Initialization] Successfully loaded settings.");
             dispatchHook({
                 type: "PUT",
                 payload: parsedSettings,
             });
             return;
         }
-        console.log("[Settings Initialization] Version mismatch, trying to update.");
+        //console.log("[Settings Initialization] Version mismatch, trying to update.");
 
         settings.forEach((value, key) => {
             if (parsedSettings.has(key) && key !== "version") settings.set(key, parsedSettings.get(key));
         });
 
-        console.log("[Settings Initialization] Successfully updated settings.");
+        //console.log("[Settings Initialization] Successfully updated settings.");
 
         dispatchHook({
             type: "PUT",
@@ -92,6 +92,6 @@ export const loadSettings = (dispatchHook) => {
         });
         return;
     } catch (e) {
-        console.log("[Settings Initialization] Failed to parse settings, using default.");
+        //console.log("[Settings Initialization] Failed to parse settings, using default.");
     }
 };
