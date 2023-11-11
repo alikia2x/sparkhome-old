@@ -1,10 +1,27 @@
-import React from "react";
+import React, {useEffect} from "react";
+import axios from "axios";
 
 const OneSearch = ({ elementBackdrop }: { elementBackdrop: boolean }) => {
     let boxCSS = "absolute top-24 h-auto w-11/12 sm:w-[600px] left-1/2 translate-x-[-50%] bg-white px-2 rounded-xl hidden";
     let boxVarCSS = elementBackdrop
         ? "bg-[rgba(255,255,255,0.4)] dark:bg-[rgba(24,24,24,0.75)] backdrop-blur-xl text-slate-900 dark:text-white"
         : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.9)] text-slate-800 dark:text-slate-300";
+
+    const [oneSearchResult, setSuggestions] = React.useState([]);
+
+    useEffect(()=> {
+        // 读取环境变量REACT_APP_API_URL，并请求/time端点
+        const url = process.env.REACT_APP_API_URL + "time";
+        console.log(url);
+        async function fetchData() {
+            const res = await axios(url);
+            setSuggestions(res.data);
+        }
+
+        fetchData().then(r => {
+            console.log(r);
+        })
+    },[]);
     return (
         <div className={`${boxCSS} ${boxVarCSS}`}>
             <div className="h-10">

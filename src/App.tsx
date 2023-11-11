@@ -1,3 +1,4 @@
+import { useReducer, useMemo } from 'react';
 import "./index.css";
 
 import Search from "./components/search";
@@ -27,11 +28,24 @@ function App() {
 
     const [searchBoxIsFocus, setSearchBoxFocus] = useState(false);
     const [showWindow, setShowWindow] = useState(false);
-    const [windowInfo, setWindowInfo] = useState({
+    const [settings, dispatchSettings] = useImmerReducer(settingsReducer, initialSettings);
+    const [windowInfo, dispatchWindowInfo] = useReducer(windowInfoReducer, {
         content: <></>,
         title: "",
     });
-    const [settings, dispatchSettings] = useImmerReducer(settingsReducer, initialSettings);
+
+    function windowInfoReducer(state: any, action: { type: any; content: any; title: any; }) {
+        switch (action.type) {
+            case 'SET_WINDOW_INFO':
+                return {
+                    ...state,
+                    content: action.content,
+                    title: action.title,
+                };
+            default:
+                return state;
+        }
+    }
 
     const getEnginesKeyList = () => {
         const keys: IterableIterator<string> = settings.get("searchEngines").keys();
@@ -65,17 +79,18 @@ function App() {
         searchBoxRef.current.blur();
     };
 
-    const handleToggleSettings = useCallback((target?: boolean) => {
-        setWindowInfo({
-          content: <Settings></Settings>,
-          title: t("settings.title"),
+    const handleToggleSettings = useMemo(() => (target?: boolean) => {
+        dispatchWindowInfo({
+            type: "SET_WINDOW_INFO",
+            content: <Settings></Settings>,
+            title: t("settings.title"),
         });
         if (target != null) {
-          setShowWindow(target);
-          return;
+            setShowWindow(target);
+            return;
         }
         setShowWindow(!showWindow);
-      }, [showWindow, t]);
+    }, [showWindow, t]);
 
     const handleWelcomeContinue = () => {
         setShowWindow(false);
@@ -86,7 +101,8 @@ function App() {
             setTimeout(() => {
                 setTimeout(() => {
                     setShowWindow(true);
-                    setWindowInfo({
+                    dispatchWindowInfo({
+                        type: "SET_WINDOW_INFO",
                         content: <Welcome handleContinue={handleWelcomeContinue}></Welcome>,
                         title: t("introText.windowTitle"),
                     });
@@ -94,9 +110,9 @@ function App() {
                 }, 500);
             }, 500);
         }
-    }, []);
+    }, [t]);
 
-    const handleKeyPress = useCallback((event) => {
+    const handleKeyPress = useMemo(() => (event) => {
         if ((event.key === " " || event.key === "Enter") && document.activeElement !== searchBoxRef.current && showWindow === false) {
             event.preventDefault();
             searchBarFocus();
@@ -107,8 +123,8 @@ function App() {
             event.preventDefault();
             handleToggleSettings();
         }
-    }, []);
-    
+    }, [showWindow, handleToggleSettings]);
+
     useEffect(() => {
         initialCheck();
         enableMapSet();

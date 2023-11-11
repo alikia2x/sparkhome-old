@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import OneSearch from "./settings/onesearch";
+import OneSearch from "./onesearch";
 import { SettingsContext } from "../contexts/settingsContext";
 import { React } from "react";
 

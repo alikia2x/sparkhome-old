@@ -1,5 +1,4 @@
 node_modules
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
 /node_modules
@@ -31,3 +30,19 @@ yarn-error.log*
 .idea
 
 /backend/__pycache__
+
+# 忽略虚拟环境目录
+venv/
+env/
+
+# 忽略依赖目录
+*.pyc
+*.pyo
+*.pyd
+
+# 忽略项目生成的文件和目录
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pytest_cache/
