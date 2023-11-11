@@ -1,27 +1,54 @@
-import React, {useEffect} from "react";
-import axios from "axios";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 
-const OneSearch = ({ elementBackdrop }: { elementBackdrop: boolean }) => {
+
+const stateArr = [
+    'Connecting',
+    'Connected and communicable',
+    'Connection closing',
+    "Connection closed or unsuccessful",
+];
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+const OneSearch = ({ elementBackdrop, query }: { elementBackdrop: boolean, query: string }) => {
     let boxCSS = "absolute top-24 h-auto w-11/12 sm:w-[600px] left-1/2 translate-x-[-50%] bg-white px-2 rounded-xl hidden";
     let boxVarCSS = elementBackdrop
         ? "bg-[rgba(255,255,255,0.4)] dark:bg-[rgba(24,24,24,0.75)] backdrop-blur-xl text-slate-900 dark:text-white"
         : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.9)] text-slate-800 dark:text-slate-300";
 
-    const [oneSearchResult, setSuggestions] = React.useState([]);
+    const [result, setSuggestions] = React.useState([]);
+    const [readyState, setReadyState] = useState("Connecting");
+    const ws = useRef<WebSocket | null>(null);
+
+    const initWebSocket = useCallback(() => {
+        if (!ws.current || ws.current.readyState === 3) {
+            ws.current = new WebSocket(API_URL);
+            ws.current.onopen = _e =>
+                setReadyState(stateArr[ws.current?.readyState ?? 0]);
+            ws.current.onclose = _e =>
+                setReadyState(stateArr[ws.current?.readyState ?? 0]);
+            ws.current.onerror = e =>
+                setReadyState(stateArr[ws.current?.readyState ?? 0]);
+            ws.current.onmessage = e => {
+                setSuggestions(e.data);
+            };
+        }
+    }, [ws]);
 
     useEffect(()=> {
-        // 读取环境变量REACT_APP_API_URL，并请求/time端点
-        const url = process.env.REACT_APP_API_URL + "time";
-        console.log(url);
-        async function fetchData() {
-            const res = await axios(url);
-            setSuggestions(res.data);
-        }
+        initWebSocket();
+        return () => {
+            ws.current?.close();
+        };
+    },[ws, initWebSocket]);
 
-        fetchData().then(r => {
-            console.log(r);
-        })
-    },[]);
+    useEffect(() => {
+        if (ws.current?.readyState !== 1) {
+            setReadyState("Connecting")
+            return;
+        }
+        ws.current?.send("time://now");
+    }, [query]);
     return (
         <div className={`${boxCSS} ${boxVarCSS}`}>
             <div className="h-10">
