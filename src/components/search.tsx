@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import OneSearch from "./onesearch";
 import { SettingsContext } from "../contexts/settingsContext";
-import { React } from "react";
 
 function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTMLInputElement>, autoFocus: boolean}) {
     const settings = useContext(SettingsContext);
@@ -20,6 +19,7 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
 
     const [query, setQuery] = useState("");
     const [isComposing, setComposingStatus] = useState(false);
+    const [oneSearchQuery, setOneSearchQuery] = useState("");
 
     function handleKeyDown(event) {
         if (event.key === "Enter") {
@@ -50,7 +50,8 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
     }
 
     function getSearchSuggestions(value) {
-        console.log("search suggestions:", value);
+        console.log(value,"!");
+        setOneSearchQuery(value);
     }
 
     useEffect(() => {
@@ -74,7 +75,7 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
                 ref={props.searchBoxRef}
                 value={query}
             ></input>
-            <OneSearch elementBackdrop={settings.get("elementBackdrop")}></OneSearch>
+            <OneSearch elementBackdrop={settings.get("elementBackdrop")} query={oneSearchQuery}></OneSearch>
         </div>
     );
 }
