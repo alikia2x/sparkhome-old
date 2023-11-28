@@ -1,4 +1,6 @@
 import React, {useCallback, useEffect, useRef, useState} from "react";
+import { v4 as uuidv4 } from 'uuid';
+import { validate as uuidIsValid } from 'uuid';
 
 
 const stateArr = [
@@ -22,7 +24,7 @@ const OneSearch = ({ elementBackdrop, query }: { elementBackdrop: boolean, query
 
     const initWebSocket = useCallback(() => {
         if (!ws.current || ws.current.readyState === 3) {
-            ws.current = new WebSocket(API_URL);
+            ws.current = new WebSocket(API_URL+"/"+getDeviceId());
             ws.current.onopen = _e =>
                 setReadyState(stateArr[ws.current?.readyState ?? 0]);
             ws.current.onclose = _e =>
@@ -47,8 +49,20 @@ const OneSearch = ({ elementBackdrop, query }: { elementBackdrop: boolean, query
             setReadyState("Connecting")
             return;
         }
-        ws.current?.send("time://now");
+        ws.current?.send("query://"+query);
     }, [query]);
+
+    function getDeviceId(){
+        if (uuidIsValid(localStorage.getItem("deviceID"))){
+            const id=localStorage.getItem("deviceID");
+            return id;
+        }
+        else {
+            const id=uuidv4();
+            localStorage.setItem("deviceID", id);
+            return id;
+        }
+    }
     return (
         <div className={`${boxCSS} ${boxVarCSS}`}>
             <div className="h-10">

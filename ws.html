@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Terminal</title>
+    <style>
+        body {
+            background-color: black;
+            color: rgb(0, 255, 0);
+            font-family: monospace;
+        }
+        #terminal {
+            height: calc(100vh - 150px);
+            overflow-y: scroll;
+            border: 1px solid white;
+            padding: 10px;
+        }
+        input {
+            background-color: transparent;
+            border: none;
+            color: rgb(0, 255, 0);
+            font-family: monospace;
+            font-size: 16px;
+            width: 100%;
+            height: 50px;
+            outline: none;
+        }
+        input:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+<h1>WebSocket Terminal</h1>
+<div id="terminal"></div>
+<input type="text" id="input" placeholder="" autofocus>
+<script>
+    const url = "ws://localhost:8000/ws"; // Replace with your WebSocket URL
+    const terminal = document.getElementById("terminal");
+    const input = document.getElementById("input");
+    const ws = new WebSocket(url);
+    ws.onopen = () => {
+        terminal.innerHTML += "Connected to WebSocket server at " + url + "<br>";
+    };
+    ws.onmessage = (event) => {
+        terminal.innerHTML += event.data + "<br>";
+        terminal.scrollTop = terminal.scrollHeight;
+    };
+    input.addEventListener("keydown", (event) => {
+        if (event.key === "Enter") {
+            const command = input.value;
+            ws.send(command);
+            terminal.innerHTML += "> " + command + "<br>";
+            input.value = "";
+            input.scrollTop = input.scrollHeight; 
+        }
+    });
+</script>
+</body>
+</html>
