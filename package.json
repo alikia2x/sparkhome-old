@@ -17,7 +17,8 @@
     "react-i18next": "^13.3.0",
     "react-scripts": "^5.0.1",
     "typescript": "^4.9.5",
-    "use-immer": "^0.9.0"
+    "use-immer": "^0.9.0",
+    "uuid": "^9.0.1"
   },
   "scripts": {
     "start": "postcss src/index.css -o public/index.css && react-scripts start",
