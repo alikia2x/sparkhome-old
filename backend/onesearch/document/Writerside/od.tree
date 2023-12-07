@@ -2,8 +2,8 @@
 <!DOCTYPE instance-profile
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
-<instance-profile id="in"
-                  name="instanceName" start-page="complete.md">
+<instance-profile id="od"
+                  name="OneSearch Doc" start-page="complete.md">
 
     <toc-element topic="time.md"/>
     <toc-element topic="complete.md"/>
