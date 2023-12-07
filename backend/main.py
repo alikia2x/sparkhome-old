@@ -3,9 +3,8 @@ import json
 import logging
 from fastapi import FastAPI, WebSocket
 import time
-from onesearch.executor import Executor
+from onesearch.executor.mainExecutor import Executor
 from onesearch.parser import parse
-from onesearch.
 
 app = FastAPI()
 
@@ -40,17 +39,12 @@ async def handle_query(uid: str, data: str):
 
     if connections[uid]["task"] and not connections[uid]["task"].done():
         connections[uid]["task"].cancel()
-
     task = asyncio.create_task(process_query(uid, data, websocket))
+    connections[uid]["task"] = task
     await task
 
 
 async def process_query(uid: str, query: str, websocket: WebSocket):
     query_dict = parse(query)
-    executor = Executor(query_dict)
-
-    result = await executor.execute(query_dict, websocket)
-
-    if result:
-        result = json.dumps(result)
-        await websocket.send_text(result)
+    executor = Executor(query_dict, websocket)
+    await executor.execute()
