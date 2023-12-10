@@ -11,10 +11,10 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
     const css =
         "absolute z-1 w-2/3 sm:w-80 md:w-[400px] focus:w-11/12 focus:sm:w-[600px] hover:w-11/12 hover:sm:w-[600px] h-10 rounded-3xl left-1/2 " +
         "translate-x-[-50%] text-center outline-none border-solid border-0 duration-200 " +
-        "pr-2 ";
+        "pr-2 shadow-lg ";
 
     let varCSS = settings.get("elementBackdrop")
-        ? "bg-[rgba(255,255,255,0.4)] dark:bg-[rgba(24,24,24,0.75)] backdrop-blur-xl placeholder:text-slate-500 dark:placeholder:text-slate-400 text-slate-900 dark:text-white"
+        ? "bg-[rgba(255,255,255,0.5)] dark:bg-[rgba(24,24,24,0.75)] backdrop-blur-xl placeholder:text-slate-500 dark:placeholder:text-slate-400 text-slate-900 dark:text-white"
         : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.9)] placeholder:text-slate-500 text-slate-800 dark:text-slate-300 dark:text-white";
 
     const [query, setQuery] = useState("");

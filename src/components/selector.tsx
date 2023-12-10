@@ -37,12 +37,13 @@ const Selector = (props) => {
     if (classes !== undefined) boxCSS = `${classes} ${boxCSS}`;
 
     let btnVarCSS = elementBackdrop
-        ? "bg-[rgba(255,255,255,0.2)] dark:bg-[rgba(24,24,24,0.7)] text-slate-100 dark:text-slate-100 backdrop-blur-lg"
+        ? "bg-[rgba(255,255,255,0.6)] dark:bg-[rgba(24,24,24,0.7)] text-slate-800 dark:text-slate-100 backdrop-blur-lg"
         : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100";
-    let btnCSS = "rounded-2xl h-8 pt-1 truncate px-1";
+    let btnCSS = "rounded-xl h-8 pt-1 truncate px-1 shadow-md";
 
     let listCSS =
-        "absolute r-0 w-[calc(100%_+_0.5rem)] h-auto mt-1 text-center leading-8 rounded-xl cursor-pointer select-none transition-all overflow-y-auto overflow-x-hidden noScrollbar";
+        "absolute r-0 w-auto h-auto mt-1 text-center leading-8 rounded-lg cursor-pointer p-1 " +
+        "select-none transition-all overflow-y-auto overflow-x-hidden noScrollbar shadow-2xl";
     let listVisibleCSS = selectorIsVisible
         ? ""
         : "pointer-events-none opacity-0";
@@ -50,12 +51,20 @@ const Selector = (props) => {
         ? "bg-[rgba(255,255,255,0.6)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
         : "bg-[rgba(235,235,235,0.95)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100"
     listVarCSS += " ";
-    listVarCSS += align.toLowerCase() === "left" ? "left-0" : (align.toLowerCase() === "right" ? "right-0" : "left-1/2 translate-x-[-50%]");
+    listVarCSS += align.toLowerCase() ===
+        "left" ?
+        "left-0" :
+        (
+            align.toLowerCase() === "right" ?
+                "right-0" :
+                "left-1/2 translate-x-[-50%]"
+        );
     listCSS = `${listCSS} ${listVarCSS} ${listVisibleCSS}`;
 
     let itemCSS = elementBackdrop
-        ? "hover:bg-[rgba(220,223,230,0.9)] dark:hover:bg-neutral-500"
+        ? "hover:bg-[rgba(66,127,231)] hover:text-slate-100 dark:hover:bg-neutral-500"
         : "hover:bg-white dark:hover:bg-neutral-700";
+    itemCSS+= " px-2 rounded-md h-7 text-base leading-4 pt-[0.375rem]"
 
     return (
         <div className={boxCSS} onClick={props.onClick}>
