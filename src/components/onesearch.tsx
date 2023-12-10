@@ -18,7 +18,7 @@ const OneSearch = ({ elementBackdrop, query }: { elementBackdrop: boolean, query
         ? "bg-[rgba(255,255,255,0.4)] dark:bg-[rgba(24,24,24,0.75)] backdrop-blur-xl text-slate-900 dark:text-white"
         : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.9)] text-slate-800 dark:text-slate-300";
 
-    const [result, setSuggestions] = React.useState([]);
+    const [result, setSuggestions] = React.useState({});
     const [readyState, setReadyState] = useState("Connecting");
     const ws = useRef<WebSocket | null>(null);
 
