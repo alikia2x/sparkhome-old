@@ -1,31 +1,6 @@
 import i18n from "../locale";
 import { reviver, replacer } from "../utils/mapSupport4JSON";
 
-export const settingsList = [
-    {
-        type: "group",
-        name: "视觉效果",
-        content: [
-            {
-                type: "switch",
-                name: "聚焦搜索框时背景模糊",
-                settingKey: "bgBlur",
-            },
-            {
-                type: "switch",
-                name: "主页启动时自动聚焦到搜索框",
-                settingKey: "focusWhenLaunch",
-            },
-            {
-                type: "switch",
-                name: "元素毛玻璃效果",
-                description: "开启后,页面中的部分元素将添加背景模糊效果。此选项可能会影响性能。",
-                settingKey: "elementBackdrop",
-            },
-        ],
-    },
-];
-
 export const initialSettings = new Map<string, any>([
     ["version", 4],
     ["wallpaper", "https://sparkhome.cdn.bcebos.com/img/wallp/1.jpg?x-bce-process=style/2K"],
