@@ -22,7 +22,9 @@
         "elementBackdrop": {
             "title": "元素背景效果",
             "description": "启用后，页面上的某些元素将具有背景模糊效果。该选项可能会影响性能。"
-        }
+        },
+        "appearance": "外观",
+        "behavior": "行为"
     },
     "introText": {
         "windowTitle": "星火主页 引导",
