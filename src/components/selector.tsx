@@ -43,7 +43,7 @@ const Selector = (props) => {
 
     let listCSS =
         "absolute r-0 w-auto h-auto mt-1 text-center leading-8 rounded-lg cursor-pointer p-1 " +
-        "select-none transition-all overflow-y-auto overflow-x-hidden noScrollbar shadow-2xl ";
+        "select-none overflow-y-auto overflow-x-hidden noScrollbar shadow-2xl ";
     listCSS += selectorIsVisible
         ? ""
         : "pointer-events-none opacity-0 ";
@@ -58,6 +58,7 @@ const Selector = (props) => {
                 "right-0 " :
                 "left-1/2 translate-x-[-50%] "
         );
+    listCSS += selectorIsVisible ? "transition-none" : "transition-all"
 
     let itemCSS = " px-2 rounded-md h-7 text-base leading-4 pt-[0.375rem] hover:bg-[rgba(66,127,231)] " +
             "hover:text-slate-100"
