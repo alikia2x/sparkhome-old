@@ -36,40 +36,36 @@ const Selector = (props) => {
         "relate text-center cursor-pointer select-none";
     if (classes !== undefined) boxCSS = `${classes} ${boxCSS}`;
 
-    let btnVarCSS = elementBackdrop
+    let btnCSS = "rounded-xl h-8 pt-1 truncate px-1 shadow-md ";
+    btnCSS += elementBackdrop
         ? "bg-[rgba(255,255,255,0.6)] dark:bg-[rgba(24,24,24,0.7)] text-slate-800 dark:text-slate-100 backdrop-blur-lg"
         : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100";
-    let btnCSS = "rounded-xl h-8 pt-1 truncate px-1 shadow-md";
 
     let listCSS =
         "absolute r-0 w-auto h-auto mt-1 text-center leading-8 rounded-lg cursor-pointer p-1 " +
-        "select-none transition-all overflow-y-auto overflow-x-hidden noScrollbar shadow-2xl";
-    let listVisibleCSS = selectorIsVisible
+        "select-none transition-all overflow-y-auto overflow-x-hidden noScrollbar shadow-2xl ";
+    listCSS += selectorIsVisible
         ? ""
-        : "pointer-events-none opacity-0";
-    let listVarCSS = elementBackdrop
-        ? "bg-[rgba(255,255,255,0.6)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
-        : "bg-[rgba(235,235,235,0.95)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100"
-    listVarCSS += " ";
-    listVarCSS += align.toLowerCase() ===
-        "left" ?
-        "left-0" :
+        : "pointer-events-none opacity-0 ";
+    listCSS += elementBackdrop
+        ? "bg-[rgba(255,255,255,0.6)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200 "
+        : "bg-[rgba(235,235,235,0.95)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100 "
+    listCSS += align.toLowerCase() ===
+        "left " ?
+        "left-0 " :
         (
             align.toLowerCase() === "right" ?
-                "right-0" :
-                "left-1/2 translate-x-[-50%]"
+                "right-0 " :
+                "left-1/2 translate-x-[-50%] "
         );
-    listCSS = `${listCSS} ${listVarCSS} ${listVisibleCSS}`;
 
-    let itemCSS = elementBackdrop
-        ? "hover:bg-[rgba(66,127,231)] hover:text-slate-100 dark:hover:bg-neutral-500"
-        : "hover:bg-white dark:hover:bg-neutral-700";
-    itemCSS+= " px-2 rounded-md h-7 text-base leading-4 pt-[0.375rem]"
+    let itemCSS = " px-2 rounded-md h-7 text-base leading-4 pt-[0.375rem] hover:bg-[rgba(66,127,231)] " +
+            "hover:text-slate-100"
 
     return (
         <div className={boxCSS} onClick={props.onClick}>
             <div
-                className={btnCSS + " " + btnVarCSS}
+                className={btnCSS}
                 ref={selectorRef}
                 onClick={toggleSelectorVisibility}
             >
