@@ -36,14 +36,14 @@ const Selector = (props) => {
         "relate text-center cursor-pointer select-none";
     if (classes !== undefined) boxCSS = `${classes} ${boxCSS}`;
 
-    let btnCSS = "rounded-xl h-8 pt-1 truncate px-1 shadow-md ";
+    let btnCSS = "rounded-xl h-full truncate shadow-md ";
     btnCSS += elementBackdrop
         ? "bg-[rgba(255,255,255,0.6)] dark:bg-[rgba(24,24,24,0.7)] text-slate-800 dark:text-slate-100 backdrop-blur-lg"
         : "bg-[rgba(235,235,235,0.9)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100";
 
     let listCSS =
         "absolute r-0 w-auto h-auto mt-1 text-center leading-8 rounded-lg cursor-pointer p-1 " +
-        "select-none overflow-y-auto overflow-x-hidden noScrollbar shadow-2xl ";
+        "select-none overflow-y-auto overflow-x-hidden noScrollbar shadow-2xl min-w-[7rem] ";
     listCSS += selectorIsVisible
         ? ""
         : "pointer-events-none opacity-0 ";
@@ -60,17 +60,19 @@ const Selector = (props) => {
         );
     listCSS += selectorIsVisible ? "transition-none" : "transition-all"
 
-    let itemCSS = " px-2 rounded-md h-7 text-base leading-4 pt-[0.375rem] hover:bg-[rgba(66,127,231)] " +
+    let itemCSS = " px-2 rounded-md h-8 md:h-7 text-base leading-4 pt-[0.375rem] hover:bg-[rgba(66,127,231)] " +
             "hover:text-slate-100"
 
     return (
-        <div className={boxCSS} onClick={props.onClick}>
+        <div className={boxCSS}>
             <div
                 className={btnCSS}
                 ref={selectorRef}
-                onClick={toggleSelectorVisibility}
+                onMouseDown={toggleSelectorVisibility}
             >
-                {current}
+                <div className="translate-y-[-50%] top-[50%] relative">
+                    {current}
+                </div>
             </div>
             <div
                 className={listCSS}
@@ -82,7 +84,7 @@ const Selector = (props) => {
                     <div
                         key={index}
                         className={itemCSS}
-                        onClick={() => changeSelected(items[index])}
+                        onMouseUp={() => changeSelected(items[index])}
                     >
                         {props.displayHandler(items[index])}
                     </div>

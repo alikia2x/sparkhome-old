@@ -46,7 +46,7 @@ const Window = (props: { isShow: boolean, onClose: (target?: boolean) => void, c
     let windowCover = elementBackdrop ? "backdrop-blur-md backdrop-brightness-75" : "backdrop-brightness-50";
     windowCSS = windowCSS + ' ' + windowShow + ' ' + windowCover;
 
-    let titleBarCSS = "relative h-10 lg:h-14 border-b-[1px] border-solid border-neutral-300 dark:border-neutral-700 w-full rounded-t-lg z-30";
+    let titleBarCSS = "relative h-14 border-b-[1px] border-solid border-neutral-300 dark:border-neutral-700 w-full rounded-t-lg z-30";
     let titleBarBackdrop = elementBackdrop
             ? "bg-[rgba(255,255,255,0.7)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200"
             : "bg-[rgba(255,255,255,1)] dark:bg-[rgba(24,24,24,1)] text-slate-700 dark:text-slate-200";
@@ -55,22 +55,22 @@ const Window = (props: { isShow: boolean, onClose: (target?: boolean) => void, c
     return (
         <div ref={windowCoverRef} className={windowCSS} >
             {/*窗口框体*/}
-            <div ref={windowRef} className="w-[85vw] sm:w-128 lg:w-144 xl:w-168
-                            h-144 lg:h-160 mh:h-128 st:h-96 2xst:h-80
-                            bg-neutral-100 rounded-lg dark:bg-neutral-900 dark:text-slate-200 transition-all duration-150" style={{ "scale": "0.75" }}>
+            <div ref={windowRef} className="w-full sm:w-128 lg:w-144 xl:w-168
+                            h-full lg:h-160 mh:h-128 st:h-96 2xst:h-80
+                            bg-neutral-100 sm:rounded-lg dark:bg-neutral-900 dark:text-slate-200 transition-all duration-150" style={{ "scale": "0.75" }}>
                 {/*标题栏*/}
                 <div className={titleBarCSS}>
-                    <div className="absolute h-10 w-full lg:h-14 text-center text-xl leading-5 pt-[10px] lg:pt-[18px]">
+                    <div className="absolute w-full h-14 text-center text-xl leading-5 pt-[18px] text:black dark:text-white">
                         <b>{props.title}</b> 
                     </div>
                     <button
                         className="absolute rounded-md
-                        w-12 h-8 lg:w-16 lg:h-10 mt-1 mr-1 lg:mt-2 lg:mr-2 pl-3.5 lg:pl-5 right-0
+                        w-12 lg:w-16 h-10 mr-1 mt-2 lg:mr-2 pl-3.5 lg:pl-5 right-0
                         hover:bg-gray-200 focus:bg-gray-200
                         dark:hover:bg-neutral-700 dark:focus:bg-neutral-700"
                         onClick={handleClose}
                     >
-                        <XMarkIcon className="w-5 h-5 lg:w-6 lg:h-6"/>
+                        <XMarkIcon className="w-5 lg:w-6 h-6"/>
                     </button>
                 </div>
                 {/*内容*/}
