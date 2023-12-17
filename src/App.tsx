@@ -173,7 +173,7 @@ function App() {
                         items={getEnginesKeyList()}
                         max_show={5}
                         current={getEngineName(settings.get("currentSearchEngine"))}
-                        classes="w-28 h-8 top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute "
+                        classes="w-28 h-[2.25rem] lg:w-28 lg:h-8 top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute "
                         selectedOnChange={handleEngineChange}
                         displayHandler={getEngineName}
                         align="center"

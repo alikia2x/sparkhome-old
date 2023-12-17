@@ -22,7 +22,7 @@
         },
         "elementBackdrop": {
             "title": "Element Backdrop Effect",
-            "description": "Some elements will have a background blur effect when enabled. <strong class='dark:text-slate-200'>This option may affect performance.</strong>"
+            "description": "Some elements will have a background blur effect when enabled. <strong class='text-black dark:text-slate-200'>This option may affect performance.</strong>"
         },
         "appearance": "Appearance",
         "behavior": "Behavior"
