@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import OneSearch from "./onesearch";
 import { SettingsContext } from "../contexts/settingsContext";
 
-function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTMLInputElement>, autoFocus: boolean}) {
+function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTMLInputElement>, autoFocus: boolean, window:boolean}) {
     const settings = useContext(SettingsContext);
     const engine = settings.get("searchEngines").get(settings.get("currentSearchEngine"));
     
@@ -55,13 +55,13 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
     }
 
     useEffect(() => {
-        if (props.autoFocus) {
+        if (props.autoFocus && !props.window) {
             props.searchBoxRef.current.focus();
         }
     }, [props.autoFocus, props.searchBoxRef]);
 
     return (
-        <div className="absolute w-full top-56 short:top-24 z-1 left-1/2 translate-x-[-50%]">
+        <div className="absolute w-full top-[8.5rem] lg:top-56 short:top-24 z-1 left-1/2 translate-x-[-50%]">
             <input
                 id="searchBox"
                 type="text"
