@@ -514,23 +514,23 @@ video {
 .right-5 {
   right: 1.25rem;
 }
+.top-20 {
+  top: 5rem;
+}
 .top-24 {
   top: 6rem;
 }
-.top-42 {
-  top: 10.5rem;
+.top-48 {
+  top: 12rem;
 }
 .top-5 {
   top: 1.25rem;
 }
-.top-56 {
-  top: 14rem;
-}
-.top-\[17rem\] {
-  top: 17rem;
-}
 .top-\[50\%\] {
   top: 50%;
+}
+.top-\[8\.5rem\] {
+  top: 8.5rem;
 }
 .z-0 {
   z-index: 0;
@@ -1207,6 +1207,18 @@ code {
 }
 
 @media (min-width: 1024px) {
+
+  .lg\:top-42 {
+    top: 10.5rem;
+  }
+
+  .lg\:top-56 {
+    top: 14rem;
+  }
+
+  .lg\:top-\[17rem\] {
+    top: 17rem;
+  }
 
   .lg\:mr-2 {
     margin-right: 0.5rem;
