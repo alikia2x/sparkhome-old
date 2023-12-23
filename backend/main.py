@@ -1,35 +1,12 @@
-import asyncio
-import json
-import logging
-from fastapi import FastAPI, WebSocket
-import time
-from onesearch.wsConnecting.wsRoot import import router as websocket_router
+from fastapi import FastAPI
+from onesearch.wsConnecting.wsRoot import router as websocket_router
+from onesearch.httpConnecting.httpRoot import router as http_router
 
 app = FastAPI()
 
 connections = {}
 
 
-# 返回当前时间
-@app.get("/time_process")
-def get_time():
-    return {"time_process": time.time()}
-
-
 app.include_router(websocket_router)
 
-
-async def handle_query(uid: str, data: str):
-    websocket = connections[uid]["websocket"]
-
-    if connections[uid]["task"] and not connections[uid]["task"].done():
-        connections[uid]["task"].cancel()
-    task = asyncio.create_task(process_query(uid, data, websocket))
-    connections[uid]["task"] = task
-    await task
-
-
-async def process_query(uid: str, query: str, websocket: WebSocket):
-    query_dict = parse(query)
-    executor = Executor(query_dict, websocket)
-    await executor.execute()
+app.include_router(http_router)
