@@ -14,7 +14,7 @@
         "title": "Settings",
         "bgBlur": {
             "title": "Background Blur",
-            "description": "Blur background when search box is focused."
+            "description": "Blur background when search box is focused. <strong class='text-black dark:text-slate-200'>This option may affect performance.</strong>"
         },
         "focusWhenLaunch": {
             "title": "Auto Focus",
@@ -22,10 +22,23 @@
         },
         "elementBackdrop": {
             "title": "Element Backdrop Effect",
-            "description": "Some elements will have a background blur effect when enabled. <strong class='text-black dark:text-slate-200'>This option may affect performance.</strong>"
+            "description": "Add backdrop blur effect on some elements. <strong class='text-black dark:text-slate-200'>This option may affect performance.</strong>"
+        },
+        "showShortcutOnFocus": {
+            "title": "Display web shortcuts when typing",
+            "description": "When enabled, web shortcuts are still displayed when the search box is focused."
+        },
+        "timeShowSecond":{
+            "title": "Display time with seconds",
+            "description": ""
+        },
+        "currentSearchEngine": {
+            "title": "Current search engine",
+            "description": ""
         },
         "appearance": "Appearance",
-        "behavior": "Behavior"
+        "behavior": "Behavior",
+        "searchEngine": "Search Engine"
     },
     "introText": {
         "windowTitle": "SparkHome Guide",

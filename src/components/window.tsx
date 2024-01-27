@@ -57,7 +57,7 @@ const Window = (props: { isShow: boolean, onClose: (target?: boolean) => void, c
             {/*窗口框体*/}
             <div ref={windowRef} className="w-full sm:w-128 lg:w-144 xl:w-168
                             h-full lg:h-160 mh:h-128 st:h-96 2xst:h-80
-                            bg-neutral-100 sm:rounded-lg dark:bg-neutral-900 dark:text-slate-200 transition-all duration-150" style={{ "scale": "0.75" }}>
+                            bg-neutral-100 sm:rounded-lg dark:bg-black dark:text-slate-200 transition-all duration-150" style={{ "scale": "0.75" }}>
                 {/*标题栏*/}
                 <div className={titleBarCSS}>
                     <div className="absolute w-full h-14 text-center text-xl leading-5 pt-[18px] text:black dark:text-white">

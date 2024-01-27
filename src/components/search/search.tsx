@@ -1,9 +1,9 @@
 import { useContext, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import OneSearch from "./onesearch";
-import { SettingsContext } from "../contexts/settingsContext";
+import { SettingsContext } from "../../contexts/settingsContext";
 
-function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTMLInputElement>, autoFocus: boolean, window:boolean}) {
+function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTMLInputElement>, autoFocus: boolean, window:boolean, isFocus:boolean}) {
     const settings = useContext(SettingsContext);
     const engine = settings.get("searchEngines").get(settings.get("currentSearchEngine"));
     
@@ -45,12 +45,11 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
         getSearchSuggestions(event.target.value);
     }
 
-    function handleSearch() {
-        window.open(engine.replace("%s", query));
+    function handleSearch(q=query) {
+        window.open(engine.replace("%s", q));
     }
 
     function getSearchSuggestions(value) {
-        console.log(value,"!");
         setOneSearchQuery(value);
     }
 
@@ -75,7 +74,7 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
                 ref={props.searchBoxRef}
                 value={query}
             ></input>
-            <OneSearch elementBackdrop={settings.get("elementBackdrop")} query={oneSearchQuery}></OneSearch>
+            <OneSearch elementBackdrop={settings.get("elementBackdrop")} query={oneSearchQuery} isFocus={props.isFocus} search={handleSearch}></OneSearch>
         </div>
     );
 }
