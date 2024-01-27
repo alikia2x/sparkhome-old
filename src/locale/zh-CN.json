@@ -13,7 +13,7 @@
         "title": "设置",
         "bgBlur": {
             "title": "在搜索框聚焦时模糊背景",
-            "description": ""   
+            "description": "启用后，搜索框聚焦时，壁纸图像将会模糊。<strong class='text-black dark:text-slate-200'>该选项可能会影响性能。</strong>"
         },
         "focusWhenLaunch": {
             "title": "主页启动时自动聚焦搜索框",
@@ -21,10 +21,23 @@
         },
         "elementBackdrop": {
             "title": "元素背景效果",
-            "description": "启用后，页面上的某些元素将具有背景模糊效果。该选项可能会影响性能。"
+            "description": "启用后，页面上的某些元素将具有背景模糊效果。<strong class='text-black dark:text-slate-200'>该选项可能会影响性能。</strong>"
+        },
+        "showShortcutOnFocus": {
+            "title": "输入时展示网页捷径",
+            "description": "启用后，当点击搜索框进行输入后，网页捷径仍会显示。"
+        },
+        "timeShowSecond":{
+            "title": "精确到秒的时间",
+            "description": ""
+        },
+        "currentSearchEngine": {
+            "title": "当前搜索引擎",
+            "description": ""
         },
         "appearance": "外观",
-        "behavior": "行为"
+        "behavior": "行为",
+        "searchEngine": "搜索引擎"
     },
     "introText": {
         "windowTitle": "星火主页 引导",

@@ -2,8 +2,8 @@ import i18n from "../locale";
 import { reviver, replacer } from "../utils/mapSupport4JSON";
 
 export const initialSettings = new Map<string, any>([
-    ["version", 4],
-    ["wallpaper", "https://sparkhome.cdn.bcebos.com/img/wallp/1.jpg?x-bce-process=style/2K"],
+    ["version", 5],
+    ["wallpaper", "http://a2x.pub/sbcA1"],
     ["showWeather", true],
     ["showHitokoto", true],
     ["elementBackdrop", true],
