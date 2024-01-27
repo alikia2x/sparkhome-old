@@ -23,7 +23,7 @@ function SettingsSwitchRow({ settingKey }: SettingsSwitchRowProps) {
     };
 
     return (
-        <div className="relative w-full h-auto bg-white dark:bg-zinc-800 px-5 rounded-md">
+        <div className="relative w-full h-auto bg-white dark:bg-[rgb(28,28,29)] px-5 rounded-md">
             <div className="text-base absolute leading-4 top-5">{name}</div>
             <ToggleSetting
                 classes="mt-4 right-5 absolute"

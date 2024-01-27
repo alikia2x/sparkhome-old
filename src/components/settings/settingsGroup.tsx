@@ -10,7 +10,7 @@ function SettingsGroup(props) {
     return (
         <div className="mb-8">
             <h3 className="text-xl font-bold ml-4 mb-2">{t("settings." + props.title)}</h3>
-            <div className="bg-white dark:bg-zinc-800 rounded-md mx-4">
+            <div className="bg-white dark:bg-[rgb(28,28,29)] rounded-md mx-4">
                 {children.map((child, index) => {
                     const isLastChild = child === lastChild;
                     return (

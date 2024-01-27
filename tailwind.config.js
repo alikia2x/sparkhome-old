@@ -9,9 +9,6 @@ module.exports = {
             lineHeight: {
                 '12': '3rem',
             },
-            fontFamily: {
-                'DIN': ['DIN', 'sans-serif'], // 替换为你自定义字体的名称和堆栈
-            },
             screens: {
                 'lmb': '400px', //Large mobile
                 'mb': '368px', //Medium mobile
