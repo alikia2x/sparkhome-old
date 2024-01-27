@@ -8,5 +8,4 @@ connections = {}
 
 
 app.include_router(websocket_router)
-
 app.include_router(http_router)

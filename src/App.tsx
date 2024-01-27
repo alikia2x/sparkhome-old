@@ -1,7 +1,7 @@
-import { useReducer, useMemo } from 'react';
+import { useReducer, useMemo } from "react";
 import "./index.css";
 
-import Search from "./components/search";
+import Search from "./components/search/search";
 import Background from "./components/background";
 import Selector from "./components/selector";
 import Time from "./components/time";
@@ -20,7 +20,6 @@ import { enableMapSet } from "immer";
 import { initialSettings, loadSettings } from "./const/settings";
 
 import { SettingsContext, SettingsDispatchContext } from "./contexts/settingsContext";
-import moment from "moment";
 
 function App() {
     const { t } = useTranslation();
@@ -34,9 +33,9 @@ function App() {
         title: "",
     });
 
-    function windowInfoReducer(state: any, action: { type: any; content: any; title: any; }) {
+    function windowInfoReducer(state: any, action: { type: any; content: any; title: any }) {
         switch (action.type) {
-            case 'SET_WINDOW_INFO':
+            case "SET_WINDOW_INFO":
                 return {
                     ...state,
                     content: action.content,
@@ -79,18 +78,30 @@ function App() {
         searchBoxRef.current.blur();
     };
 
-    const handleToggleSettings = useMemo(() => (target?: boolean) => {
+    const handleWindowClose = () => {
         dispatchWindowInfo({
             type: "SET_WINDOW_INFO",
-            content: <Settings></Settings>,
-            title: t("settings.title"),
+            content: <></>,
+            title: "",
         });
-        if (target != null) {
-            setShowWindow(target);
-            return;
-        }
-        setShowWindow(!showWindow);
-    }, [showWindow, t]);
+        setShowWindow(false);
+    };
+
+    const showSettings = useMemo(
+        () => (target?: boolean) => {
+            dispatchWindowInfo({
+                type: "SET_WINDOW_INFO",
+                content: <Settings></Settings>,
+                title: t("settings.title"),
+            });
+            if (target != null) {
+                setShowWindow(target);
+                return;
+            }
+            setShowWindow(!showWindow);
+        },
+        [showWindow, t]
+    );
 
     const handleWelcomeContinue = () => {
         setShowWindow(false);
@@ -99,31 +110,40 @@ function App() {
     const initialCheck = useCallback(() => {
         if (localStorage.getItem("firstLaunchFlag") === null) {
             setTimeout(() => {
-                setTimeout(() => {
-                    setShowWindow(true);
-                    dispatchWindowInfo({
-                        type: "SET_WINDOW_INFO",
-                        content: <Welcome handleContinue={handleWelcomeContinue}></Welcome>,
-                        title: t("introText.windowTitle"),
-                    });
-                    localStorage.setItem("firstLaunchFlag", "true");
-                }, 500);
+                setShowWindow(true);
+                dispatchWindowInfo({
+                    type: "SET_WINDOW_INFO",
+                    content: <Welcome handleContinue={handleWelcomeContinue}></Welcome>,
+                    title: t("introText.windowTitle"),
+                });
+                localStorage.setItem("firstLaunchFlag", "true");
             }, 500);
         }
     }, [t]);
 
-    const handleKeyPress = useMemo(() => (event) => {
-        if ((event.key === " " || event.key === "Enter") && document.activeElement !== searchBoxRef.current && showWindow === false) {
-            event.preventDefault();
-            searchBarFocus();
-        } else if (event.key == "Escape" && document.activeElement === searchBoxRef.current && showWindow === false) {
-            event.preventDefault();
-            searchBarBlur();
-        } else if (event.altKey && event.keyCode === 83 && showWindow === false) {
-            event.preventDefault();
-            handleToggleSettings();
-        }
-    }, [showWindow, handleToggleSettings]);
+    const handleKeyPress = useMemo(
+        () => (event) => {
+            if (
+                (event.key === " " || event.key === "Enter") &&
+                document.activeElement !== searchBoxRef.current &&
+                showWindow === false
+            ) {
+                event.preventDefault();
+                searchBarFocus();
+            } else if (
+                event.key == "Escape" &&
+                document.activeElement === searchBoxRef.current &&
+                showWindow === false
+            ) {
+                event.preventDefault();
+                searchBarBlur();
+            } else if (event.altKey && event.keyCode === 83 && showWindow === false) {
+                event.preventDefault();
+                showSettings();
+            }
+        },
+        [showWindow, showSettings]
+    );
 
     useEffect(() => {
         initialCheck();
@@ -145,21 +165,25 @@ function App() {
     return (
         <SettingsContext.Provider value={settings}>
             <SettingsDispatchContext.Provider value={dispatchSettings}>
-                <div id="app" className="h-full fixed overflow-hidden w-full font-DIN bg-black">
+                <div id="app" className="h-full fixed overflow-hidden w-full bg-black">
                     <div id="settingsBtn" className="absolute z-20 right-4 bottom-4 w-10 h-10">
-                        <button className={settingsBtnCSS} onClick={() => handleToggleSettings()}>
+                        <button className={settingsBtnCSS} onClick={() => showSettings()}>
                             <Cog8ToothIcon className="w-5 h-5" />
                         </button>
                     </div>
 
                     <Window
                         isShow={showWindow}
-                        onClose={handleToggleSettings}
+                        onClose={handleWindowClose}
                         content={windowInfo["content"]}
                         title={windowInfo["title"]}
                     />
 
-                    <Background src={settings.get("wallpaper")} isFocus={searchBoxIsFocus} onClick={() => searchBarBlur()} />
+                    <Background
+                        src={settings.get("wallpaper")}
+                        isFocus={searchBoxIsFocus}
+                        onClick={() => searchBarBlur()}
+                    />
 
                     <Time showSecond={settings.get("timeShowSecond")} />
 
@@ -168,13 +192,14 @@ function App() {
                         searchBoxRef={searchBoxRef}
                         autoFocus={settings.get("focusWhenLaunch")}
                         window={showWindow}
+                        isFocus={searchBoxIsFocus}
                     />
 
                     <Selector
                         items={getEnginesKeyList()}
-                        max_show={5}
+                        max_show={5}    
                         current={getEngineName(settings.get("currentSearchEngine"))}
-                        classes="w-28 h-[2.25rem] lg:w-28 lg:h-8 top-48 lg:top-[17rem] z-10 left-1/2 translate-x-[-50%] absolute "
+                        classes="max-w-42 h-[2.5rem] w-24 lg:max-w-42 truncate lg:h-8 top-48 lg:top-[17.5rem] z-10 left-1/2 translate-x-[-50%] absolute "
                         selectedOnChange={handleEngineChange}
                         displayHandler={getEngineName}
                         align="center"
