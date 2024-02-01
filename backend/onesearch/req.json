@@ -1,0 +1,9 @@
+{
+    "tasks": [
+        {
+            "task": "completion",
+            "query": "aa",
+            "engine": "google"
+        }
+    ]
+}
