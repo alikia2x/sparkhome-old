@@ -12,6 +12,7 @@ class Executor:
                 response={}
                 result = await queryCompletionExecutor(self.data)
                 response["result"] = result
+                response["queryId"] = self.data["queryId"]
                 logging.info(response)
                 await self.websocket.send_json(response)
 
