@@ -54,10 +54,10 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
     }
 
     useEffect(() => {
-        if (props.autoFocus && !props.window) {
+        if (props.autoFocus && !props.window) { // 窗口激活时不会自动聚焦
             props.searchBoxRef.current.focus();
         }
-    }, [props.autoFocus, props.searchBoxRef]);
+    }, [props.autoFocus, props.searchBoxRef, props.window]);
 
     return (
         <div className="absolute w-full top-[8.5rem] lg:top-56 short:top-24 z-1 left-1/2 translate-x-[-50%]">
@@ -74,7 +74,7 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
                 ref={props.searchBoxRef}
                 value={query}
             ></input>
-            <OneSearch elementBackdrop={settings.get("elementBackdrop")} query={oneSearchQuery} isFocus={props.isFocus} search={handleSearch}></OneSearch>
+            <OneSearch query={oneSearchQuery} engine={settings.get("currentSearchEngine")} searchHandler={handleSearch}></OneSearch>
         </div>
     );
 }

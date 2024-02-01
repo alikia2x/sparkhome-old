@@ -7,7 +7,6 @@ async def request_google(query, language="zh-CN"):
         async with session.get(url, proxy="http://127.0.0.1:7890", timeout=2) as response:
             try:
                 text = await response.text()
-                print(text)
                 lines = text.splitlines()
                 response_data = lines[1]
                 response = json.loads(response_data)[0]
@@ -34,7 +33,6 @@ async def request_baidu(query):
 async def queryCompletionExecutor(data):
     engine = data["engine"]
     query = data["query"]
-    print(data)
     if engine == "google":
         result = await request_google(query)
     elif engine == "baidu":
