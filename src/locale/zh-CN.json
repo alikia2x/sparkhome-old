@@ -1,0 +1,48 @@
+{
+    "home": {
+        "search": "搜索"
+    },
+    "search": {
+        "engine": {
+            "baidu": "百度",
+            "google": "谷歌",
+            "bing": "必应"
+        }
+    },
+    "settings":{
+        "title": "设置",
+        "bgBlur": {
+            "title": "在搜索框聚焦时模糊背景",
+            "description": "启用后，搜索框聚焦时，壁纸图像将会模糊。<strong class='text-black dark:text-slate-200'>该选项可能会影响性能。</strong>"
+        },
+        "focusWhenLaunch": {
+            "title": "主页启动时自动聚焦搜索框",
+            "description": ""
+        },
+        "elementBackdrop": {
+            "title": "元素背景效果",
+            "description": "启用后，页面上的某些元素将具有背景模糊效果。<strong class='text-black dark:text-slate-200'>该选项可能会影响性能。</strong>"
+        },
+        "showShortcutOnFocus": {
+            "title": "输入时展示网页捷径",
+            "description": "启用后，当点击搜索框进行输入后，网页捷径仍会显示。"
+        },
+        "timeShowSecond":{
+            "title": "精确到秒的时间",
+            "description": ""
+        },
+        "currentSearchEngine": {
+            "title": "当前搜索引擎",
+            "description": ""
+        },
+        "appearance": "外观",
+        "behavior": "行为",
+        "searchEngine": "搜索引擎"
+    },
+    "introText": {
+        "windowTitle": "星火主页 引导",
+        "title": "欢迎使用星火主页！👏",
+        "introText": "星火主页 引导\n\n欢迎使用星火主页！👏\n\n欢迎使用星火主页！这是一个旨在简洁高效的浏览器主页，同时保持美观和功能性。您可以尝试将您想要了解的任何内容输入到搜索框中。或者...在您按下回车键之前，您可能已经得到了您问题的答案。\n\n现在，点击下面的按钮开始吧！只需点击搜索框或按下空格键即可准备好搜索。\n\n当然，还有许多功能等待您去探索！\n\n让我们开始吧！",
+        "continueBtn": "让我们开始吧!"
+    }
+}
