@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, useContext, useMemo } from "react";
+
 import { getDeviceId } from "../../utils/getDeviceId";
 import Completion from "./completion";
 import { SettingsContext } from "../../contexts/settingsContext";
@@ -142,31 +143,6 @@ const OneSearch = ({ query, engine, searchHandler, searchFocus }) => {
             document.removeEventListener("keydown", handleKeyPress);
         };
     }, [handleKeyPress]);
-    return (
-        <div
-            className={
-                "absolute w-[600px] left-1/2 translate-x-[-50%] bg-[rgba(255,255,255,0.7)] " +
-                "dark:bg-[rgba(24,24,24,0.7)] rounded-lg top-28 pl-2 z-3 duration-150 " +
-                (showOneSearch && searchFocus ? "opacity-100" : "opacity-0 pointer-events-none") +
-                " " +
-                (settings.get("elementBackdrop") ? "backdrop-blur-lg" : "") +
-                " " +
-                (completionData.length === 0 ? "" : "py-1")
-            }
-        >
-            {completionData.map((item, index) => (
-                <Completion
-                    key={index}
-                    text={item.content}
-                    query={query}
-                    searchHandler={searchHandler}
-                    onHover={onHover === index}
-                    index={index}
-                    setHovered={setOnHover}
-                ></Completion>
-            ))}
-        </div>
-    );
-};
+
 
 export default OneSearch;
