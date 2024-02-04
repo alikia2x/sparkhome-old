@@ -1,8 +1,7 @@
-import { useState } from "react";
 import { getLongestCommonPrefix } from "../../utils/lcp";
 
-const Completion = ({text, searchHandler, query}) => {
-    const [hovered, setHovered] = useState(false);
+const Completion = ({text, searchHandler, query, onHover, setHovered, index}) => {
+    const hovered = onHover;
     const commonPrefix = getLongestCommonPrefix(query, text);
 
     return (
@@ -10,8 +9,8 @@ const Completion = ({text, searchHandler, query}) => {
             <p 
                 className={"leading-10 ml-3 duration-150 cursor-pointer" + (hovered ? " text-lg leading-10" : "")}
                 onClick={() => searchHandler(text)}
-                onMouseOver={() => setHovered(true)}
-                onMouseLeave={() => setHovered(false)}
+                onMouseOver={() => setHovered(index)}
+                onMouseLeave={() => setHovered(-1)}
             >
                 <span className="text-black dark:text-white">{commonPrefix}</span>
                 <span className="text-neutral-600 dark:text-neutral-300">{text.substring(commonPrefix.length)}</span>
