@@ -21,6 +21,7 @@ const Selector = (props) => {
         setSelectorIsVisible((prevState) => !prevState);
         let topOffset = selectorRef.current.getBoundingClientRect().top;
         let leftOffset = selectorRef.current.getBoundingClientRect().left;
+        console.log(selectorRef.current.getBoundingClientRect());
         console.log(leftOffset, topOffset, selectorRef.current);
         listRef.current.style.top = topOffset + "px";
         listRef.current.style.left = leftOffset + "px";
@@ -53,14 +54,6 @@ const Selector = (props) => {
     listCSS += elementBackdrop
         ? "bg-[rgba(255,255,255,0.6)] backdrop-blur-lg dark:bg-[rgba(24,24,24,0.7)] text-slate-700 dark:text-slate-200 "
         : "bg-[rgba(235,235,235,0.95)] dark:bg-[rgba(20,20,20,0.95)] text-slate-800 dark:text-slate-100 ";
-    // listCSS += align.toLowerCase() ===
-    //     "left " ?
-    //     "left-0 " :
-    //     (
-    //         align.toLowerCase() === "right" ?
-    //             "right-0 " :
-    //             "left-1/2 translate-x-[-50%] "
-    //     );
     listCSS += selectorIsVisible ? "transition-none" : "transition-all";
 
     let itemCSS =
