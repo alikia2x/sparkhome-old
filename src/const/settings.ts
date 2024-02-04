@@ -16,17 +16,13 @@ export const initialSettings = new Map<string, any>([
     ["focusWhenLaunch", false],
     [
         "searchEngines",
-        i18n.language.includes("zh")
-            ? new Map<string, string>([
-                ["baidu", "https://www.baidu.com/s?wd=%s"],
-                ["bing", "https://cn.bing.com/search?q=%s"],
-                ["google", "https://www.google.com/search?q=%s"],
-            ])
-            : new Map<string, string>([
-                ["google", "https://www.google.com/search?q=%s"],
-                ["bing", "https://www.bing.com/search?q=%s"],
-                ["duckduckgo", "https://duckduckgo.com/?q=%s"],
-            ])
+        new Map<string, string>([
+            ["google", "https://www.google.com/search?q=%s"],
+            ["bing", "https://www.bing.com/search?q=%s"],
+            ["baidu", "https://www.baidu.com/s?wd=%s"],
+            ["duckduckgo", "https://duckduckgo.com/?q=%s"],
+            ["yandex", "https://yandex.com/search/?text=%s"],
+        ]),
     ],
 ]);
 
