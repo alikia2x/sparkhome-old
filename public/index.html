@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html class="h-full">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+        <title>星火主页</title>
+    </head>
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>星火主页</title>
-</head>
-
-<body class="h-full">
-    <script>
-        // [Safari only] gesturestart event: multi finger gestures touching 
-        document.addEventListener('gesturestart', function(event) {
-        // 阻止兩指縮放畫面
-        event.preventDefault();
-        });
-    </script>
-    <div id="root" class="h-full select-none">
-
-    </div>
-</body>
-
+    <body class="h-full">
+        <script>
+            // [Safari only] gesturestart event: multi finger gestures touching
+            document.addEventListener("gesturestart", function (event) {
+                // 阻止兩指縮放畫面
+                event.preventDefault();
+            });
+        </script>
+        <div id="root" class="h-full select-none"></div>
+    </body>
 </html>
