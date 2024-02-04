@@ -138,7 +138,12 @@ const OneSearch = ({ query, engine, searchHandler, searchFocus}, ref) => {
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
-            searchHandler(completionData[onHover].content);
+            if (completionData[onHover] !== undefined){
+                searchHandler(completionData[onHover].content);
+            }
+            else{
+                searchHandler(query);
+            }
         }
     }
 

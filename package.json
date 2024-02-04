@@ -1,6 +1,6 @@
 {
   "name": "sparkhome",
-  "version": "3.10.0",
+  "version": "3.13.2",
   "private": false,
   "dependencies": {
     "@headlessui/react": "^1.7.17",
@@ -15,6 +15,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-i18next": "^13.3.0",
+    "react-manifest": "^1.0.5",
     "react-scripts": "^5.0.1",
     "typescript": "^4.9.5",
     "use-immer": "^0.9.0",
@@ -22,7 +23,7 @@
   },
   "scripts": {
     "start": "postcss src/index.css -o public/index.css && react-scripts start",
-    "build": "react-scripts build",
+    "build": "dotenv -e .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -6,7 +6,7 @@
 
 # production
 /build
-/public
+/public/index.css
 
 # misc
 .DS_Store

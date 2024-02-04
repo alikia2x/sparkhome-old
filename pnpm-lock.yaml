@@ -41,6 +41,9 @@ dependencies:
   react-i18next:
     specifier: ^13.3.0
     version: 13.5.0(i18next@23.7.19)(react-dom@18.2.0)(react@18.2.0)
+  react-manifest:
+    specifier: ^1.0.5
+    version: 1.0.5
   react-scripts:
     specifier: ^5.0.1
     version: 5.0.1(@babel/plugin-syntax-flow@7.23.3)(@babel/plugin-transform-react-jsx@7.23.4)(eslint@8.56.0)(react@18.2.0)(typescript@4.9.5)
@@ -70,6 +73,9 @@ devDependencies:
   autoprefixer:
     specifier: ^10.4.14
     version: 10.4.17(postcss@8.4.33)
+  crossenv:
+    specifier: 0.0.2-security
+    version: 0.0.2-security
   dotenv-cli:
     specifier: ^7.3.0
     version: 7.3.0
@@ -3878,6 +3884,10 @@ packages:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
+
+  /crossenv@0.0.2-security:
+    resolution: {integrity: sha512-Zet/ldwzo70I+vUnjM9yHCWo2iqK/RM2s2VnZDNPE/fN062UXYXGqu9Hd7HlhNVhnYGclPcjNoySWhug5lctHw==}
+    dev: true
 
   /crypto-random-string@2.0.0:
     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}
@@ -8613,6 +8623,10 @@ packages:
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}
+    dev: false
+
+  /react-manifest@1.0.5:
+    resolution: {integrity: sha512-HlIz2Zx7JC+CJQHI+3x6gZj7uF6jRcPMFmgmabZUOGcNdMr56+urj1E1U/APobt12iL5V1TzMWSu1XkVwlhlNw==}
     dev: false
 
   /react-refresh@0.11.0:
