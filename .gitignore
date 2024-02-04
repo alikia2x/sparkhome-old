@@ -1,9 +1,5 @@
-node_modules
-
 # dependencies
 /node_modules
-/.pnp
-.pnp.js
 
 # testing
 /coverage
@@ -13,36 +9,25 @@ node_modules
 
 # misc
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env
+.env.development
+.env.test
+.env.production
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-.env
 
 #IDEs
 .vscode
 .fleet
 .idea
 
-/backend/__pycache__
 
-# 忽略虚拟环境目录
-venv/
-env/
-
-# 忽略依赖目录
+# Python stuff
+.venv/
 *.pyc
 *.pyo
 *.pyd
-
-# 忽略项目生成的文件和目录
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+*/__pycache__/
 *.pytest_cache/
