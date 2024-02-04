@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, useContext } from "react";
 import { getDeviceId } from "../../utils/getDeviceId";
 import Completion from "./completion";
+import { SettingsContext } from "../../contexts/settingsContext";
 
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -19,7 +20,7 @@ const useCompletionData = () => {
     const [latestQueryId, setLatestQueryId] = useState(0);
     const memoizedUpdateCompletionData = useCallback(
         updateCompletionData(latestQueryId, setLatestQueryId, setCompletionData),
-        [] // 依赖项为空数组，确保不会在组件重新渲染时重新创建
+        []
     );
   
     return { completionData, updateCompletionData: memoizedUpdateCompletionData };
@@ -33,14 +34,23 @@ const useWebSocket = (data, updateResult, setOneSearchVisibility) => {
             const socket = new WebSocket(API_URL + getDeviceId());
 
             socket.addEventListener("open", (event) => {
-                console.log("WebSocket connected");
-                // When WebSocket connection is open, send the initial request
+                console.log("OneSearch: WebSocket connected");
             });
 
             socket.addEventListener("message", (event) => {
                 const receivedData = JSON.parse(event.data);
+                setOneSearchVisibility(true);
                 updateResult(receivedData.result, receivedData.queryId);
             });
+
+            socket.addEventListener("close", (event) => {
+                console.log("OneSearch: WebSocket disconnected");
+                console.log("OneSearch: Reconnecting in 1 second...");
+                // Retry connect
+                setTimeout(() => {
+                    socketRef.current = handleWebSocket();
+                }, 1000);
+            })
 
             return socket; // Return the socket for cleanup
         };
@@ -51,9 +61,12 @@ const useWebSocket = (data, updateResult, setOneSearchVisibility) => {
             // Close WebSocket connection on component unmount
             socketRef.current.close();
         };
-    }, [updateResult]);
+    }, [setOneSearchVisibility, updateResult]);
 
     useEffect(() => {
+        if(data["query"]===""){
+            setOneSearchVisibility(false);
+        }
         if (socketRef.current.readyState===1 && data["query"]!=="") {
             // Send a request to the server when the query changes
             console.log(data.query)
@@ -86,17 +99,19 @@ const useLocalSearchHistory = (searchTerm) => {
 };
 
 
-const OneSearch = ({query,engine,searchHandler}) => {
+const OneSearch = ({query,engine,searchHandler,searchFocus}) => {
     const { completionData, updateCompletionData } = useCompletionData();
     const [showOneSearch, setOneSearchVisibility] = useState(false);
+    const settings = useContext(SettingsContext);
     useWebSocket({ "query": query, "engine": engine }, updateCompletionData, setOneSearchVisibility);
     useLocalSearchHistory(query);
 
     return (
         <div className={
-            "absolute w-[600px] left-1/2 translate-x-[-50%] bg-[rgba(255,255,255,0.9)] "+
-            "dark:bg-[rgba(24,24,24,0.9)] rounded-lg top-28 pl-2 py-1 z-3 "+
-            showOneSearch ? "opacity-0" : "opacity-100"
+            "absolute w-[600px] left-1/2 translate-x-[-50%] bg-[rgba(255,255,255,0.7)] " +
+            "dark:bg-[rgba(24,24,24,0.7)] rounded-lg top-28 pl-2 py-1 z-3 duration-150 " +
+            (showOneSearch && searchFocus ? "opacity-100" : "opacity-0 pointer-events-none") + " " +
+            (settings.get("elementBackdrop") ? "backdrop-blur-lg" : "")
         }>
             {completionData.map((item,index) => (
                 <Completion key={index} text={item.content} query={query} searchHandler={searchHandler}></Completion>

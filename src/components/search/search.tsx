@@ -74,7 +74,7 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
                 ref={props.searchBoxRef}
                 value={query}
             ></input>
-            <OneSearch query={oneSearchQuery} engine={settings.get("currentSearchEngine")} searchHandler={handleSearch}></OneSearch>
+            <OneSearch query={oneSearchQuery} engine={settings.get("currentSearchEngine")} searchHandler={handleSearch} searchFocus={props.isFocus}></OneSearch>
         </div>
     );
 }
