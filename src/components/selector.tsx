@@ -21,10 +21,10 @@ const Selector = (props) => {
         setSelectorIsVisible((prevState) => !prevState);
         let topOffset = selectorRef.current.getBoundingClientRect().top;
         let leftOffset = selectorRef.current.getBoundingClientRect().left;
-        console.log(listRef.current.getBoundingClientRect());
-        //console.log(leftOffset, topOffset, selectorRef.current);
-        listRef.current.style.top = topOffset + "px";
-        listRef.current.style.left = leftOffset + "px";
+        //console.log(listRef.current.getBoundingClientRect());
+        console.log(leftOffset, topOffset, selectorRef.current);
+        listRef.current.style.top = (topOffset + listRef.current.getBoundingClientRect().height/2 + selectorRef.current.getBoundingClientRect().height + 4) + "px";
+        listRef.current.style.left = (leftOffset) + "px";
     };
 
     const changeSelected = (target) => {
@@ -67,8 +67,8 @@ const Selector = (props) => {
     return (
         <div>
             <div className={boxCSS}>
-                <div className={btnCSS} ref={selectorRef} onClick={toggleSelectorVisibility}>
-                    <div className="translate-y-[-50%] top-[50%] relative">{current}</div>
+                <div className={`${btnCSS}`} ref={selectorRef} onClick={toggleSelectorVisibility}>
+                    <div className="translate-y-[-50%] top-[50%] relative mx-[1ch]">{current}</div>
                 </div>
             </div>
             {createPortal(
@@ -76,7 +76,7 @@ const Selector = (props) => {
                     className={listCSS}
                     ref={listRef}
                     style={{
-                        maxHeight: 2 * props.max_show + 0.8 + "rem",
+                        maxHeight: 2 * props.max_show + 0.6 + "rem",
                     }}
                 >
                     {Object.keys(items).map((index) => (

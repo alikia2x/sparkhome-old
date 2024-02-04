@@ -16,6 +16,19 @@ code {
     monospace;
 }
 
+.settingsSelector{
+    background-color: rgb(242, 242, 242) !important;
+    border-radius: 0.4rem;
+    box-shadow: none;
+}
+
+/* dark scheme for settingsSelector */
+@media (prefers-color-scheme: dark) {
+    .settingsSelector{
+        background-color: rgb(58, 59, 67) !important;
+    }
+}
+
 @font-face {
     font-family: "Inter";
     src: url("./resources/Inter.ttf");

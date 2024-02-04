@@ -19,8 +19,8 @@ export const initialSettings = new Map<string, any>([
         new Map<string, string>([
             ["google", "https://www.google.com/search?q=%s"],
             ["bing", "https://www.bing.com/search?q=%s"],
-            ["baidu", "https://www.baidu.com/s?wd=%s"],
             ["duckduckgo", "https://duckduckgo.com/?q=%s"],
+            ["baidu", "https://www.baidu.com/s?wd=%s"],
             ["yandex", "https://yandex.com/search/?text=%s"],
         ]),
     ],

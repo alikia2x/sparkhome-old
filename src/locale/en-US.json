@@ -7,7 +7,8 @@
             "baidu": "Baidu",
             "google": "Google",
             "bing": "Bing",
-            "duckduckgo": "DuckDuckGo"
+            "duckduckgo": "DuckDuckGo",
+            "yandex": "Yandex"
         }
     },
     "settings":{

@@ -2,7 +2,7 @@ import { getLongestCommonPrefix } from "../../utils/lcp";
 
 const Completion = ({text, searchHandler, query, onHover, setHovered, index}) => {
     const hovered = onHover;
-    const commonPrefix = getLongestCommonPrefix(query, text);
+    const commonPrefix = getLongestCommonPrefix(query.toLowerCase(), text.toLowerCase());
 
     return (
         <div className="first:pt-2 last:pb-2">

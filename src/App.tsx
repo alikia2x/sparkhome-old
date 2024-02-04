@@ -21,14 +21,6 @@ import { initialSettings, loadSettings } from "./const/settings";
 
 import { SettingsContext, SettingsDispatchContext } from "./contexts/settingsContext";
 
-const MyComponent = ({ customStyles }) => {
-    return (
-      <div className={`bg-blue-500 ${customStyles}`}>
-        {/* Rest of the component */}
-      </div>
-    );
-  };
-
 function App() {
     const { t } = useTranslation();
     const searchBoxRef = useRef(null);
@@ -207,7 +199,7 @@ function App() {
                         items={getEnginesKeyList()}
                         max_show={5}    
                         current={getEngineName(settings.get("currentSearchEngine"))}
-                        classes="max-w-42 h-[2.5rem] w-24 lg:max-w-42 truncate lg:h-8 top-48 lg:top-[17.5rem] z-10 left-1/2 translate-x-[-50%] absolute "
+                        classes="max-w-[15ch] h-[2.5rem] w-fit min-w-24 text-ellipsis overflow-hidden lg:h-8 top-48 lg:top-[17.5rem] z-10 left-1/2 translate-x-[-50%] absolute "
                         selectedOnChange={handleEngineChange}
                         displayHandler={getEngineName}
                         align="center"

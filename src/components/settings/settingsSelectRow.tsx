@@ -42,13 +42,13 @@ function SettingsSelectRow({ settingKey }: SettingsSwitchRowProps) {
             <div className="text-base absolute leading-4 top-5">{name}</div>
             <Selector
                 items={getEnginesKeyList()}
-                max_show={3}
+                max_show={5}
                 current={getEngineName(settings.get("currentSearchEngine"))}
-                classes="w-20 h-6 mt-4 right-5 absolute"
+                classes="w-24 h-8 mt-3 right-5 absolute"
                 selectedOnChange={handleEngineChange}
                 displayHandler={getEngineName}
                 align="center"
-                btnStyle="!bg-[rgba(80, 80, 80, 0.7)]"
+                btnStyle={"settingsSelector"}
             />
             <div
                 className="text-sm text-neutral-500 pt-[2.4rem] h-auto block pb-4 max-w-[90%]"

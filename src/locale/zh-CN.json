@@ -6,7 +6,9 @@
         "engine": {
             "baidu": "百度",
             "google": "谷歌",
-            "bing": "必应"
+            "bing": "必应",
+            "duckduckgo": "DuckDuckGo",
+            "yandex": "Yandex"
         }
     },
     "settings":{
