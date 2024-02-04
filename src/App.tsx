@@ -21,6 +21,14 @@ import { initialSettings, loadSettings } from "./const/settings";
 
 import { SettingsContext, SettingsDispatchContext } from "./contexts/settingsContext";
 
+const MyComponent = ({ customStyles }) => {
+    return (
+      <div className={`bg-blue-500 ${customStyles}`}>
+        {/* Rest of the component */}
+      </div>
+    );
+  };
+
 function App() {
     const { t } = useTranslation();
     const searchBoxRef = useRef(null);

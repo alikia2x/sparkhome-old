@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, useContext, useMemo } from "react";
+import { useCallback, useEffect, useRef, useState, useContext, useMemo, useImperativeHandle, forwardRef } from "react";
 
 import { getDeviceId } from "../../utils/getDeviceId";
 import Completion from "./completion";
@@ -109,7 +109,7 @@ const useWebSocket = (
 //     }, [searchTerm]);
 // };
 
-const OneSearch = ({ query, engine, searchHandler, searchFocus }) => {
+const OneSearch = ({ query, engine, searchHandler, searchFocus}, ref) => {
     const { completionData, updateCompletionData } = useCompletionData();
     const [showOneSearch, setOneSearchVisibility] = useState(false);
     const [onHover, setOnHover] = useState(-1);
@@ -135,6 +135,16 @@ const OneSearch = ({ query, engine, searchHandler, searchFocus }) => {
         },
         [completionData.length, onHover]
     );
+
+    const handleKeyDown = (event) => {
+        if (event.key === "Enter") {
+            searchHandler(completionData[onHover].content);
+        }
+    }
+
+    useImperativeHandle(ref, () => ({
+        handleKeyDown,
+    }));
 
     useEffect(() => {
         document.addEventListener("keydown", handleKeyPress);
@@ -170,4 +180,4 @@ const OneSearch = ({ query, engine, searchHandler, searchFocus }) => {
     );
 }
 
-export default OneSearch;
+export default forwardRef(OneSearch);

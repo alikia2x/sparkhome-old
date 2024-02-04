@@ -44,11 +44,11 @@ function SettingsSelectRow({ settingKey }: SettingsSwitchRowProps) {
                 items={getEnginesKeyList()}
                 max_show={3}
                 current={getEngineName(settings.get("currentSearchEngine"))}
-                classes="w-20 h-6 mt-4 right-5 absolute bg-[rgba(39, 39, 42, 0.7)] !important"
+                classes="w-20 h-6 mt-4 right-5 absolute"
                 selectedOnChange={handleEngineChange}
                 displayHandler={getEngineName}
                 align="center"
-                btnStyle="dark:bg-[rgba(39, 39, 42, 0.7)]"
+                btnStyle="!bg-[rgba(80, 80, 80, 0.7)]"
             />
             <div
                 className="text-sm text-neutral-500 pt-[2.4rem] h-auto block pb-4 max-w-[90%]"

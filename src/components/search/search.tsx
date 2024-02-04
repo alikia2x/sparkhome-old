@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import OneSearch from "./onesearch";
 import { SettingsContext } from "../../contexts/settingsContext";
@@ -20,12 +20,9 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
     const [query, setQuery] = useState("");
     const [isComposing, setComposingStatus] = useState(false);
     const [oneSearchQuery, setOneSearchQuery] = useState("");
+    const oneSearchRef = useRef(null);
 
-    function handleKeyDown(event) {
-        if (event.key === "Enter") {
-            handleSearch();
-        }
-    }
+    
 
     function handleInput(event) {
         const value = event.target.value;
@@ -53,6 +50,10 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
         setOneSearchQuery(value);
     }
 
+    function handleKeyDown(event){
+        oneSearchRef.current.handleKeyDown(event);
+    }
+
     useEffect(() => {
         if (props.autoFocus && !props.window) { // 窗口激活时不会自动聚焦
             props.searchBoxRef.current.focus();
@@ -74,7 +75,7 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
                 ref={props.searchBoxRef}
                 value={query}
             ></input>
-            <OneSearch query={oneSearchQuery} engine={settings.get("currentSearchEngine")} searchHandler={handleSearch} searchFocus={props.isFocus}></OneSearch>
+            <OneSearch ref={oneSearchRef} query={oneSearchQuery} engine={settings.get("currentSearchEngine")} searchHandler={handleSearch} searchFocus={props.isFocus}></OneSearch>
         </div>
     );
 }
