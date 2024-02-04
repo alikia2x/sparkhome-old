@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, useContext } from "react";
+import { useCallback, useEffect, useRef, useState, useContext, useMemo } from "react";
 import { getDeviceId } from "../../utils/getDeviceId";
 import Completion from "./completion";
 import { SettingsContext } from "../../contexts/settingsContext";
@@ -47,7 +47,6 @@ const useWebSocket = (
             socket.addEventListener("message", (event) => {
                 const receivedData = JSON.parse(event.data);
                 setOneSearchVisibility(true);
-                console.warn(queryRef.current);
                 if (queryRef.current !== "") {
                     updateResult(receivedData.result, receivedData.queryId);
                 }
@@ -122,6 +121,27 @@ const OneSearch = ({ query, engine, searchHandler, searchFocus }) => {
     useWebSocket(queryRef, query, engine, updateCompletionData, setOneSearchVisibility);
     //useLocalSearchHistory(query);
 
+    const handleKeyPress = useMemo(
+        () => (event) => {
+            if (event.key==="ArrowUp"){
+                event.preventDefault();
+                setOnHover((onHover - 1 + completionData.length + 1) % (completionData.length + 1));
+            }
+            else if (event.key==="ArrowDown"){
+                event.preventDefault();
+                setOnHover((onHover + 1) % (completionData.length + 1));
+            }
+        },
+        [completionData.length, onHover]
+    );
+
+    useEffect(() => {
+        document.addEventListener("keydown", handleKeyPress);
+
+        return () => {
+            document.removeEventListener("keydown", handleKeyPress);
+        };
+    }, [handleKeyPress]);
     return (
         <div
             className={
