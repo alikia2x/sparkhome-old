@@ -21,8 +21,8 @@ const Selector = (props) => {
         setSelectorIsVisible((prevState) => !prevState);
         let topOffset = selectorRef.current.getBoundingClientRect().top;
         let leftOffset = selectorRef.current.getBoundingClientRect().left;
-        console.log(selectorRef.current.getBoundingClientRect());
-        console.log(leftOffset, topOffset, selectorRef.current);
+        console.log(listRef.current.getBoundingClientRect());
+        //console.log(leftOffset, topOffset, selectorRef.current);
         listRef.current.style.top = topOffset + "px";
         listRef.current.style.left = leftOffset + "px";
     };

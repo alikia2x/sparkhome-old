@@ -42,7 +42,7 @@ function SettingsSelectRow({ settingKey }: SettingsSwitchRowProps) {
             <div className="text-base absolute leading-4 top-5">{name}</div>
             <Selector
                 items={getEnginesKeyList()}
-                max_show={5}
+                max_show={4}
                 current={getEngineName(settings.get("currentSearchEngine"))}
                 classes="w-20 h-6 mt-4 right-5 absolute bg-[rgba(39, 39, 42, 0.7)] !important"
                 selectedOnChange={handleEngineChange}
