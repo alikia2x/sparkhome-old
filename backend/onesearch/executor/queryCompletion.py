@@ -10,7 +10,7 @@ async def request_google(query, language="zh-CN"):
                 lines = text.splitlines()
                 response_data = lines[1]
                 response = json.loads(response_data)[0]
-                result = [{"type":"search","content":item[0]} for item in response]                 
+                result = [{"type":"search","content":item[0],"from":"cloud"} for item in response]                 
                 return result
             except Exception as e:
                 logging.error(e)
@@ -24,7 +24,7 @@ async def request_baidu(query):
             try:
                 data = await response.text()
                 data = json.loads(data)
-                result = [item["q"] for item in data["g"]]
+                result = [{"type":"search","content":item['q'],"from":"cloud"} for item in data["g"]]
                 return result
             except Exception as e:
                 logging.error(e)

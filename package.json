@@ -22,7 +22,7 @@
     "uuid": "^9.0.1"
   },
   "scripts": {
-    "start": "postcss src/index.css -o public/index.css && react-scripts start",
+    "start": "postcss src/index.css -o public/index.css && dotenv -e .env.development react-scripts start",
     "build": "dotenv -e .env.production react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

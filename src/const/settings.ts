@@ -3,7 +3,7 @@ import { reviver, replacer } from "../utils/mapSupport4JSON";
 
 export const initialSettings = new Map<string, any>([
     ["version", 5],
-    ["wallpaper", "http://a2x.pub/sbcA1"],
+    ["wallpaper", "https://a2x.pub/sbcA1"],
     ["showWeather", true],
     ["showHitokoto", true],
     ["elementBackdrop", true],

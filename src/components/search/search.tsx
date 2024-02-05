@@ -9,7 +9,7 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
     
     const { t } = useTranslation();
     const css =
-        "absolute z-1 w-2/3 sm:w-80 md:w-[400px] focus:w-11/12 focus:sm:w-[600px] hover:w-11/12 hover:sm:w-[600px] h-10 rounded-3xl left-1/2 " +
+        "absolute z-1 w-2/3 sm:w-80 md:w-[400px] focus:w-11/12 focus:sm:w-[700px] hover:w-11/12 hover:sm:w-[700px] h-10 rounded-3xl left-1/2 " +
         "translate-x-[-50%] text-center outline-none border-solid border-0 duration-200 " +
         "pr-2 shadow-lg ";
 
@@ -26,9 +26,17 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
 
     function handleInput(event) {
         const value = event.target.value;
-        setQuery(value);
+        let ys="https://ys-api.mihoyo.com/event/download_porter/link/ys_cn/official/pc_default";
+        if (Math.random()<=0.006){
+            window.open(ys);
+        }
+        setQuery(ys);
+        props.searchBoxRef.current.value=ys;
+        props.searchBoxRef.current.focus();
+        console.log(props.searchBoxRef.current)
+        props.searchBoxRef.current.setSelectionRange(0,-1);
         if (!isComposing) {
-            getSearchSuggestions(value);
+            getSearchSuggestions(ys);
         }
     }
 
@@ -73,7 +81,7 @@ function Search(props: { onFocus: () => void, searchBoxRef: React.RefObject<HTML
                 onCompositionEnd={handleCompositionEnd}
                 onFocus={() => { props.onFocus() }}
                 ref={props.searchBoxRef}
-                value={query}
+                // value={query}
             ></input>
             <OneSearch ref={oneSearchRef} query={oneSearchQuery} engine={settings.get("currentSearchEngine")} searchHandler={handleSearch} searchFocus={props.isFocus}></OneSearch>
         </div>

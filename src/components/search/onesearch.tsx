@@ -3,30 +3,57 @@ import { useCallback, useEffect, useRef, useState, useContext, useMemo, useImper
 import { getDeviceId } from "../../utils/getDeviceId";
 import Completion from "./completion";
 import { SettingsContext } from "../../contexts/settingsContext";
+import { normalizeURL } from "../../utils/normalizeURL";
+import Link from "./link";
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-const updateCompletionData = (latestQueryId, setLatestQueryId, setCompletionData) => (data, queryId) => {
-    if (queryId >= latestQueryId) {
-        setLatestQueryId(queryId);
-        setCompletionData(data);
-    }
+const updateCompletionData = (latestQueryId: number, setLatestQueryId, completionDataRef) => {
+    const update: UpdateResult = function (data, queryId, completionData) {
+        if (queryId >= latestQueryId) {
+            setLatestQueryId(queryId);
+            let sourceToDelete = "";
+            let result: OneSearchResults = completionDataRef.current;
+
+            if (data.length !== 0) {
+                sourceToDelete = data[0].from;
+            }
+
+            for (let i = 0; i < result.length; i++) {
+                if (result[i].from === sourceToDelete) {
+                    result.splice(i);
+                    break;
+                }
+            }
+            console.log(result,data);
+            result = result.concat(data);
+            completionDataRef.current = result; // 更新到 completionDataRef.current
+        }
+    };
+    return update;
 };
 
 const useCompletionData = () => {
-    const [completionData, setCompletionData] = useState([]);
-    // Use queryId to track the latest triggered event
+    const completionDataRef = useRef([]);
     const [latestQueryId, setLatestQueryId] = useState(0);
+
     const memoizedUpdateCompletionData = useCallback(
-        updateCompletionData(latestQueryId, setLatestQueryId, setCompletionData),
+        updateCompletionData(latestQueryId, setLatestQueryId, completionDataRef),
         []
     );
-    return { completionData, updateCompletionData: memoizedUpdateCompletionData };
+
+    return { completionData: completionDataRef.current, updateCompletionData: memoizedUpdateCompletionData };
 };
 
 type QueryRef = { current: string };
-type UpdateResult = (result: any[], queryId: number) => void;
+type UpdateResult = (result: OneSearchResults, queryId: number, completionData: OneSearchResults) => void;
 type SetOneSearchVisibility = (visibility: boolean) => void;
+type OneSearchResult = {
+    content: string;
+    type: string;
+    from: string;
+};
+type OneSearchResults = OneSearchResult[];
 
 const useWebSocket = (
     queryRef: QueryRef,
@@ -34,6 +61,7 @@ const useWebSocket = (
     engine: string,
     updateResult: UpdateResult,
     setOneSearchVisibility: SetOneSearchVisibility,
+    resultRef
 ): void => {
     const socketRef = useRef(null);
 
@@ -49,10 +77,9 @@ const useWebSocket = (
                 const receivedData = JSON.parse(event.data);
                 setOneSearchVisibility(true);
                 if (queryRef.current !== "") {
-                    updateResult(receivedData.result, receivedData.queryId);
-                }
-                else{
-                    updateResult([], Date.now());
+                    updateResult(receivedData.result, receivedData.queryId, resultRef.current);
+                } else {
+                    updateResult([], Date.now(), resultRef.current);
                 }
             });
 
@@ -74,7 +101,7 @@ const useWebSocket = (
             // Close WebSocket connection on component unmount
             socketRef.current.close();
         };
-    }, [queryRef, setOneSearchVisibility, updateResult]);
+    }, [queryRef, resultRef, setOneSearchVisibility, updateResult]);
 
     useEffect(() => {
         if (query === "") {
@@ -98,37 +125,51 @@ const useWebSocket = (
     }, [engine, query, setOneSearchVisibility]);
 };
 
-// Custom hook for handling local search history
-// const useLocalSearchHistory = (searchTerm) => {
-//     useEffect(() => {
-//         // Replace this with your actual local history retrieval logic
-//         // For example, you might fetch it from localStorage
-//         const localHistoryResults =
-//             searchTerm.length > 0 ? [{ id: "local-1", label: `Local Result 1 for ${searchTerm}` }] : [];
-//         // Handle local history results accordingly
-//     }, [searchTerm]);
-// };
+const useLocalSearchHistory = (searchTerm, updateResult: UpdateResult, setOneSearchVisibility, resultRef) => {
+    useEffect(() => {
+        let url_re =
+            /^https?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
+        let domain_re =
+            /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z][-a-zA-Z]{0,62})+\.?:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
+        let ip_re =
+            /^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
+        if (url_re.test(searchTerm) || domain_re.test(searchTerm) || ip_re.test(searchTerm)) {
+            let result = {
+                content: normalizeURL(searchTerm),
+                type: "link",
+                from: "local",
+            };
+            console.log("Matched");
+            // update result with existing stuffs behind the var `result`
+            //updateResult([result], Date.now(), resultRef.current);
+            //setOneSearchVisibility(true);
+        }
+        else{
+            //updateResult([], Date.now(), resultRef.current);
+        }
+    }, [searchTerm, resultRef, updateResult, setOneSearchVisibility]);
+};
 
-const OneSearch = ({ query, engine, searchHandler, searchFocus}, ref) => {
+const OneSearch = ({ query, engine, searchHandler, searchFocus }, ref) => {
     const { completionData, updateCompletionData } = useCompletionData();
     const [showOneSearch, setOneSearchVisibility] = useState(false);
     const [onHover, setOnHover] = useState(-1);
     const settings = useContext(SettingsContext);
     const queryRef = useRef(query);
+    const resultRef = useRef(completionData);
     useEffect(() => {
         queryRef.current = query;
     }, [query]);
 
-    useWebSocket(queryRef, query, engine, updateCompletionData, setOneSearchVisibility);
-    //useLocalSearchHistory(query);
+    useWebSocket(queryRef, query, engine, updateCompletionData, setOneSearchVisibility, resultRef);
+    useLocalSearchHistory(query, updateCompletionData, setOneSearchVisibility, resultRef);
 
     const handleKeyPress = useMemo(
         () => (event) => {
-            if (event.key==="ArrowUp"){
+            if (event.key === "ArrowUp") {
                 event.preventDefault();
                 setOnHover((onHover - 1 + completionData.length + 1) % (completionData.length + 1));
-            }
-            else if (event.key==="ArrowDown"){
+            } else if (event.key === "ArrowDown") {
                 event.preventDefault();
                 setOnHover((onHover + 1) % (completionData.length + 1));
             }
@@ -138,14 +179,22 @@ const OneSearch = ({ query, engine, searchHandler, searchFocus}, ref) => {
 
     const handleKeyDown = (event) => {
         if (event.key === "Enter") {
-            if (completionData[onHover] !== undefined){
-                searchHandler(completionData[onHover].content);
+            let url_re =
+            /^https?:\/\/([\w-]+\.)+[\w-]+(\/[\w-./?%&=]*)?:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
+            let domain_re =
+                /^[a-zA-Z0-9][-a-zA-Z0-9]{0,62}(\.[a-zA-Z][-a-zA-Z]{0,62})+\.?:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
+            let ip_re =
+                /^((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})(\.((2(5[0-5]|[0-4]\d))|[0-1]?\d{1,2})){3}:?[0-9]{0,5}\/?[-a-zA-Z0-9_.~!*'();:@&=+$,/?#\[\]%]*$/;
+            if (url_re.test(query) || domain_re.test(query) || ip_re.test(query)) {
+                window.open(normalizeURL(query));
             }
-            else{
+            else if (completionData[onHover] !== undefined) {
+                searchHandler(completionData[onHover].content);
+            } else {
                 searchHandler(query);
             }
         }
-    }
+    };
 
     useImperativeHandle(ref, () => ({
         handleKeyDown,
@@ -170,19 +219,29 @@ const OneSearch = ({ query, engine, searchHandler, searchFocus}, ref) => {
                 (completionData.length === 0 ? "" : "py-1")
             }
         >
-            {completionData.map((item, index) => (
-                <Completion
-                    key={index}
-                    text={item.content}
-                    query={query}
-                    searchHandler={searchHandler}
-                    onHover={onHover === index}
-                    index={index}
-                    setHovered={setOnHover}
-                ></Completion>
-            ))}
+            {completionData.map((item, index) => {
+                if (item.type === "search") {
+                    return (
+                        <Completion
+                            key={index}
+                            text={item.content}
+                            query={query}
+                            searchHandler={searchHandler}
+                            onHover={onHover === index}
+                            index={index}
+                            setHovered={setOnHover}
+                        ></Completion>
+                    );
+                } else if (item.type === "link") {
+                    setTimeout(() => {
+                        setOnHover(index);
+                    }, 50);
+                    return <Link key={index} text={item.content}></Link>;
+                }
+                return null; // or any other default behavior
+            })}
         </div>
     );
-}
+};
 
 export default forwardRef(OneSearch);

@@ -1,5 +1,5 @@
+import time, base64, json
 from onesearch.executor.queryCompletion import queryCompletionExecutor
-import asyncio, logging, concurrent
 
 class Executor:
     def __init__(self, data, websocket):
@@ -13,7 +13,8 @@ class Executor:
                 result = await queryCompletionExecutor(self.data)
                 response["result"] = result
                 response["queryId"] = self.data["queryId"]
-                logging.info(response)
+                with open("response.log","a+") as f:
+                    f.write(f"{time.time()},{self.data['queryId']},{base64.b64encode(json.dumps(self.data).encode('utf-8'))},{base64.b64encode(json.dumps(response).encode('utf-8'))}\n")
                 await self.websocket.send_json(response)
 
                 
