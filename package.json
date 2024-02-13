@@ -1,6 +1,6 @@
 {
   "name": "sparkhome",
-  "version": "3.13.2",
+  "version": "3.13.6",
   "private": false,
   "dependencies": {
     "@headlessui/react": "^1.7.17",
